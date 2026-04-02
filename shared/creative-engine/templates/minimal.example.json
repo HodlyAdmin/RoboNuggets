@@ -1,0 +1,16 @@
+{
+  "projectName": "minimal-image-only",
+  "imageConfig": {
+    "enabled": true,
+    "model": "Nano Banana 2",
+    "variantCount": "x1",
+    "prompt": "Modern minimalist living room, soft daylight.",
+    "selectionPolicy": "first"
+  },
+  "videoConfig": {
+    "enabled": false
+  },
+  "audioConfig": {
+    "enabled": false
+  }
+}

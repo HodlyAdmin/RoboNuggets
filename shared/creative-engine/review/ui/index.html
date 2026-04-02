@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Engine | Review Gallery</title>
+  <meta name="description" content="Review and approve creative engine media candidates">
+  <link rel="stylesheet" href="gallery.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-mode">
+  <div class="app-container">
+    <header class="main-header">
+      <div class="header-content">
+        <h1 class="logo">
+          <span class="icon">✨</span> Creative Engine <span class="divider">|</span> Review Gallery
+        </h1>
+        <div class="header-actions">
+          <button id="shortcuts-btn" class="btn btn-ghost" title="Keyboard shortcuts">⌨ Shortcuts</button>
+          <div id="run-count" class="badge">0 Runs</div>
+          <button id="export-approved" class="btn btn-secondary" disabled>Export Approved</button>
+          <button id="batch-approve" class="btn btn-primary" disabled>Batch Approve All</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- Sidebar with runs -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>Recent Runs</h2>
+        </div>
+        <ul id="run-list" class="run-list">
+          <!-- Run items here -->
+          <li class="loading">Loading runs...</li>
+        </ul>
+      </aside>
+
+      <!-- Main content -->
+      <main class="content">
+        <div id="run-summary" class="summary-bar">
+          <!-- Summary info here -->
+          <div class="placeholder">Select a run from the sidebar</div>
+        </div>
+
+        <!-- Progress bar -->
+        <div id="progress-bar-container" class="progress-bar-container" style="display: none;">
+          <div class="progress-track">
+            <div id="progress-approved" class="progress-fill progress-approved"></div>
+            <div id="progress-rejected" class="progress-fill progress-rejected"></div>
+            <div id="progress-redo" class="progress-fill progress-redo"></div>
+          </div>
+          <span id="progress-label" class="progress-label">0/0 reviewed</span>
+        </div>
+
+        <div id="filters" class="filters" style="display: none;">
+          <button class="filter-btn active" data-status="all">All Candidates</button>
+          <button class="filter-btn" data-status="pending">Pending Only</button>
+          <button class="filter-btn" data-status="approved">Approved</button>
+          <button class="filter-btn" data-status="rejected">Rejected</button>
+          <div class="filter-spacer"></div>
+          <button id="compare-toggle" class="filter-btn" data-mode="compare">⬜ Compare</button>
+        </div>
+
+        <div id="candidate-grid" class="candidate-grid">
+          <!-- Candidate cards here -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Lightbox Overlay -->
+  <div id="lightbox" class="lightbox-overlay" style="display: none;">
+    <div class="lightbox-backdrop"></div>
+    <button id="lightbox-close" class="lightbox-close" title="Close (Esc)">✕</button>
+    <button id="lightbox-prev" class="lightbox-nav lightbox-prev-btn" title="Previous (←)">‹</button>
+    <button id="lightbox-next" class="lightbox-nav lightbox-next-btn" title="Next (→)">›</button>
+    <div class="lightbox-content">
+      <div id="lightbox-media" class="lightbox-media"></div>
+    </div>
+    <div id="lightbox-info" class="lightbox-info">
+      <div class="lightbox-info-row">
+        <span id="lightbox-title" class="lightbox-title"></span>
+        <span id="lightbox-meta" class="lightbox-meta"></span>
+      </div>
+      <div class="lightbox-actions">
+        <button id="lb-approve" class="btn btn-approve btn-sm">A Approve</button>
+        <button id="lb-reject" class="btn btn-reject btn-sm">R Reject</button>
+        <button id="lb-redo" class="btn btn-redo btn-sm">D Redo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shortcuts Modal -->
+  <div id="shortcuts-modal" class="shortcuts-modal" style="display: none;">
+    <div class="shortcuts-modal-backdrop"></div>
+    <div class="shortcuts-panel">
+      <div class="shortcuts-header">
+        <h3>⌨ Keyboard Shortcuts</h3>
+        <button class="shortcuts-close">✕</button>
+      </div>
+      <div class="shortcuts-list">
+        <div class="shortcut-row"><kbd>F</kbd><span>Open lightbox for focused candidate</span></div>
+        <div class="shortcut-row"><kbd>Esc</kbd><span>Close lightbox / modal</span></div>
+        <div class="shortcut-row"><kbd>←</kbd><span>Previous candidate (in lightbox)</span></div>
+        <div class="shortcut-row"><kbd>→</kbd><span>Next candidate (in lightbox)</span></div>
+        <div class="shortcut-row"><kbd>A</kbd><span>Approve current candidate</span></div>
+        <div class="shortcut-row"><kbd>R</kbd><span>Reject current candidate</span></div>
+        <div class="shortcut-row"><kbd>D</kbd><span>Redo current candidate</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prompt Modal -->
+  <div id="prompt-modal" class="prompt-modal" style="display: none;">
+    <div class="prompt-modal-backdrop"></div>
+    <div class="prompt-panel">
+      <div class="prompt-header">
+        <h3>Full Prompt</h3>
+        <button class="prompt-close">✕</button>
+      </div>
+      <div id="prompt-content" class="prompt-content"></div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="gallery.js"></script>
+</body>
+</html>

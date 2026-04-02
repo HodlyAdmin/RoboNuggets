@@ -1,0 +1,21 @@
+{
+  "projectName": "my-single-concept",
+  "imageConfig": {
+    "enabled": true,
+    "model": "Nano Banana 2",
+    "variantCount": "x2",
+    "prompt": "Cinematic portrait, warm golden hour lighting, sharp focus, 8k resolution.",
+    "selectionPolicy": "first"
+  },
+  "videoConfig": {
+    "enabled": true,
+    "model": "Veo 3.1 - Fast [Lower Priority]",
+    "aspectRatio": "9:16",
+    "variantCount": "x1",
+    "prompt": "The subject slowly smiles and looks into the distance as the sun sets.",
+    "selectionPolicy": "first"
+  },
+  "audioConfig": {
+    "enabled": false
+  }
+}

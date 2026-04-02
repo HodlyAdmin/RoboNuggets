@@ -1,0 +1,27 @@
+{
+  "campaign": "summer-ugc-2026",
+  "outputDir": "output",
+  "concepts": [
+    {
+      "name": "serum-morning",
+      "prompt": "A young woman in her mid-20s holding a serum bottle in soft morning light, casual loungewear, warm golden tones, amateur iPhone selfie, candid UGC realism"
+    },
+    {
+      "name": "moisturizer-routine",
+      "prompt": "Close-up of hands applying moisturizer to face, bathroom mirror selfie, natural skin texture, warm natural light"
+    }
+  ],
+  "imageConfig": {
+    "enabled": true,
+    "model": "Nano Banana 2",
+    "aspectRatio": "9:16",
+    "variantCount": "x1",
+    "selectionPolicy": "first"
+  },
+  "videoConfig": {
+    "enabled": false
+  },
+  "audioConfig": {
+    "enabled": false
+  }
+}
