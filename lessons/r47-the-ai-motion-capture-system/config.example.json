@@ -1,0 +1,23 @@
+{
+  "projectName": "r47-r47-the-ai-motion-capture-system",
+  "videoIngestionConfig": {
+    "enabled": true,
+    "provider": "n8nWebhook",
+    "apiKey": null
+  },
+  "frameExtractionConfig": {
+    "enabled": true,
+    "provider": "ffmpegCore",
+    "apiKey": null
+  },
+  "poseEstimationConfig": {
+    "enabled": true,
+    "provider": "mediaPipeApi",
+    "apiKey": null
+  },
+  "animationExportConfig": {
+    "enabled": true,
+    "provider": "nodeJsTransformer",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "projectName": "r36-r36-the-ad-creator-ai-agent",
+  "telegramWebhookConfig": {
+    "enabled": true,
+    "provider": "telegramApi",
+    "apiKey": null
+  },
+  "productVisionAnalysisConfig": {
+    "enabled": true,
+    "provider": "openAiVision",
+    "apiKey": null
+  },
+  "creativePromptGenerationConfig": {
+    "enabled": true,
+    "provider": "openAiGpt",
+    "apiKey": null
+  }
+}

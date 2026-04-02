@@ -1,0 +1,168 @@
+{
+  "name": "Vibecoding webhook - 1 (Gemini Node) | R48",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## CREATE",
+        "height": 288,
+        "width": 192
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1088,
+        -160
+      ],
+      "id": "4d6c47dc-c5ac-48ca-86ed-2849f56718aa",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gemini-test",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1232,
+        80
+      ],
+      "id": "4872b90d-6496-4817-aa15-92b4a71cba62",
+      "name": "Webhook1",
+      "webhookId": "72121162-6d74-4376-a708-05eaf8e092b1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook1').item.json.body.email }}",
+        "subject": "🚀 Your Prisma Labs ad preview is ready!",
+        "message": "=Here's your ad preview",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "edited"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -832,
+        80
+      ],
+      "id": "b6171845-a120-4f92-823d-4d0f8d2b428b",
+      "name": "Send a message",
+      "webhookId": "a230547c-f01e-4db5-9890-fa9286710eb1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "cqwqufjWdfzaMBSo",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## INPUT",
+        "height": 192,
+        "width": 150,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1264,
+        -64
+      ],
+      "id": "640bc754-90f4-4b92-88c7-eac18c04cd5f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## OUTPUT",
+        "height": 192,
+        "width": 166,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -864,
+        -64
+      ],
+      "id": "6e358115-c9fc-4389-9e1e-881eb4556c1b",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "edit",
+        "prompt": "=have the woman hold the perfume and model it in a vogue-like digital poster",
+        "images": {
+          "values": [
+            {
+              "binaryPropertyName": "character_image"
+            },
+            {
+              "binaryPropertyName": "product_image"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        80
+      ],
+      "id": "fd9c5122-223a-4f4f-b769-1a6b601ba418",
+      "name": "Edit an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Uf69yXezkjIZP6Ah",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Edit an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit an image": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5b4f943e-8c4e-418e-8b53-fdebc953d9af",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "addaa68bf5af965c06c3765c811549851eb65db8df4677e0c6253726ffcac493"
+  },
+  "id": "7eb7jn34vXeHM0hv",
+  "tags": []
+}

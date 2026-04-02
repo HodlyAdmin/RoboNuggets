@@ -1,0 +1,58 @@
+{
+  "_comment_theme": "The core thematic direction for the AI to build songs off of.",
+  "theme": "Lofi Chill Beats for Studying",
+  
+  "_comment_musicStyle": "The main creative brief for the music. This can be compact genre tags or a richer description, similar to the original lesson's 'Describe the music' field.",
+  "musicStyle": "lofi hip hop, chill, ambient, jazz piano, soft drums",
+  
+  "numSongs": 5,
+  "instrumental": true,
+
+  "_comment_songLengthHint": "Optional target song length guidance, e.g. 'around 2 minutes' or '90 seconds max'. This mirrors the original lesson note that duration can be hinted in the input.",
+  "songLengthHint": "",
+
+  "_comment_conceptProvider": "How R45 should get song concepts: 'auto', 'gemini', 'saved-concepts', or 'local-intake'. This keeps the idea layer swappable if you later move from Gemini to another provider.",
+  "conceptProvider": "auto",
+
+  "_comment_engine": "Standard option: 'suno-api' (local hybrid wrapper). Also supports 'lyria', 'suno', and 'suno-cdn'.",
+  "engine": "suno-api",
+
+  "_comment_sunoApiBaseUrl": "Required only when engine is 'suno-api'. Point this to your local Suno wrapper service.",
+  "sunoApiBaseUrl": "http://127.0.0.1:3000",
+
+  "_comment_sunoModel": "Optional Suno model ID. Leave blank to use the wrapper default, or set this per account tier once verified.",
+  "sunoModel": "",
+
+  "_comment_songConceptsPath": "Optional path to a saved manifest or concept JSON. Set this to bypass Gemini concept generation during repeated Suno tests.",
+  "songConceptsPath": "",
+
+  "_comment_ideaIntakePath": "Optional path to a local TXT or JSON intake file for new concept ideas when you do not want to use Gemini. One idea per line in TXT works well.",
+  "ideaIntakePath": "",
+
+  "_comment_ideaSeeds": "Optional inline idea seeds (strings or objects). Used only when songConceptsPath is empty. Leave empty if you prefer ideaIntakePath or Gemini.",
+  "ideaSeeds": [],
+
+  "_comment_skipTimestamps": "Set true to skip Gemini YouTube timestamp generation. Useful for Suno-only production tests or when Gemini quota is exhausted.",
+  "skipTimestamps": false,
+
+  "_comment_cleanupOutput": "Set false to disable automatic housekeeping of output/ before dry or live runs. Default true keeps the folder tidy and archives stale test runs into output/.archive.",
+  "cleanupOutput": true,
+
+  "_comment_outputRetention": "How many visible runs of each type to keep in output/. Older runs are moved into the hidden output/.archive folder.",
+  "outputRetention": {
+    "keepSuccessfulRuns": 2,
+    "keepConceptRuns": 2,
+    "keepFailedRuns": 1,
+    "keepIncompleteRuns": 1,
+    "pruneArchiveDays": 30
+  },
+
+  "_comment_sunoSongIds": "Required when engine is 'suno-cdn'. Get IDs from suno.com/me — hover a track and copy from the URL.",
+  "sunoSongIds": [],
+
+  "_comment_coverImagePath": "Absolute or relative path to the still image used for video generation. The original lesson used a user-uploaded landscape image.",
+  "coverImagePath": "",
+
+  "_comment_videoResolution": "Target output resolution for the final video. The original ffmpeg-api workflow rendered a 1280:720 landscape video.",
+  "videoResolution": "1280:720"
+}

@@ -1,0 +1,28 @@
+{
+  "projectName": "r28-r28-the-longform-youtube-creator-ai-agent",
+  "ideaGenerationConfig": {
+    "enabled": true,
+    "provider": "openAi",
+    "apiKey": null
+  },
+  "scriptAndPromptGenConfig": {
+    "enabled": true,
+    "provider": "openAi",
+    "apiKey": null
+  },
+  "voiceoverGenConfig": {
+    "enabled": true,
+    "provider": "elevenLabs",
+    "apiKey": null
+  },
+  "videoAssemblyConfig": {
+    "enabled": true,
+    "provider": "json2Video",
+    "apiKey": null
+  },
+  "youtubePublishingConfig": {
+    "enabled": true,
+    "provider": "youtubeApi",
+    "apiKey": null
+  }
+}

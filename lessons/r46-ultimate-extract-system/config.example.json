@@ -1,0 +1,33 @@
+{
+  "searchTerm": "ai automation",
+  "maxItems": 25,
+  "platforms": [
+    "meta-ads",
+    "tiktok",
+    "instagram",
+    "youtube-longs",
+    "youtube-shorts",
+    "linkedin",
+    "x-twitter",
+    "reddit"
+  ],
+  "provider": "local-files",
+  "providerByPlatform": {
+    "meta-ads": "apify"
+  },
+  "sinks": [
+    "local-json"
+  ],
+  "localFiles": {
+    "inputDir": "./inputs",
+    "skipMissing": true
+  },
+  "apify": {
+    "tokenEnvVar": "APIFY_TOKEN",
+    "baseUrl": "https://api.apify.com/v2",
+    "waitForFinishSeconds": 120,
+    "pollIntervalMs": 5000,
+    "maxPolls": 24
+  }
+}
+

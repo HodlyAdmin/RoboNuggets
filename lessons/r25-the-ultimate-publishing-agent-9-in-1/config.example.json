@@ -1,0 +1,18 @@
+{
+  "projectName": "r25-r25-the-ultimate-publishing-agent-9-in-1",
+  "fetchContentConfig": {
+    "enabled": true,
+    "provider": "googleSheets",
+    "apiKey": null
+  },
+  "uploadMediaConfig": {
+    "enabled": true,
+    "provider": "blotatoApi",
+    "apiKey": null
+  },
+  "publishToSocialsConfig": {
+    "enabled": true,
+    "provider": "blotatoApi",
+    "apiKey": null
+  }
+}

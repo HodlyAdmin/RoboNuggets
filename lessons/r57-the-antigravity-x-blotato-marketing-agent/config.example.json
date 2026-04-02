@@ -1,0 +1,23 @@
+{
+  "projectName": "r57-r57-the-antigravity-x-blotato-marketing-agent",
+  "contentStrategyConfig": {
+    "enabled": true,
+    "provider": "googleAiStudio",
+    "apiKey": null
+  },
+  "mediaGenerationConfig": {
+    "enabled": true,
+    "provider": "wavespeedAi",
+    "apiKey": null
+  },
+  "dataSyncConfig": {
+    "enabled": true,
+    "provider": "airtable",
+    "apiKey": null
+  },
+  "campaignSchedulingConfig": {
+    "enabled": true,
+    "provider": "blotatoMcp",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "ideas": [
+    {
+      "title": "Rainy Window Focus",
+      "idea": "late-night study session by a city window",
+      "mood": "calm, focused, warm",
+      "scene": "rain-lit desk, notebook pages, amber desk lamp glow",
+      "instruments": "soft piano, dusty Rhodes, vinyl crackle, subdued drums",
+      "tempo": "78 BPM",
+      "energy": "low to medium",
+      "estimatedDuration": 120
+    },
+    {
+      "title": "Library Lamp Glow",
+      "idea": "quiet concentration in an old library after dark",
+      "mood": "steady, reflective, cozy",
+      "scene": "wood shelves, table lamp halo, slow page turns",
+      "instruments": "upright bass, brushed drums, mellow jazz piano",
+      "tempo": "74 BPM",
+      "energy": "low",
+      "estimatedDuration": 120
+    },
+    {
+      "title": "Blue Hour Notes",
+      "idea": "focused writing session during a rainy blue-hour evening",
+      "mood": "gentle, patient, slightly wistful",
+      "scene": "loft workspace, rain on glass, skyline fading into dusk",
+      "instruments": "jazz guitar, airy synth pad, soft kick and snare",
+      "tempo": "80 BPM",
+      "energy": "low to medium",
+      "estimatedDuration": 120
+    }
+  ]
+}

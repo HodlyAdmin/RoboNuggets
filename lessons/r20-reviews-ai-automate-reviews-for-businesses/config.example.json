@@ -1,0 +1,18 @@
+{
+  "projectName": "r20-r20-reviews-ai-automate-reviews-for-businesses",
+  "fetchReviewsConfig": {
+    "enabled": true,
+    "provider": "goHighLevel",
+    "apiKey": null
+  },
+  "generateResponseConfig": {
+    "enabled": true,
+    "provider": "openaiApi",
+    "apiKey": null
+  },
+  "publishReplyConfig": {
+    "enabled": true,
+    "provider": "goHighLevel",
+    "apiKey": null
+  }
+}

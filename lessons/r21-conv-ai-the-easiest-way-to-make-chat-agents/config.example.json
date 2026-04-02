@@ -1,0 +1,18 @@
+{
+  "projectName": "r21-r21-conv-ai-the-easiest-way-to-make-chat-agents",
+  "inboundWebhookConfig": {
+    "enabled": true,
+    "provider": "ghlWebhook",
+    "apiKey": null
+  },
+  "conversationAiConfig": {
+    "enabled": true,
+    "provider": "openaiApi",
+    "apiKey": null
+  },
+  "outboundMessageConfig": {
+    "enabled": true,
+    "provider": "goHighLevelApi",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "projectName": "r39-r39-100-ads-in-1-minute-split-ai-system",
+  "telegramInputConfig": {
+    "enabled": true,
+    "provider": "telegramBot",
+    "apiKey": null
+  },
+  "imageAnalysisConfig": {
+    "enabled": true,
+    "provider": "openAiVision",
+    "apiKey": null
+  },
+  "promptSplitterConfig": {
+    "enabled": true,
+    "provider": "openAiGpt",
+    "apiKey": null
+  },
+  "sheetExportConfig": {
+    "enabled": true,
+    "provider": "googleSheets",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "scanPaths": [
+    "lessons",
+    "shared",
+    "docs",
+    "knowledge",
+    "admin",
+    "skills",
+    "src",
+    "core",
+    ".agent/skills",
+    ".agent/workflows",
+    "README.md",
+    "WORKSPACE-MAP.md"
+  ],
+  "extensions": [".md", ".txt"],
+  "excludeDirs": ["node_modules", ".git", "dist", "build", "coverage", "__pycache__"],
+  "chunkSize": 500,
+  "chunkOverlap": 50,
+  "model": "Xenova/bge-small-en-v1.5",
+  "topK": 5
+}

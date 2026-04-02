@@ -1,0 +1,61 @@
+{
+  "projectName": "r3-social-agent-demo",
+  "datasetProvider": "local-files",
+  "datasetPath": "./inputs/sample-articles.json",
+  "batchSize": 1,
+  "startIndex": null,
+  "advanceState": true,
+  "statePath": "./state/state.json",
+  "generatorProvider": "gemini-browser",
+  "publisher": "local-queue",
+  "articleFetch": {
+    "maxArticleChars": 12000,
+    "navigationTimeoutMs": 120000,
+    "settleDelayMs": 2000
+  },
+  "generator": {
+    "timeoutMs": 120000
+  },
+  "card": {
+    "width": 1024,
+    "height": 1024,
+    "badgeLabel": "R3 Social Draft"
+  },
+  "blotato": {
+    "apiKeyEnvVar": "BLOTATO_API_KEY",
+    "envPath": null,
+    "baseUrl": "https://backend.blotato.com/v2",
+    "scheduledTime": null,
+    "useNextFreeSlot": false,
+    "pollStatus": true,
+    "pollIntervalMs": 2000,
+    "maxPolls": 12,
+    "targets": {
+      "twitter": {
+        "enabled": true,
+        "accountId": null,
+        "accountUsername": null,
+        "accountFullName": null
+      },
+      "linkedin": {
+        "enabled": true,
+        "accountId": null,
+        "accountUsername": null,
+        "accountFullName": null
+      },
+      "facebook": {
+        "enabled": true,
+        "accountId": null,
+        "accountUsername": null,
+        "accountFullName": null
+      },
+      "instagram": {
+        "enabled": true,
+        "accountId": null,
+        "accountUsername": null,
+        "accountFullName": null,
+        "shareToFeed": true
+      }
+    }
+  }
+}

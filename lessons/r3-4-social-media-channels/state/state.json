@@ -1,0 +1,23 @@
+{
+  "nextIndex": 2,
+  "history": [
+    {
+      "at": "2026-03-26T18:31:21.770Z",
+      "outputDir": "/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r3-4-social-media-channels/output/news-social-media-roboflow-v1-0-local_2026-03-26T18-30-35",
+      "publisher": "local-queue",
+      "status": "queued",
+      "selectedIndices": [
+        1
+      ]
+    }
+  ],
+  "lastRun": {
+    "at": "2026-03-26T18:31:21.770Z",
+    "outputDir": "/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r3-4-social-media-channels/output/news-social-media-roboflow-v1-0-local_2026-03-26T18-30-35",
+    "publisher": "local-queue",
+    "status": "queued",
+    "selectedIndices": [
+      1
+    ]
+  }
+}

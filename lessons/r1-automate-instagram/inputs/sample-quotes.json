@@ -1,0 +1,23 @@
+[
+  {
+    "index": 1,
+    "title": "Replace Me 001",
+    "quote": "Review placeholder: replace this line with a verified quote before publishing.",
+    "instagramCaption": "System check complete. Replace this placeholder caption after review. ⚙️ #sample #review",
+    "status": "planned"
+  },
+  {
+    "index": 2,
+    "title": "Replace Me 002",
+    "quote": "A local queue is safer than a blind autopost when the content still needs human review.",
+    "instagramCaption": "Local-first keeps the workflow moving while the live publisher stays optional. 🧭 #localfirst #automation",
+    "status": "planned"
+  },
+  {
+    "index": 3,
+    "title": "Replace Me 003",
+    "quote": "Good automation keeps the state, assets, and publish step separate so each piece can improve independently.",
+    "instagramCaption": "Small clean boundaries make later integrations much easier to trust. 🛠️ #systems #buildinpublic",
+    "status": "planned"
+  }
+]

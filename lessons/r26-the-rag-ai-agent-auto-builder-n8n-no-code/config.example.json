@@ -1,0 +1,28 @@
+{
+  "projectName": "r26-r26-the-rag-ai-agent-auto-builder-n8n-no-code",
+  "scrapeVideosConfig": {
+    "enabled": true,
+    "provider": "apify",
+    "apiKey": null
+  },
+  "fetchTranscriptsConfig": {
+    "enabled": true,
+    "provider": "apify",
+    "apiKey": null
+  },
+  "cleanTranscriptsConfig": {
+    "enabled": true,
+    "provider": "customScript",
+    "apiKey": null
+  },
+  "storeEmbeddingsConfig": {
+    "enabled": true,
+    "provider": "pinecone",
+    "apiKey": null
+  },
+  "ragGenerationConfig": {
+    "enabled": true,
+    "provider": "openai",
+    "apiKey": null
+  }
+}

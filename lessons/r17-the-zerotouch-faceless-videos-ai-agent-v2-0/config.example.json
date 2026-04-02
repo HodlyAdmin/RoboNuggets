@@ -1,0 +1,23 @@
+{
+  "projectName": "r17-r17-the-zerotouch-faceless-videos-ai-agent-v2-0",
+  "ideaGenerationConfig": {
+    "enabled": true,
+    "provider": "chatGpt",
+    "apiKey": null
+  },
+  "assetGenerationConfig": {
+    "enabled": true,
+    "provider": "piApi",
+    "apiKey": null
+  },
+  "videoAssemblyConfig": {
+    "enabled": true,
+    "provider": "json2Video",
+    "apiKey": null
+  },
+  "socialPublishingConfig": {
+    "enabled": true,
+    "provider": "ayrshare",
+    "apiKey": null
+  }
+}

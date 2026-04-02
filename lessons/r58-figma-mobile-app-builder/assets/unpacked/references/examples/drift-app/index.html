@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drift — Sleep Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #04020e;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; font-family: 'Space Grotesk', sans-serif;
+    }
+    .phone {
+      width: 375px; height: 812px; background: #0d0a1e;
+      border-radius: 32px; overflow: hidden; position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+      display: flex; flex-direction: column;
+    }
+
+    /* HEADER */
+    .header { padding: 48px 24px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+    .header-left {}
+    .header-date { font-size: 12px; color: rgba(167,139,250,0.6); font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; }
+    .header-day { font-size: 22px; font-weight: 700; color: #fff; margin-top: 2px; }
+    .header-right { display: flex; gap: 12px; align-items: center; }
+    .header-right svg { width: 20px; height: 20px; color: rgba(167,139,250,0.6); }
+    .avatar-sm { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #6b4fa0, #a78bfa); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: white; }
+
+    /* SCORE RING */
+    .score-section { display: flex; flex-direction: column; align-items: center; padding: 18px 0 10px; }
+    .score-label { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.6); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+    .ring-wrap { position: relative; width: 200px; height: 200px; }
+    .ring-wrap svg { transform: rotate(-90deg); }
+    .ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 12; }
+    .ring-fg {
+      fill: none; stroke: url(#ringGrad); stroke-width: 12;
+      stroke-linecap: round;
+      stroke-dasharray: 565.49;
+      stroke-dashoffset: 101.8;
+      filter: drop-shadow(0 0 12px rgba(167,139,250,0.5));
+    }
+    .ring-center {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .score-number { font-size: 52px; font-weight: 700; color: #fff; line-height: 1; }
+    .score-total { font-size: 13px; color: rgba(167,139,250,0.6); margin-top: 2px; }
+    .score-quality { font-size: 12px; font-weight: 600; color: #a78bfa; margin-top: 8px; text-align: center; }
+
+    /* STATS ROW */
+    .stats-row { display: flex; justify-content: space-around; padding: 0 24px 16px; }
+    .stat-item { text-align: center; }
+    .stat-value { font-size: 20px; font-weight: 700; color: #fff; }
+    .stat-label { font-size: 10px; color: rgba(167,139,250,0.5); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+    .stat-divider { width: 1px; background: rgba(167,139,250,0.15); }
+
+    /* PHASE CARD */
+    .phase-card { margin: 0 24px; background: rgba(255,255,255,0.04); border-radius: 16px; padding: 16px; border: 1px solid rgba(167,139,250,0.1); }
+    .phase-title { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+    .phase-bar { display: flex; height: 28px; border-radius: 8px; overflow: hidden; gap: 2px; }
+    .phase-seg { border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+    .phase-awake { background: rgba(248,113,113,0.7); flex: 1; }
+    .phase-light { background: rgba(96,165,250,0.5); flex: 3; }
+    .phase-deep { background: rgba(99,102,241,0.8); flex: 2; }
+    .phase-rem { background: rgba(167,139,250,0.8); flex: 2; }
+    .phase-labels { display: flex; margin-top: 8px; gap: 12px; }
+    .phase-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .phase-name { font-size: 10px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 4px; }
+
+    /* WEEKLY */
+    .weekly { margin: 14px 24px 0; background: rgba(255,255,255,0.04); border-radius: 16px; padding: 16px; border: 1px solid rgba(167,139,250,0.1); }
+    .weekly-title { font-size: 11px; font-weight: 600; color: rgba(167,139,250,0.5); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+    .week-bars { display: flex; align-items: flex-end; gap: 8px; height: 52px; }
+    .week-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .week-bar { width: 100%; border-radius: 4px; background: rgba(107,79,160,0.4); }
+    .week-bar.today { background: #a78bfa; box-shadow: 0 0 8px rgba(167,139,250,0.5); }
+    .week-label { font-size: 9px; color: rgba(167,139,250,0.4); font-weight: 500; }
+    .week-label.today { color: #a78bfa; }
+
+    /* BOTTOM NAV */
+    .bottom-nav { margin-top: auto; display: flex; padding: 12px 0 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .nav-item svg { width: 22px; height: 22px; color: rgba(167,139,250,0.3); }
+    .nav-item.active svg { color: #a78bfa; }
+    .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: #a78bfa; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+
+    <div class="header">
+      <div class="header-left">
+        <div class="header-date">Thursday · Aug 22</div>
+        <div class="header-day">Good morning, Alex.</div>
+      </div>
+      <div class="header-right">
+        <i data-lucide="moon"></i>
+        <div class="avatar-sm">JE</div>
+      </div>
+    </div>
+
+    <div class="score-section">
+      <div class="score-label">Last Night's Score</div>
+      <div class="ring-wrap">
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#6b4fa0" />
+              <stop offset="100%" stop-color="#c4b5fd" />
+            </linearGradient>
+          </defs>
+          <circle class="ring-bg" cx="100" cy="100" r="90" />
+          <circle class="ring-fg" cx="100" cy="100" r="90" />
+        </svg>
+        <div class="ring-center">
+          <div class="score-number">82</div>
+          <div class="score-total">out of 100</div>
+        </div>
+      </div>
+      <div class="score-quality">Good Sleep</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-value">7h 24m</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-value">1h 42m</div>
+        <div class="stat-label">Deep</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-value">2h 10m</div>
+        <div class="stat-label">REM</div>
+      </div>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-title">Sleep Phases</div>
+      <div class="phase-bar">
+        <div class="phase-seg phase-awake"></div>
+        <div class="phase-seg phase-light"></div>
+        <div class="phase-seg phase-deep"></div>
+        <div class="phase-seg phase-light"></div>
+        <div class="phase-seg phase-rem"></div>
+        <div class="phase-seg phase-deep"></div>
+        <div class="phase-seg phase-rem"></div>
+        <div class="phase-seg phase-light"></div>
+        <div class="phase-seg phase-awake"></div>
+      </div>
+      <div class="phase-labels">
+        <div class="phase-name"><div class="phase-dot" style="background:rgba(248,113,113,0.8)"></div> Awake</div>
+        <div class="phase-name"><div class="phase-dot" style="background:rgba(96,165,250,0.7)"></div> Light</div>
+        <div class="phase-name"><div class="phase-dot" style="background:rgba(99,102,241,0.9)"></div> Deep</div>
+        <div class="phase-name"><div class="phase-dot" style="background:rgba(167,139,250,0.9)"></div> REM</div>
+      </div>
+    </div>
+
+    <div class="weekly">
+      <div class="weekly-title">This Week</div>
+      <div class="week-bars">
+        <div class="week-day"><div class="week-bar" style="height:30px"></div><div class="week-label">Mon</div></div>
+        <div class="week-day"><div class="week-bar" style="height:42px"></div><div class="week-label">Tue</div></div>
+        <div class="week-day"><div class="week-bar" style="height:24px"></div><div class="week-label">Wed</div></div>
+        <div class="week-day"><div class="week-bar today" style="height:46px"></div><div class="week-label today">Thu</div></div>
+        <div class="week-day"><div class="week-bar" style="height:20px;opacity:0.3"></div><div class="week-label">Fri</div></div>
+        <div class="week-day"><div class="week-bar" style="height:20px;opacity:0.3"></div><div class="week-label">Sat</div></div>
+        <div class="week-day"><div class="week-bar" style="height:20px;opacity:0.3"></div><div class="week-label">Sun</div></div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item active"><i data-lucide="moon"></i><div class="nav-dot"></div></div>
+      <div class="nav-item"><i data-lucide="bar-chart-2"></i></div>
+      <div class="nav-item"><i data-lucide="alarm-clock"></i></div>
+      <div class="nav-item"><i data-lucide="user"></i></div>
+    </div>
+  </div>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

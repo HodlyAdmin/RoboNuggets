@@ -1,0 +1,18 @@
+{
+  "projectName": "r37-r37-logorobo-logo-animator-ai-agent",
+  "fetchInputDataConfig": {
+    "enabled": true,
+    "provider": "googleSheets",
+    "apiKey": null
+  },
+  "generatePromptConfig": {
+    "enabled": true,
+    "provider": "openAi",
+    "apiKey": null
+  },
+  "animateLogoConfig": {
+    "enabled": true,
+    "provider": "kieAi",
+    "apiKey": null
+  }
+}

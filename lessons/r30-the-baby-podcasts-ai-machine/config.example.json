@@ -1,0 +1,18 @@
+{
+  "projectName": "r30-r30-the-baby-podcasts-ai-machine",
+  "scrapeTiktokVideosConfig": {
+    "enabled": true,
+    "provider": "apify",
+    "apiKey": null
+  },
+  "generateBabyImageConfig": {
+    "enabled": true,
+    "provider": "imageGenApi",
+    "apiKey": null
+  },
+  "generateBabyVideoConfig": {
+    "enabled": true,
+    "provider": "hedraApi",
+    "apiKey": null
+  }
+}

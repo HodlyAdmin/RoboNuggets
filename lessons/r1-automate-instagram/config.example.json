@@ -1,0 +1,42 @@
+{
+  "projectName": "navalism101-365",
+  "datasetProvider": "local-files",
+  "datasetPath": "./inputs/sample-quotes.json",
+  "batchSize": 1,
+  "startIndex": null,
+  "advanceState": true,
+  "statePath": "./state/state.json",
+  "publisher": "blotato",
+  "card": {
+    "width": 1080,
+    "height": 1350,
+    "handle": "@navalism101",
+    "footerLabel": "R1 Blotato publish candidate",
+    "backgroundStart": "#0f172a",
+    "backgroundEnd": "#312e81",
+    "accent": "#f59e0b",
+    "text": "#f8fafc",
+    "secondaryText": "#cbd5e1"
+  },
+  "gemini": {
+    "count": 12,
+    "author": "Naval Ravikant",
+    "theme": "wealth, leverage, compounding, peace of mind",
+    "timeoutMs": 120000
+  },
+  "blotato": {
+    "apiKeyEnvVar": "BLOTATO_API_KEY",
+    "envPath": null,
+    "baseUrl": "https://backend.blotato.com/v2",
+    "platform": "instagram",
+    "accountId": null,
+    "accountUsername": "navalism101",
+    "mediaType": null,
+    "shareToFeed": true,
+    "scheduledTime": null,
+    "useNextFreeSlot": false,
+    "pollStatus": true,
+    "pollIntervalMs": 2000,
+    "maxPolls": 12
+  }
+}

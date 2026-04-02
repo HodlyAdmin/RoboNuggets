@@ -1,0 +1,23 @@
+{
+  "projectName": "r23-r23-youtube-curator-ai-agent",
+  "keywordResearchConfig": {
+    "enabled": true,
+    "provider": "openAiApi",
+    "apiKey": null
+  },
+  "youtubeScraperConfig": {
+    "enabled": true,
+    "provider": "apifyYoutubeScraper",
+    "apiKey": null
+  },
+  "contentCurationConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "notificationDeliveryConfig": {
+    "enabled": true,
+    "provider": "telegramBotApi",
+    "apiKey": null
+  }
+}

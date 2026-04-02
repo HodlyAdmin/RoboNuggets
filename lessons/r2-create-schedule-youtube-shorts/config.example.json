@@ -1,0 +1,47 @@
+{
+  "projectName": "r2-youtube-shorts-demo",
+  "datasetProvider": "local-files",
+  "datasetPath": "./inputs/sample-quotes.json",
+  "transcriptPath": "./inputs/sample-transcript.txt",
+  "batchSize": 1,
+  "startIndex": null,
+  "advanceState": true,
+  "statePath": "./state/state.json",
+  "ttsProvider": "macos-say",
+  "videoRenderer": "local-ffmpeg",
+  "publisher": "local-queue",
+  "backgroundVideoPath": "./assets/original/Sample video background for Json2Video.mp4",
+  "gemini": {
+    "count": 8,
+    "timeoutMs": 120000
+  },
+  "macosSay": {
+    "sayVoice": "Samantha",
+    "rateWpm": 185
+  },
+  "subtitles": {
+    "maxLineLength": 22,
+    "fontName": "Arial",
+    "fontSize": 18,
+    "outline": 2,
+    "alignment": 5,
+    "marginV": 360
+  },
+  "blotato": {
+    "apiKeyEnvVar": "BLOTATO_API_KEY",
+    "envPath": null,
+    "baseUrl": "https://backend.blotato.com/v2",
+    "accountId": null,
+    "accountUsername": null,
+    "accountFullName": null,
+    "privacyStatus": "public",
+    "notifySubscribers": false,
+    "selfDeclaredMadeForKids": false,
+    "containsSyntheticMedia": true,
+    "scheduledTime": null,
+    "useNextFreeSlot": false,
+    "pollStatus": true,
+    "pollIntervalMs": 2000,
+    "maxPolls": 12
+  }
+}

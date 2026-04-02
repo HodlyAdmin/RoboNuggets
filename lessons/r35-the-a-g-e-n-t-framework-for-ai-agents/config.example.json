@@ -1,0 +1,23 @@
+{
+  "projectName": "r35-r35-the-a-g-e-n-t-framework-for-ai-agents",
+  "readSheetConfig": {
+    "enabled": true,
+    "provider": "googleSheets",
+    "apiKey": null
+  },
+  "gatherResearchConfig": {
+    "enabled": true,
+    "provider": "perplexityApi",
+    "apiKey": null
+  },
+  "agentReasoningConfig": {
+    "enabled": true,
+    "provider": "openAiGpt4o",
+    "apiKey": null
+  },
+  "sendNotificationConfig": {
+    "enabled": true,
+    "provider": "slackApi",
+    "apiKey": null
+  }
+}

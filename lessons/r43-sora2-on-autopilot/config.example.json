@@ -1,0 +1,23 @@
+{
+  "projectName": "r43-r43-sora2-on-autopilot",
+  "brandAgnosticConceptConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "storyboardSystemizationConfig": {
+    "enabled": true,
+    "provider": "n8nNode",
+    "apiKey": null
+  },
+  "autopilotVideoGenConfig": {
+    "enabled": true,
+    "provider": "sora2Api",
+    "apiKey": null
+  },
+  "finalProductAssemblyConfig": {
+    "enabled": true,
+    "provider": "antiGravityApp",
+    "apiKey": null
+  }
+}

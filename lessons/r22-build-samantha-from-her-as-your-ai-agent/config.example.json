@@ -1,0 +1,23 @@
+{
+  "projectName": "r22-r22-build-samantha-from-her-as-your-ai-agent",
+  "conversationalAiConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "sendEmailConfig": {
+    "enabled": true,
+    "provider": "gmailApi",
+    "apiKey": null
+  },
+  "manageCalendarConfig": {
+    "enabled": true,
+    "provider": "googleCalendarApi",
+    "apiKey": null
+  },
+  "taskAutomationConfig": {
+    "enabled": true,
+    "provider": "n8nNode",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "projectName": "r55-r55-the-antigravity-clip-factory",
+  "telegramTriggerConfig": {
+    "enabled": true,
+    "provider": "telegramBot",
+    "apiKey": null
+  },
+  "generateClipsConfig": {
+    "enabled": true,
+    "provider": "vizardAi",
+    "apiKey": null
+  },
+  "queueForReviewConfig": {
+    "enabled": true,
+    "provider": "airtable",
+    "apiKey": null
+  },
+  "schedulePostConfig": {
+    "enabled": true,
+    "provider": "blotato",
+    "apiKey": null
+  }
+}

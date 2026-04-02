@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wander — Travel Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a1628;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; font-family: 'Inter', sans-serif;
+    }
+    .phone {
+      width: 375px; height: 812px; background: #f8f9fc;
+      border-radius: 32px; overflow: hidden; position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+      display: flex; flex-direction: column;
+    }
+
+    /* HEADER */
+    .header {
+      background: #0a1628; padding: 48px 24px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+    .logo span { color: #f5a623; }
+    .header-right { display: flex; gap: 14px; align-items: center; }
+    .icon-pill {
+      width: 36px; height: 36px; background: rgba(255,255,255,0.1);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .icon-pill svg { width: 16px; height: 16px; color: rgba(255,255,255,0.8); }
+    .avatar-sm { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #f5a623, #e8520a); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; font-family: 'Syne', sans-serif; }
+
+    /* GREETING */
+    .greeting { padding: 20px 24px 0; }
+    .greeting-hi { font-family: 'Inter', sans-serif; font-size: 13px; color: #6b7280; font-weight: 500; }
+    .greeting-main { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: #0f172a; margin-top: 2px; }
+
+    /* NEXT TRIP CARD */
+    .next-trip-label { padding: 18px 24px 10px; display: flex; justify-content: space-between; align-items: center; }
+    .next-trip-label span { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: #0f172a; }
+    .next-trip-label a { font-size: 12px; font-weight: 600; color: #f5a623; }
+
+    .trip-hero {
+      margin: 0 24px; height: 178px; border-radius: 20px; overflow: hidden; position: relative;
+      box-shadow: 0 8px 32px rgba(15,23,42,0.2);
+    }
+    .trip-hero img { width: 100%; height: 100%; object-fit: cover; }
+    .trip-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(10,22,40,0.15) 0%, rgba(10,22,40,0.75) 100%);
+    }
+    .trip-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 18px; }
+    .trip-tag { background: rgba(245,166,35,0.9); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; display: inline-block; margin-bottom: 6px; font-family: 'Syne', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; }
+    .trip-name { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: #fff; line-height: 1; }
+    .trip-sub { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 4px; display: flex; align-items: center; gap: 6px; }
+    .trip-sub svg { width: 12px; height: 12px; }
+    .countdown-badge {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 12px;
+      padding: 8px 12px; text-align: center;
+    }
+    .countdown-num { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: #fff; line-height: 1; }
+    .countdown-label { font-size: 9px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* QUICK LINKS */
+    .quick-links { display: flex; gap: 10px; padding: 16px 24px 0; }
+    .quick-link {
+      flex: 1; background: #fff; border-radius: 14px; padding: 12px 8px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+    }
+    .quick-link svg { width: 20px; height: 20px; color: #f5a623; }
+    .quick-link span { font-size: 11px; font-weight: 600; color: #374151; }
+
+    /* DISCOVER */
+    .discover-label { padding: 16px 24px 10px; display: flex; justify-content: space-between; align-items: center; }
+    .discover-label span { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: #0f172a; }
+    .discover-label a { font-size: 12px; font-weight: 600; color: #f5a623; }
+
+    .destinations { display: flex; gap: 12px; padding: 0 24px; overflow-x: auto; scrollbar-width: none; }
+    .destinations::-webkit-scrollbar { display: none; }
+
+    .dest-card { width: 130px; flex-shrink: 0; border-radius: 16px; overflow: hidden; position: relative; height: 160px; box-shadow: 0 4px 16px rgba(15,23,42,0.15); }
+    .dest-card img { width: 100%; height: 100%; object-fit: cover; }
+    .dest-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(10,22,40,0.85) 100%); }
+    .dest-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px; }
+    .dest-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; }
+    .dest-temp { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+    .dest-temp svg { width: 10px; height: 10px; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="header">
+      <div class="logo">wan<span>.</span>der</div>
+      <div class="header-right">
+        <div class="icon-pill"><i data-lucide="search"></i></div>
+        <div class="avatar-sm">JE</div>
+      </div>
+    </div>
+
+    <div class="greeting">
+      <div class="greeting-hi">Thursday, Aug 22</div>
+      <div class="greeting-main">Where to next, Alex??</div>
+    </div>
+
+    <div class="next-trip-label">
+      <span>Next Trip</span>
+      <a>Edit</a>
+    </div>
+
+    <div class="trip-hero">
+      <img src="https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=700&q=85" alt="Santorini" />
+      <div class="trip-overlay"></div>
+      <div class="countdown-badge">
+        <div class="countdown-num">5</div>
+        <div class="countdown-label">days</div>
+      </div>
+      <div class="trip-content">
+        <div class="trip-tag">Coming up</div>
+        <div class="trip-name">Santorini</div>
+        <div class="trip-sub"><i data-lucide="map-pin"></i> Greece · Aug 27 – Sep 3</div>
+      </div>
+    </div>
+
+    <div class="quick-links">
+      <div class="quick-link"><i data-lucide="plane"></i><span>Flights</span></div>
+      <div class="quick-link"><i data-lucide="building-2"></i><span>Hotels</span></div>
+      <div class="quick-link"><i data-lucide="compass"></i><span>Activities</span></div>
+      <div class="quick-link"><i data-lucide="heart"></i><span>Saved</span></div>
+    </div>
+
+    <div class="discover-label">
+      <span>Discover</span>
+      <a>See All</a>
+    </div>
+
+    <div class="destinations">
+      <div class="dest-card">
+        <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=300&q=80" alt="Tokyo" />
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-name">Tokyo</div>
+          <div class="dest-temp"><i data-lucide="thermometer"></i> 24°C · Japan</div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=300&q=80" alt="Bali" />
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-name">Bali</div>
+          <div class="dest-temp"><i data-lucide="thermometer"></i> 28°C · Indonesia</div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300&q=80" alt="Paris" />
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-name">Paris</div>
+          <div class="dest-temp"><i data-lucide="thermometer"></i> 19°C · France</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

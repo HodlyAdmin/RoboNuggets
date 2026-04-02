@@ -1,0 +1,21 @@
+{
+  "projectName": "r59-beautiful-websites",
+  "leadConfig": {
+    "enabled": true,
+    "provider": "apify",
+    "apiKey": null
+  },
+  "qualifyConfig": {
+    "enabled": true,
+    "usePlaywright": true
+  },
+  "redesignConfig": {
+    "enabled": true,
+    "promptTemplate": "website_prompt_v1.md"
+  },
+  "deployConfig": {
+    "enabled": true,
+    "provider": "vercel",
+    "apiKey": null
+  }
+}

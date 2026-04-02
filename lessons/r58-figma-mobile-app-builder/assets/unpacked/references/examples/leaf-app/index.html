@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaf — Plant Care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0d1f0d;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; font-family: 'DM Sans', sans-serif;
+    }
+    .phone {
+      width: 375px; height: 812px; background: #f5f0e8;
+      border-radius: 32px; overflow: hidden; position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+      display: flex; flex-direction: column;
+    }
+
+    /* HEADER */
+    .header {
+      background: #1a3320; padding: 48px 24px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 22px; color: #a8d5a2; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+    .logo svg { width: 20px; height: 20px; color: #5aad6a; }
+    .header-right { display: flex; gap: 14px; align-items: center; }
+    .header-right svg { width: 20px; height: 20px; color: rgba(168,213,162,0.7); }
+    .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #5aad6a, #2d7a3e); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: white; }
+
+    /* GREETING */
+    .greeting { padding: 20px 24px 0; }
+    .greeting-sub { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #7a9e7a; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+    .greeting-main { font-family: 'Playfair Display', serif; font-size: 28px; color: #1a3320; margin-top: 2px; line-height: 1.2; }
+    .greeting-main em { font-style: italic; color: #3d6b4f; }
+
+    /* ALERT */
+    .alert {
+      margin: 16px 24px 0; background: #fff8ed;
+      border-left: 3px solid #e8965a; border-radius: 12px;
+      padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .alert svg { width: 18px; height: 18px; color: #e8965a; flex-shrink: 0; }
+    .alert-text { font-size: 13px; color: #5a3e1b; font-weight: 500; }
+    .alert-text span { color: #e8965a; font-weight: 600; }
+
+    /* SECTION HEADER */
+    .section-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px 0; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 18px; color: #1a3320; }
+    .see-all { font-size: 12px; font-weight: 600; color: #3d6b4f; background: rgba(61,107,79,0.1); border-radius: 8px; padding: 4px 10px; }
+
+    /* PLANT GRID */
+    .plant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 12px 24px 0; overflow: hidden; }
+    .plant-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(26,51,32,0.08); }
+    .plant-photo { height: 110px; overflow: hidden; position: relative; }
+    .plant-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .health-badge {
+      position: absolute; top: 8px; right: 8px; border-radius: 20px;
+      padding: 3px 8px; font-size: 10px; font-weight: 600;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .health-badge svg { width: 9px; height: 9px; }
+    .badge-good { background: rgba(90,173,106,0.9); color: white; }
+    .badge-warn { background: rgba(232,150,90,0.95); color: white; }
+    .plant-info { padding: 10px 12px 12px; }
+    .plant-name { font-family: 'Playfair Display', serif; font-size: 14px; color: #1a3320; }
+    .plant-latin { font-size: 10px; color: #8aaa8a; font-style: italic; margin-top: 1px; }
+    .water-row { display: flex; align-items: center; gap: 5px; margin-top: 8px; }
+    .water-row svg { width: 12px; height: 12px; }
+    .water-soon { color: #e8965a; }
+    .water-ok { color: #5aad6a; }
+    .water-label { font-size: 11px; font-weight: 600; }
+    .water-label.soon { color: #e8965a; }
+    .water-label.ok { color: #5aad6a; }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      margin-top: auto; background: #fff;
+      border-top: 1px solid rgba(26,51,32,0.08);
+      display: flex; padding: 12px 0 20px;
+    }
+    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+    .nav-item svg { width: 22px; height: 22px; color: #ccc; }
+    .nav-item.active svg { color: #3d6b4f; }
+    .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: #3d6b4f; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="header">
+      <div class="logo"><i data-lucide="leaf"></i> leaf</div>
+      <div class="header-right">
+        <i data-lucide="bell"></i>
+        <div class="avatar-sm">JE</div>
+      </div>
+    </div>
+
+    <div class="greeting">
+      <div class="greeting-sub">Thursday, 22 Aug</div>
+      <div class="greeting-main">Your garden is <em>thriving,</em> Alex.</div>
+    </div>
+
+    <div class="alert">
+      <i data-lucide="droplets"></i>
+      <div class="alert-text"><span>3 plants</span> are thirsty today — don't forget them.</div>
+    </div>
+
+    <div class="section-header">
+      <span class="section-title">My Garden</span>
+      <span class="see-all">12 plants</span>
+    </div>
+
+    <div class="plant-grid">
+      <div class="plant-card">
+        <div class="plant-photo">
+          <img src="https://images.unsplash.com/photo-1545241047-6083a3684587?w=300&h=220&fit=crop" alt="Monstera" />
+          <div class="health-badge badge-good"><i data-lucide="check"></i> Healthy</div>
+        </div>
+        <div class="plant-info">
+          <div class="plant-name">Monstera</div>
+          <div class="plant-latin">Monstera deliciosa</div>
+          <div class="water-row water-ok">
+            <i data-lucide="droplet"></i>
+            <span class="water-label ok">Water in 2 days</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="plant-card">
+        <div class="plant-photo">
+          <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=220&fit=crop" alt="Pothos" />
+          <div class="health-badge badge-warn"><i data-lucide="alert-circle"></i> Thirsty</div>
+        </div>
+        <div class="plant-info">
+          <div class="plant-name">Pothos</div>
+          <div class="plant-latin">Epipremnum aureum</div>
+          <div class="water-row water-soon">
+            <i data-lucide="droplets"></i>
+            <span class="water-label soon">Water today!</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="plant-card">
+        <div class="plant-photo">
+          <img src="https://images.unsplash.com/photo-1509587584298-0f3620e1604a?w=300&h=220&fit=crop" alt="Snake Plant" />
+          <div class="health-badge badge-good"><i data-lucide="check"></i> Healthy</div>
+        </div>
+        <div class="plant-info">
+          <div class="plant-name">Snake Plant</div>
+          <div class="plant-latin">Sansevieria trifasciata</div>
+          <div class="water-row water-ok">
+            <i data-lucide="droplet"></i>
+            <span class="water-label ok">Water in 5 days</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="plant-card">
+        <div class="plant-photo">
+          <img src="https://images.unsplash.com/photo-1491382825904-a4db3317d145?w=300&h=220&fit=crop" alt="Rubber Plant" />
+          <div class="health-badge badge-warn"><i data-lucide="alert-circle"></i> Thirsty</div>
+        </div>
+        <div class="plant-info">
+          <div class="plant-name">Rubber Plant</div>
+          <div class="plant-latin">Ficus elastica</div>
+          <div class="water-row water-soon">
+            <i data-lucide="droplets"></i>
+            <span class="water-label soon">Water today!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item active"><i data-lucide="home"></i><div class="nav-dot"></div></div>
+      <div class="nav-item"><i data-lucide="search"></i></div>
+      <div class="nav-item"><i data-lucide="calendar"></i></div>
+      <div class="nav-item"><i data-lucide="user"></i></div>
+    </div>
+  </div>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

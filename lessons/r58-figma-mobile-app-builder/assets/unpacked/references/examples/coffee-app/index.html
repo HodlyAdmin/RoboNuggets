@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brew — Coffee Recipe App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@600&family=Raleway:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #1a0f0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Raleway', sans-serif;
+    }
+
+    .phone {
+      width: 375px;
+      height: 812px;
+      background: #fff;
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 24px 0;
+    }
+
+    .header-menu {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .header-menu span {
+      display: block;
+      height: 2px;
+      background: #3D1A0F;
+      border-radius: 2px;
+    }
+
+    .header-menu span:nth-child(2) { width: 65%; }
+
+    .logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 22px;
+      color: #3D1A0F;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .logo-dot {
+      width: 7px;
+      height: 7px;
+      background: #C07A45;
+      border-radius: 50%;
+      display: inline-block;
+      margin-bottom: -3px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C07A45, #7B3F1E);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* ── HEADING ── */
+    .heading {
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #1e2742;
+      padding: 20px 24px 0;
+    }
+
+    /* ── SEARCH ── */
+    .search-wrap {
+      margin: 12px 24px 0;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 2px 0px 15px rgba(0,0,0,0.08);
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-wrap span {
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      color: #9a9898;
+    }
+
+    .search-wrap svg {
+      width: 16px;
+      height: 16px;
+      color: #9a9898;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px 0;
+    }
+
+    .section-title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: #1e2742;
+    }
+
+    .see-all {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      color: #C07A45;
+      border: 1px solid rgba(192,122,69,0.25);
+      border-radius: 8px;
+      padding: 4px 8px;
+      box-shadow: 2px 4px 15px rgba(192,122,69,0.15);
+    }
+
+    /* ── CATEGORY CHIPS ── */
+    .categories {
+      display: flex;
+      gap: 12px;
+      padding: 12px 24px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .categories::-webkit-scrollbar { display: none; }
+
+    .category-card {
+      width: 86px;
+      height: 112px;
+      background: #FEF3E2;
+      border-radius: 12px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-icon {
+      position: absolute;
+      top: 12px;
+      right: 10px;
+      color: #C07A45;
+    }
+
+    .category-icon svg {
+      width: 34px;
+      height: 34px;
+      stroke-width: 1.5;
+    }
+
+    .category-name {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: #1e2742;
+      text-align: center;
+    }
+
+    .category-count {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      color: #C07A45;
+      text-align: center;
+    }
+
+    /* ── RECENT BREWS ── */
+    .brews-row {
+      position: relative;
+      margin: 16px 24px 0;
+      height: 300px;
+    }
+
+    /* Left card (main featured) */
+    .brew-card-left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 248px;
+      height: 300px;
+      border-radius: 16px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(20,8,3,0.1) 0%, rgba(25,10,3,0.94) 52%),
+        url('https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+      box-shadow: 0 8px 30px rgba(61,26,15,0.3);
+    }
+
+    .brew-card-left::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(192,122,69,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .brew-subtitle {
+      font-family: 'Anton', sans-serif;
+      font-size: 38px;
+      color: rgba(255,255,255,0.35);
+      line-height: 1;
+    }
+
+    .brew-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 42px;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .brew-type-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .brew-type-icon {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .brew-type-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.5;
+    }
+
+    .brew-type-label {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .brew-difficulty {
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 10px;
+    }
+
+    .brew-meta {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .brew-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .brew-meta-item svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 1.5;
+      flex-shrink: 0;
+    }
+
+    .brew-stars {
+      display: flex;
+      gap: 2px;
+      background: #C07A45;
+      border-radius: 10px;
+      padding: 4px 8px;
+      align-self: flex-start;
+      margin-top: 8px;
+    }
+
+    .brew-stars svg {
+      width: 11px;
+      height: 11px;
+      fill: #fff;
+      color: #fff;
+      stroke-width: 0;
+    }
+
+    /* Right card (partially visible) */
+    .brew-card-right {
+      position: absolute;
+      right: 0;
+      top: 40px;
+      width: 155px;
+      height: 220px;
+      border-radius: 16px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(50,22,5,0.1) 0%, rgba(35,12,2,0.93) 55%),
+        url('https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400&q=80') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(139,69,19,0.3);
+    }
+
+    .brew-card-right .brew-subtitle {
+      font-size: 28px;
+    }
+
+    .brew-card-right .brew-title {
+      font-size: 30px;
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="logo">brew<span class="logo-dot"></span></div>
+      <div class="avatar">JE</div>
+    </div>
+
+    <!-- HEADING -->
+    <p class="heading">I want to brew...</p>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <span>Search recipes</span>
+      <i data-lucide="search"></i>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="section-header">
+      <span class="section-title">Categories</span>
+      <span class="see-all">See All</span>
+    </div>
+
+    <div class="categories">
+      <div class="category-card">
+        <div class="category-icon"><i data-lucide="coffee"></i></div>
+        <div class="category-name">Espresso</div>
+        <div class="category-count">50 recipes</div>
+      </div>
+      <div class="category-card">
+        <div class="category-icon"><i data-lucide="droplets"></i></div>
+        <div class="category-name">Pour Over</div>
+        <div class="category-count">39 recipes</div>
+      </div>
+      <div class="category-card">
+        <div class="category-icon"><i data-lucide="snowflake"></i></div>
+        <div class="category-name">Cold Brew</div>
+        <div class="category-count">28 recipes</div>
+      </div>
+      <div class="category-card">
+        <div class="category-icon"><i data-lucide="cup-soda"></i></div>
+        <div class="category-name">Latte</div>
+        <div class="category-count">44 recipes</div>
+      </div>
+    </div>
+
+    <!-- RECENT BREWS -->
+    <div class="section-header">
+      <span class="section-title">Recent Brews</span>
+      <span class="see-all">See All</span>
+    </div>
+
+    <div class="brews-row">
+
+      <!-- LEFT CARD — Caramel Latte -->
+      <div class="brew-card-left" onclick="location.href='recipe.html'" style="cursor:pointer;">
+        <div class="brew-subtitle">Caramel</div>
+        <div class="brew-title">Latte</div>
+        <div class="brew-type-row">
+          <span class="brew-type-icon"><i data-lucide="zap"></i></span>
+          <span class="brew-type-label">Espresso</span>
+        </div>
+        <div class="brew-difficulty">Medium · 12 min</div>
+        <div class="brew-meta">
+          <div class="brew-meta-item"><i data-lucide="clock"></i> 12 min</div>
+          <div class="brew-meta-item"><i data-lucide="heart"></i> 412</div>
+        </div>
+        <div class="brew-stars">
+          <i data-lucide="star"></i>
+          <i data-lucide="star"></i>
+          <i data-lucide="star"></i>
+          <i data-lucide="star"></i>
+        </div>
+      </div>
+
+      <!-- RIGHT CARD — Mocha Noir -->
+      <div class="brew-card-right">
+        <div class="brew-subtitle">Mocha</div>
+        <div class="brew-title">Noir</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

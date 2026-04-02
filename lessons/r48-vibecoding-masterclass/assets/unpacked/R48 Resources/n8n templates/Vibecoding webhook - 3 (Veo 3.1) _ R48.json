@@ -1,0 +1,726 @@
+{
+  "name": "Vibecoding webhook - 3 (Veo 3.1) | R48",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# Nanobanana Pro \n",
+        "height": 304,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -736,
+        -96
+      ],
+      "id": "1a96a3a7-aa3f-4337-b10c-aa6146abd94f",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "data.downloadUrl"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -864,
+        96
+      ],
+      "id": "a2a471d5-435d-4cc8-a7c7-c77acd8b9103",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "589fcca2-25cd-45db-b72c-80aef323b418",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1424,
+        96
+      ],
+      "id": "8afe9d93-b4ad-464c-9ed9-76ef2bc82550",
+      "name": "Webhook1",
+      "webhookId": "589fcca2-25cd-45db-b72c-80aef323b418"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook1').item.json.body.email }}",
+        "subject": "🚀 Your Prisma Labs ad preview is ready!",
+        "message": "=<div style=\"font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 20px auto; border: 1px solid #e0e0e0; padding: 40px; border-radius: 12px; background-color: #ffffff;\">\n\n  <h2 style=\"color: #1a1a1a; margin-top: 0; font-weight: 700; font-size: 24px; text-align: left;\">\n    Your AI Video is Ready 🎬\n  </h2>\n\n  <p style=\"color: #555; font-size: 16px; text-align: left; margin-bottom: 30px;\">\n    Great news! We've finished processing your creative request. Your generated video is ready for you to watch.\n  </p>\n\n  <div style=\"text-align: center; margin-bottom: 40px; margin-top: 40px;\">\n    <a href=\"{{ $json.data.response.resultUrls[0] }}\" target=\"_blank\" style=\"display: inline-block; padding: 16px 32px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 10px rgba(0,123,255,0.3);\">\n      ▶&nbsp; Watch Your Video\n    </a>\n  </div>\n\n  <div style=\"border-top: 1px solid #eeeeee; padding-top: 30px; text-align: left; color: #999; font-size: 13px;\">\n    <p style=\"margin: 0 0 10px 0; font-weight: 500; color: #555;\">The Prisma Labs Team</p>\n    <p style=\"margin: 0;\">&copy; {{ new Date().getFullYear() }} Prisma Labs. All rights reserved.</p>\n    <p style=\"margin: 5px 0 0 0;\"><a href=\"#\" style=\"color: #999; text-decoration: underline;\">Unsubscribe</a> | <a href=\"#\" style=\"color: #999; text-decoration: underline;\">Privacy Policy</a></p>\n  </div>\n\n</div>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        288,
+        32
+      ],
+      "id": "f0bf5f18-7e4e-4803-85e9-78a44038fd75",
+      "name": "Send a message",
+      "webhookId": "36b24bd9-b1b1-4ac2-b428-e5d5232ebecd",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "cqwqufjWdfzaMBSo",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://kieai.redpandaai.co/api/file-base64-upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "base64Data",
+              "value": "={{ $json.data }}"
+            },
+            {
+              "name": "uploadPath",
+              "value": "documents/uploads"
+            },
+            {
+              "name": "fileName",
+              "value": "={{ $now }}.jpg"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 2000
+            }
+          }
+        }
+      },
+      "id": "6b7cf5bb-4c99-436d-947f-7e18abbb380c",
+      "name": "Image URLs1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -976,
+        96
+      ],
+      "typeVersion": 4,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GY8EwBg1KMzSwh9X",
+          "name": "Kie AI Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "product_image",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -1248,
+        176
+      ],
+      "id": "845e19f5-e1da-4415-96da-558734c6dbd2",
+      "name": "Image4"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "character_image",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -1248,
+        0
+      ],
+      "id": "114a2683-de50-402b-a7b8-252efbd1f1da",
+      "name": "Image"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1088,
+        96
+      ],
+      "id": "7b88e888-6fb6-42f2-af56-f501adcb5cbb",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/jobs/createTask",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "=\n\n{\n  \"model\": \"nano-banana-pro\",\n\"callBackUrl\": \"{{ $execution.resumeUrl }}\",\n  \"input\": {\n    \"prompt\":  {{ JSON.stringify($('Webhook1').item.json.body.details) }},\n  \"aspect_ratio\": \"2:3\",\n  \"resolution\": \"2K\",\n  \"output_format\": \"png\",\n     \"image_input\": [\"{{ $json.downloadUrl[0] }}\",\"{{ $json.downloadUrl[1] }}\"]\n\n  }\n}\n\n",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -720,
+        96
+      ],
+      "id": "06392316-f97e-40ed-9d88-02690152fe7c",
+      "name": "Create Image",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GY8EwBg1KMzSwh9X",
+          "name": "Kie AI Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $('Create Image').item.json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -496,
+        96
+      ],
+      "id": "c4e5c94a-d215-41ed-81ae-6ba4d8e7c6af",
+      "name": "Get Image",
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GY8EwBg1KMzSwh9X",
+          "name": "Kie AI Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -608,
+        96
+      ],
+      "id": "696e9fe5-3191-4606-9c28-be89eb7b4389",
+      "name": "Wait1",
+      "webhookId": "ffed8133-2dad-4c94-8ecc-e642a5e48b94"
+    },
+    {
+      "parameters": {
+        "content": "# INPUT",
+        "height": 176,
+        "width": 352,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1104,
+        -48
+      ],
+      "id": "4330153e-ab51-442c-ad9a-0bc74c993797",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# OUTPUT",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        224,
+        -32
+      ],
+      "id": "e31a4829-baf1-4c81-9d9f-5c9c8004e219",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Veo 3.1",
+        "height": 304,
+        "width": 464,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        -96
+      ],
+      "id": "45441148-2fd4-4e19-a482-fbb640515457",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/veo/generate",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={\n  \"prompt\": {{ JSON.stringify($('Webhook1').item.json.body.details) }},\n\n  \"model\": \"veo3_fast\",\n  \"aspectRatio\": \"9:16\",\n  \"enableTranslation\": false,\n\n  \"generationType\": \"FIRST_AND_LAST_FRAMES_2_VIDEO\",\n  \"imageUrls\": [\"{{ JSON.parse($('Get Image').item.json.data.resultJson).resultUrls[0] }}\"]\n\n}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -240,
+        96
+      ],
+      "id": "76d28874-6898-4f02-8417-7a9aaaad1b75",
+      "name": "Create Video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GY8EwBg1KMzSwh9X",
+          "name": "Kie AI Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/veo/record-info",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $('Create Video').item.json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -16,
+        96
+      ],
+      "id": "b35956ba-814c-4633-9055-e13628efb685",
+      "name": "Get Video",
+      "alwaysOutputData": false,
+      "retryOnFail": false,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GY8EwBg1KMzSwh9X",
+          "name": "Kie AI Credential"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -128,
+        96
+      ],
+      "id": "d640bc4d-1912-421c-b29b-cb86b4b92e1c",
+      "name": "Wait",
+      "webhookId": "ead9a9e0-66ea-472e-8a95-be752c0e57d2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data.successFlag }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "957f40c4-00b8-4caa-9bd7-065dcaf2cb49"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "52ad92ea-901f-4af8-a462-84b045dd2803",
+                    "leftValue": "={{ $json.data.successFlag }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "in progress"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        96,
+        80
+      ],
+      "id": "ed3dcef4-02fe-43d5-a160-f5ca72ef0df1",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error occured"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        288,
+        208
+      ],
+      "id": "7a0f334d-015b-45a0-99c1-b99ac50df61a",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data.state }}",
+                    "rightValue": "success",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "bf05a398-eb00-4e25-8de6-3ae7d10e69dd"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4686d0f8-4428-4d81-9c40-c9d56b69ab02",
+                    "leftValue": "={{ $json.data.state }}",
+                    "rightValue": "ing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "in progress"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -384,
+        80
+      ],
+      "id": "888b1759-a13f-4d18-9667-fb0606dbd954",
+      "name": "Switch1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Image4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Create Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image URLs1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image4": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Image URLs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Image": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Get Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Image": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Video": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Create Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fa7ad085-6771-4c27-99e8-98e496e3466d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "addaa68bf5af965c06c3765c811549851eb65db8df4677e0c6253726ffcac493"
+  },
+  "id": "WMBE76mOemMPyvW6",
+  "tags": []
+}

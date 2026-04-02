@@ -1,0 +1,23 @@
+{
+  "projectName": "r33-r33-the-ai-vertical-reframe-system",
+  "readAssetDataConfig": {
+    "enabled": true,
+    "provider": "googleSheets",
+    "apiKey": null
+  },
+  "fetchSourceMediaConfig": {
+    "enabled": true,
+    "provider": "googleDrive",
+    "apiKey": null
+  },
+  "aiVerticalReframeConfig": {
+    "enabled": true,
+    "provider": "falAi",
+    "apiKey": null
+  },
+  "saveOutputMediaConfig": {
+    "enabled": true,
+    "provider": "googleDrive",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glow — Skincare Routine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #d4b5a0;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; font-family: 'Inter', sans-serif;
+    }
+    .phone {
+      width: 375px; height: 812px; background: #fffaf7;
+      border-radius: 32px; overflow: hidden; position: relative;
+      box-shadow: 0 40px 100px rgba(100,60,30,0.4);
+      display: flex; flex-direction: column;
+    }
+
+    /* HEADER */
+    .header { padding: 48px 24px 0; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: #2d1f14; letter-spacing: 3px; text-transform: uppercase; }
+    .header-right { display: flex; gap: 14px; align-items: center; }
+    .header-right svg { width: 20px; height: 20px; color: #b8816a; }
+    .avatar-sm { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #e8a87c, #c97650); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: white; font-family: 'Inter', sans-serif; }
+
+    /* GREETING */
+    .greeting { padding: 24px 24px 0; }
+    .greeting-time { font-size: 11px; color: #b8816a; font-weight: 500; text-transform: uppercase; letter-spacing: 2px; }
+    .greeting-main { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; color: #2d1f14; line-height: 1.15; margin-top: 4px; }
+    .greeting-main em { font-style: italic; color: #c97650; }
+    .skin-note { font-size: 13px; color: #9a7b6a; margin-top: 6px; }
+
+    /* TOGGLE */
+    .toggle-wrap { margin: 18px 24px 0; background: #f0e6df; border-radius: 12px; padding: 4px; display: flex; }
+    .toggle-btn { flex: 1; padding: 8px; text-align: center; font-size: 13px; font-weight: 600; color: #9a7b6a; border-radius: 9px; cursor: pointer; }
+    .toggle-btn.active { background: #fff; color: #2d1f14; box-shadow: 0 2px 8px rgba(45,31,20,0.1); }
+
+    /* ROUTINE STEPS */
+    .routine-label { padding: 18px 24px 10px; font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: #2d1f14; }
+    .steps-scroll { display: flex; gap: 12px; padding: 0 24px; overflow-x: auto; scrollbar-width: none; }
+    .steps-scroll::-webkit-scrollbar { display: none; }
+    .step-card {
+      width: 88px; flex-shrink: 0; background: #fff;
+      border-radius: 16px; padding: 14px 10px; text-align: center;
+      box-shadow: 0 2px 12px rgba(45,31,20,0.07);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .step-card.active { background: #2d1f14; }
+    .step-icon-wrap { width: 40px; height: 40px; border-radius: 50%; background: #f5ebe4; display: flex; align-items: center; justify-content: center; }
+    .step-card.active .step-icon-wrap { background: rgba(255,255,255,0.1); }
+    .step-icon-wrap svg { width: 18px; height: 18px; color: #c97650; }
+    .step-card.active .step-icon-wrap svg { color: #e8a87c; }
+    .step-name { font-size: 11px; font-weight: 600; color: #6b4d3a; }
+    .step-card.active .step-name { color: rgba(255,255,255,0.9); }
+    .step-num { font-size: 9px; color: #b8816a; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+    .step-card.active .step-num { color: rgba(255,255,255,0.4); }
+
+    /* SKIN INSIGHT */
+    .insight-card {
+      margin: 16px 24px 0; background: linear-gradient(135deg, #2d1f14, #5a3420);
+      border-radius: 16px; padding: 16px 18px; display: flex; align-items: center; gap: 14px;
+    }
+    .insight-icon { width: 42px; height: 42px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .insight-icon svg { width: 20px; height: 20px; color: #e8a87c; }
+    .insight-text {}
+    .insight-title { font-size: 13px; font-weight: 600; color: #fff; }
+    .insight-sub { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+    .insight-score { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: #e8a87c; margin-left: auto; flex-shrink: 0; }
+
+    /* PRODUCTS */
+    .products-label { padding: 16px 24px 10px; display: flex; justify-content: space-between; align-items: center; }
+    .products-label span { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: #2d1f14; }
+    .products-label a { font-size: 12px; font-weight: 600; color: #c97650; }
+
+    .products-row { display: flex; gap: 12px; padding: 0 24px; }
+    .product-card { flex: 1; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(45,31,20,0.07); }
+    .product-img { height: 90px; overflow: hidden; }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; }
+    .product-info { padding: 10px 10px 12px; }
+    .product-brand { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: #b8816a; font-weight: 600; }
+    .product-name { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: #2d1f14; margin-top: 2px; }
+    .product-step { font-size: 10px; color: #c97650; font-weight: 600; margin-top: 4px; }
+
+    /* NAV */
+    .bottom-nav { margin-top: auto; background: #fff; display: flex; padding: 12px 0 20px; border-top: 1px solid #f0e6df; }
+    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .nav-item svg { width: 20px; height: 20px; color: #d4b5a0; }
+    .nav-item.active svg { color: #c97650; }
+    .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: #c97650; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="header">
+      <div class="logo">Glow</div>
+      <div class="header-right">
+        <i data-lucide="sun"></i>
+        <div class="avatar-sm">JE</div>
+      </div>
+    </div>
+
+    <div class="greeting">
+      <div class="greeting-time">Good morning</div>
+      <div class="greeting-main">Your skin is<br><em>looking radiant,</em> Alex.</div>
+      <div class="skin-note">Hydration up 12% from last week.</div>
+    </div>
+
+    <div class="toggle-wrap">
+      <div class="toggle-btn active">AM Routine</div>
+      <div class="toggle-btn">PM Routine</div>
+    </div>
+
+    <div class="routine-label">Your Steps</div>
+
+    <div class="steps-scroll">
+      <div class="step-card active">
+        <div class="step-icon-wrap"><i data-lucide="droplets"></i></div>
+        <div class="step-name">Cleanse</div>
+        <div class="step-num">Step 1</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon-wrap"><i data-lucide="flask-conical"></i></div>
+        <div class="step-name">Tone</div>
+        <div class="step-num">Step 2</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon-wrap"><i data-lucide="zap"></i></div>
+        <div class="step-name">Serum</div>
+        <div class="step-num">Step 3</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon-wrap"><i data-lucide="sun"></i></div>
+        <div class="step-name">SPF 50+</div>
+        <div class="step-num">Step 4</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-icon"><i data-lucide="trending-up"></i></div>
+      <div class="insight-text">
+        <div class="insight-title">Skin Score</div>
+        <div class="insight-sub">Improving steadily</div>
+      </div>
+      <div class="insight-score">86</div>
+    </div>
+
+    <div class="products-label">
+      <span>Today's Products</span>
+      <a>View All</a>
+    </div>
+
+    <div class="products-row">
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300&h=180&fit=crop" alt="Cleanser" />
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Cetaphil</div>
+          <div class="product-name">Gentle Cleanser</div>
+          <div class="product-step">Step 1 · Cleanse</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1571942676516-bcab84649e44?w=300&h=180&fit=crop" alt="Serum" />
+        </div>
+        <div class="product-info">
+          <div class="product-brand">The Ordinary</div>
+          <div class="product-name">Niacinamide 10%</div>
+          <div class="product-step">Step 3 · Serum</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=180&fit=crop" alt="SPF" />
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Altruist</div>
+          <div class="product-name">SPF 50 Shield</div>
+          <div class="product-step">Step 4 · Protect</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item active"><i data-lucide="home"></i><div class="nav-dot"></div></div>
+      <div class="nav-item"><i data-lucide="calendar"></i></div>
+      <div class="nav-item"><i data-lucide="package"></i></div>
+      <div class="nav-item"><i data-lucide="sparkles"></i></div>
+      <div class="nav-item"><i data-lucide="user"></i></div>
+    </div>
+  </div>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

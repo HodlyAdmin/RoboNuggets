@@ -1,0 +1,1097 @@
+{
+  "name": "R45 | Auto Music Creator (by RoboNuggets)",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Auto Music Creator",
+        "formDescription": "by RoboNuggets",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Theme",
+              "placeholder": "type a short theme title",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Describe the music",
+              "placeholder": "as detailed as you can",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "How many songs?",
+              "fieldType": "number",
+              "placeholder": "try with a few first",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Should the songs be instrumental?",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "true"
+                  },
+                  {
+                    "option": "false"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -160,
+        -400
+      ],
+      "id": "b90f99d4-30fd-4639-85d4-cfa57329faef",
+      "name": "On form submission",
+      "webhookId": "4ea928dc-5bff-422f-8b42-3385e38801b9"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{ $('Path for Img').item.json.upload.url }}",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "Upload_your_image__landscape_",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        16,
+        -208
+      ],
+      "id": "25c3c6c6-7a8c-4cc2-a1f3-b0045d75f2d6",
+      "name": "Upload Img"
+    },
+    {
+      "parameters": {
+        "amount": 15,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -64,
+        32
+      ],
+      "id": "27d18dbb-5085-4d71-a389-11db5efdee51",
+      "name": "Wait",
+      "webhookId": "a3bec6e2-b84d-43a7-8f89-7a1a340f6a73"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data.status }}",
+                    "rightValue": "SUCCESS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "bf05a398-eb00-4e25-8de6-3ae7d10e69dd"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4686d0f8-4428-4d81-9c40-c9d56b69ab02",
+                    "leftValue": "={{ $json.data.status }}",
+                    "rightValue": "=(ING|_SUCCESS)",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "in progress"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        272,
+        32
+      ],
+      "id": "e2465f36-6a9b-4338-903a-e3c969b98442",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.songs",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        32
+      ],
+      "id": "5b029335-01fc-442f-91e0-119bb0997c10",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Switch').item.json.data.response.sunoData[0].audioUrl }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -160,
+        256
+      ],
+      "id": "f21afdfc-f00c-42d4-b05b-b9da1530c6b2",
+      "name": "Get Song Data"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-api.com/directory",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        16,
+        -400
+      ],
+      "id": "42ec01dd-cc2e-49e9-9434-8cebe27fba2d",
+      "name": "Create Folder",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQC2GsfzU6zwkIpi",
+          "name": "FFMPEG-APICredential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.ffmpeg-api.com/file/{{ $('Path for Img').item.json.file.file_path }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        -208
+      ],
+      "id": "1a3cd7f2-8835-4dde-b213-0cd5c4fc5735",
+      "name": "Check Img",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQC2GsfzU6zwkIpi",
+          "name": "FFMPEG-APICredential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/generate",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"prompt\": {{ JSON.stringify($json.prompt) }},\n  \"style\": \"{{ $json.style }}\",\n  \"title\": \"{{ $json.title }}\",\n  \"customMode\": true,\n  \"instrumental\": {{ $('On form submission').item.json['Should the songs be instrumental?'] }},\n  \"model\": \"V5\",\n\n\n  \"callBackUrl\": \"https://api.example.com/callback\",\n\n\n\n  \"styleWeight\": 0.65,\n  \"weirdnessConstraint\": 0.65,\n  \"audioWeight\": 0.65\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -288,
+        32
+      ],
+      "id": "a276c865-4f91-4260-b4f1-af85be595724",
+      "name": "Create Songs",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GY8EwBg1KMzSwh9X",
+          "name": "Kie AI Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/generate/record-info",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $('Create Songs').item.json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        32
+      ],
+      "id": "c5559e09-a417-4138-963c-8506a88471f4",
+      "name": "Get Songs",
+      "alwaysOutputData": false,
+      "retryOnFail": false,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GY8EwBg1KMzSwh9X",
+          "name": "Kie AI Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1iPC3gr4KYdD-ABh9q4kNfrZyol1laNzTuzhKAhlje58",
+          "mode": "list",
+          "cachedResultName": "Suno",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iPC3gr4KYdD-ABh9q4kNfrZyol1laNzTuzhKAhlje58/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Songs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iPC3gr4KYdD-ABh9q4kNfrZyol1laNzTuzhKAhlje58/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "theme": "={{ $('On form submission').first().json.Theme }}",
+            "title": "={{ $json.data.response.sunoData[0].title }}",
+            "duration": "={{ $json.data.response.sunoData[0].duration }}",
+            "song_url": "={{ $json.data.response.sunoData[0].audioUrl }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "theme",
+              "displayName": "theme",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "duration",
+              "displayName": "duration",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "song_url",
+              "displayName": "song_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        16
+      ],
+      "id": "96ec0d7a-4ff3-4020-8339-eeba2c97fa41",
+      "name": "Log songs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "WmDBwEhcrLeG9D67",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "file_info"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        448
+      ],
+      "id": "9f4a8e23-5b5b-4971-9304-d2c24642d1df",
+      "name": "Aggregate",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get image from 'Check' node\nconst imagePath = $('Check Img').first().json.file_info.file_path;\n\n// Get all song paths from the current input\nconst songs = $input.first().json.file_info.map(f => f.file_path);\n\n// Build filter_complex dynamically based on song count\nconst concatInputs = songs.map((_, i) => `[${i + 1}:a]`).join('');\nconst filterComplex = `${concatInputs}concat=n=${songs.length}:v=0:a=1[aout];[0:v]loop=999:size=1:start=0,scale=1280:720,setpts=N/FRAME_RATE/TB[vout]`;\n\n// Construct the ffmpeg_job object\nreturn {\n  ffmpeg_job: {\n    task: {\n      inputs: [\n        { file_path: imagePath },\n        ...songs.map(file => ({ file_path: file }))\n      ],\n      filter_complex: filterComplex,\n      outputs: [\n        {\n          file: 'final-video.mp4',\n          options: ['-map', '[vout]', '-map', '[aout]', '-c:v', 'libx264', '-crf', '23', '-c:a', 'aac'],\n          maps: []\n        }\n      ]\n    }\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        448
+      ],
+      "id": "05b3399c-e05e-4066-9c19-f778ad04a9c4",
+      "name": "FFMPEG"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-api.com/ffmpeg/process",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.ffmpeg_job, null, 2) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        80,
+        448
+      ],
+      "id": "5c4e8794-6e13-4111-a5c1-15896d64e0f0",
+      "name": "Combine",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQC2GsfzU6zwkIpi",
+          "name": "FFMPEG-APICredential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# INPUT Section",
+        "height": 144,
+        "width": 448,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        -400
+      ],
+      "id": "8ecfedb0-4df6-4852-aaa6-212bbfd4eaf1",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Step 1: Load Image",
+        "height": 144,
+        "width": 448,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        -224
+      ],
+      "id": "6fe3cec1-b586-414a-82d7-6e3b6b3b62e0",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Step 3: Load Songs",
+        "height": 144,
+        "width": 448,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        256
+      ],
+      "id": "27095afb-23ef-4664-9edc-53f6c8d7a6c4",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# OUTPUT Section",
+        "height": 144,
+        "width": 384,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        432
+      ],
+      "id": "b2cc6254-d6b9-44f6-a758-3df61b3cd93a",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "={{ $json.theme }}",
+        "regionCode": "US",
+        "categoryId": "10",
+        "options": {
+          "privacyStatus": "unlisted",
+          "selfDeclaredMadeForKids": false
+        }
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        848,
+        416
+      ],
+      "id": "f50b2617-b4a2-4262-ae7c-dbbdd073d963",
+      "name": "YouTube",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "X4XXpUjalKOQAC1j",
+          "name": "YouTube account - testmain"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.final_video }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        736,
+        416
+      ],
+      "id": "6ebbd553-a7eb-4cea-962e-973eb77473f3",
+      "name": "Get Video File",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -720,
+        112
+      ],
+      "id": "e3a70319-9dd1-49b8-9c9d-c9d62bdefb10",
+      "name": "GPT",
+      "credentials": {
+        "openAiApi": {
+          "id": "zDZ32auFKuRIohXt",
+          "name": "OpenAi account 5"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"songs\": [\n    {\n      \"prompt\": \"string (≤ 5000 characters)\",\n      \"style\": \"string (≤ 1000 characters)\",\n      \"title\": \"string\"\n    }\n  ]\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -608,
+        112
+      ],
+      "id": "2dd85c4f-f8d6-40ec-8828-f1fe0cf34193",
+      "name": "Structure"
+    },
+    {
+      "parameters": {
+        "content": "# Auto Music Creator\n# (by RoboNuggets)\n## Author: Jay E | R45\n\n# Step 2: Create Music",
+        "height": 272,
+        "width": 704,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1152,
+        -48
+      ],
+      "id": "357c1360-7a11-42a4-90be-609ae87395a7",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Theme: {{ $('On form submission').item.json.Theme }}\n\nPrompt and style for music {{ $('On form submission').item.json['Describe the music'] }}\n\nNumber of songs: {{ $('On form submission').item.json['How many songs?'] }}\n\nShould the songs be instrumental? {{ $('On form submission').item.json['Should the songs be instrumental?'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=system_prompt: |\n  ## SYSTEM PROMPT: 🎶 Music Prompt Generator Agent\n\n  A – Ask:\n    Generate N music prompts based on user input. Each prompt should include a \"prompt\", \"style\", and \"title\". The number of prompts is provided in the user's instruction (e.g., \"number of songs 3\").\n\n  G – Guidance:\n    role:creative music producer\n    output_count: Variable (based on user input, default = 1)\n    character_limit:\n      prompt: 5000 characters\n      style: 1000 characters\n    constraints:\n      - Use the user's style keyword, but enrich or expand it meaningfully \n      - Keep the title short and creative (suggested: max 6 words)\n      - Ensure all fields are non-empty and sound music-industry appropriate\n\nIMPORTANT: If the user request says that songs should not be instrumental (instrumental = false), then the prompt value is also the lyrics of the song. So for this scenario, make sure that the prompt itself are great lyrics for the song you will generate. Do NOT include anything else in the prompt field apart from the lyrics themselves. Do NOT include words like Verse, Intro, Chorus, Bridge to indicate sections.\n\nIMPORTANT: If the user requests for a certain song length, make sure the lyrics roughly match that length if the songs are requested to have lyrics (As a benchmark, a 4 minute song has 400 to 600 words). If the songs are instrumental, just indicate it in the prompt to request for the duration indicated\n\n\n  E – Examples:\n    🟢 good_examples:\n      - {\n          \"prompt\": \"soft lofi beat with rain ambiance\",\n          \"style\": \"Lo-fi Chillhop\",\n          \"title\": \"Rainy Window\"\n        }\n      - {\n          \"prompt\": \"jazzy lofi tune with vinyl crackle\",\n          \"style\": \"Lo-fi Jazz\",\n          \"title\": \"Coffee & Crackle\"\n        }\n    🔴 bad_examples:\n      - {\n          \"desc\": \"lofi\",\n          \"genre\": \"lofi\",\n          \"name\": \"track1\"\n        }\n      - {\n          \"prompt\": \"\",\n          \"style\": \"Lofi\",\n          \"title\": \"Untitled\"\n        }\n\n  N – Notation:\n    format: JSON\n    example_output: |\n      {\n        \"songs\": [\n          {\n            \"prompt\": \"string (≤ 5000 characters)\",\n            \"style\": \"string (≤ 1000 characters)\",\n            \"title\": \"string\"\n          }\n        ]\n      }\n\n  T – Tools:\n    You have access to the following tools. Each one is described clearly:\n    - Think Tool: Use this to reflect on the mood, vibe, and context of the prompt before generating each entry.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -736,
+        -16
+      ],
+      "id": "e2f67e22-a1fe-4cf0-aed0-961965195fa3",
+      "name": "songRobo AI Agent"
+    },
+    {
+      "parameters": {
+        "content": "## Optional: Auto-Publish",
+        "height": 80,
+        "width": 336,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        688,
+        352
+      ],
+      "id": "fa887032-8012-468d-bf79-51b4225545b3",
+      "name": "Sticky Note5",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-api.com/file",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"file_name\": \"image\",\n    \"dir_id\": \"{{ $json.directory.id }}\"\n  }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -288,
+        -208
+      ],
+      "id": "ab6e402e-7a3a-4400-b0e4-8f234f6f2be3",
+      "name": "Path for Img",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQC2GsfzU6zwkIpi",
+          "name": "FFMPEG-APICredential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ffmpeg-api.com/file",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"file_name\": \"{{ $json.title }}_{{ $execution.id }}\",\n    \"dir_id\": \"{{ $('Create Folder').first().json.directory.id }}\"\n  }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -288,
+        256
+      ],
+      "id": "d6eacc16-36f7-4b7e-92ae-840efc892ba4",
+      "name": "Path for Songs",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQC2GsfzU6zwkIpi",
+          "name": "FFMPEG-APICredential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Upload your image (landscape)",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.3,
+      "position": [
+        -160,
+        -208
+      ],
+      "id": "7e2a50cc-078b-4bba-8601-3b9fc0cb2192",
+      "name": "Get Img Data",
+      "webhookId": "d41e75f1-65f4-4dbc-9ffc-1edc979f7274"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{ $json.upload.url }}",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        16,
+        256
+      ],
+      "id": "d646d21f-8c7e-4069-a84c-e2c82957c28e",
+      "name": "Upload Songs"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.ffmpeg-api.com/file/{{ $('Path for Songs').item.json.file.file_path }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        256
+      ],
+      "id": "3110aa09-8a42-418c-a50a-4091b077f343",
+      "name": "Check Songs",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "eQC2GsfzU6zwkIpi",
+          "name": "FFMPEG-APICredential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1iPC3gr4KYdD-ABh9q4kNfrZyol1laNzTuzhKAhlje58",
+          "mode": "list",
+          "cachedResultName": "Suno",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iPC3gr4KYdD-ABh9q4kNfrZyol1laNzTuzhKAhlje58/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1720348715,
+          "mode": "list",
+          "cachedResultName": "Videos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iPC3gr4KYdD-ABh9q4kNfrZyol1laNzTuzhKAhlje58/edit#gid=1720348715"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $now }}",
+            "final_video": "={{ $json.result[0].download_url }}",
+            "theme": "={{ $('On form submission').item.json.Theme }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "theme",
+              "displayName": "theme",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "final_video",
+              "displayName": "final_video",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        448
+      ],
+      "id": "23dc6c36-ce04-4ec7-8a0c-6b44de847105",
+      "name": "🟢 FINAL VIDEO",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "WmDBwEhcrLeG9D67",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Create Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Img": {
+      "main": [
+        [
+          {
+            "node": "Check Img",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Songs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Log songs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Create Songs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Song Data": {
+      "main": [
+        [
+          {
+            "node": "Upload Songs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Folder": {
+      "main": [
+        [
+          {
+            "node": "Path for Img",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Img": {
+      "main": [
+        [
+          {
+            "node": "songRobo AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Songs": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Songs": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log songs": {
+      "main": [
+        [
+          {
+            "node": "Path for Songs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "FFMPEG",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FFMPEG": {
+      "main": [
+        [
+          {
+            "node": "Combine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine": {
+      "main": [
+        [
+          {
+            "node": "🟢 FINAL VIDEO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video File": {
+      "main": [
+        [
+          {
+            "node": "YouTube",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "songRobo AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structure": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "songRobo AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "songRobo AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Path for Img": {
+      "main": [
+        [
+          {
+            "node": "Get Img Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Path for Songs": {
+      "main": [
+        [
+          {
+            "node": "Get Song Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Img Data": {
+      "main": [
+        [
+          {
+            "node": "Upload Img",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Songs": {
+      "main": [
+        [
+          {
+            "node": "Check Songs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Songs": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🟢 FINAL VIDEO": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "62fd0d67-dc37-4b26-8194-f28ca32794c9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "addaa68bf5af965c06c3765c811549851eb65db8df4677e0c6253726ffcac493"
+  },
+  "id": "aNhwNcL5wUi8Ezcr",
+  "tags": []
+}

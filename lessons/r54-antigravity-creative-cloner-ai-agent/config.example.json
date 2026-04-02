@@ -1,0 +1,18 @@
+{
+  "projectName": "r54-r54-antigravity-creative-cloner-ai-agent",
+  "promptIngestionConfig": {
+    "enabled": true,
+    "provider": "antigravityInput",
+    "apiKey": null
+  },
+  "storyboardGenerationConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "videoCreationConfig": {
+    "enabled": true,
+    "provider": "veoApi",
+    "apiKey": null
+  }
+}

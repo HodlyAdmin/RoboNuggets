@@ -1,0 +1,23 @@
+{
+  "projectName": "r50-r50-the-cinematic-adverts-agent-system",
+  "coreConceptConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "storyboardCreationConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "videoGenerationConfig": {
+    "enabled": true,
+    "provider": "veoApi",
+    "apiKey": null
+  },
+  "videoAssemblyConfig": {
+    "enabled": true,
+    "provider": "ffmpeg",
+    "apiKey": null
+  }
+}

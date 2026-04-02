@@ -1,0 +1,41 @@
+{
+  "nextIndex": 2,
+  "history": [
+    {
+      "at": "2026-03-26T16:47:34.161Z",
+      "outputDir": "/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T16-47-33",
+      "publisher": "local-queue",
+      "status": "prepared",
+      "selectedIndices": [
+        1
+      ]
+    },
+    {
+      "at": "2026-03-26T16:58:51.525Z",
+      "outputDir": "/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T16-58-50",
+      "publisher": "blotato",
+      "status": "blocked",
+      "selectedIndices": [
+        2
+      ]
+    },
+    {
+      "at": "2026-03-26T17:00:56.803Z",
+      "outputDir": "/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T17-00-55",
+      "publisher": "blotato",
+      "status": "blocked",
+      "selectedIndices": [
+        2
+      ]
+    }
+  ],
+  "lastRun": {
+    "at": "2026-03-26T17:00:56.803Z",
+    "outputDir": "/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T17-00-55",
+    "publisher": "blotato",
+    "status": "blocked",
+    "selectedIndices": [
+      2
+    ]
+  }
+}

@@ -1,0 +1,636 @@
+{
+  "lastIngested": "2026-04-02T02:03:28.912Z",
+  "totalFiles": 157,
+  "totalChunks": 1033,
+  "model": "Xenova/bge-small-en-v1.5",
+  "files": [
+    {
+      "file": "lessons/r1-automate-instagram/README.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r1-automate-instagram/assets/skool/setup-notes.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r1-automate-instagram/assets/skool/troubleshooting.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r1-automate-instagram/inputs/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T16-47-31/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T16-47-33/queue/001-1-replace-me-001/caption.txt",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T16-47-33/queue/001-1-replace-me-001/quote.txt",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T16-47-33/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T16-58-42/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T16-58-50/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T17-00-40/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r1-automate-instagram/output/navalism101-365_2026-03-26T17-00-55/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r16-the-zero-human-faceless-ai-toolkit/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r17-the-zerotouch-faceless-videos-ai-agent-v2-0/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r18-music-creator-ai-agent-toolkit-v2-0/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r19-voice-ai-agents-the-ai-gold-rush-guide/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r2-create-schedule-youtube-shorts/README.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r2-create-schedule-youtube-shorts/assets/skool/setup-notes.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r2-create-schedule-youtube-shorts/assets/skool/troubleshooting.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r2-create-schedule-youtube-shorts/inputs/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r2-create-schedule-youtube-shorts/inputs/sample-transcript.txt",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r2-create-schedule-youtube-shorts/output/quotes-yt-shorts-v1-0-local_2026-03-26T18-05-32/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r2-create-schedule-youtube-shorts/output/quotes-yt-shorts-v1-0-local_2026-04-01T14-41-51/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r20-reviews-ai-automate-reviews-for-businesses/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r21-conv-ai-the-easiest-way-to-make-chat-agents/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r22-build-samantha-from-her-as-your-ai-agent/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r23-youtube-curator-ai-agent/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r24-the-faceless-pov-ai-machine-n8n-no-code/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r25-the-ultimate-publishing-agent-9-in-1/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r26-the-rag-ai-agent-auto-builder-n8n-no-code/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r27-make-money-with-mcp-ai-s-next-frontier/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r28-the-longform-youtube-creator-ai-agent/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r29-the-monetizable-tiktoks-ai-machine/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r3-4-social-media-channels/README.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r3-4-social-media-channels/assets/skool/setup-notes.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r3-4-social-media-channels/assets/skool/troubleshooting.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r3-4-social-media-channels/inputs/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r3-4-social-media-channels/output/news-social-media-roboflow-v1-0-local_2026-03-26T18-16-34/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r3-4-social-media-channels/output/news-social-media-roboflow-v1-0-local_2026-03-26T18-30-35/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r3-4-social-media-channels/output/news-social-media-roboflow-v1-0-local_2026-04-01T14-41-56/report.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r30-the-baby-podcasts-ai-machine/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r31-the-ai-digital-art-factory/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r32-the-infinite-clips-ai-machine/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r33-the-ai-vertical-reframe-system/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r34-veorobo-the-veo3-factory-for-any-niche/README.md",
+      "chunks": 4
+    },
+    {
+      "file": "lessons/r35-the-a-g-e-n-t-framework-for-ai-agents/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r36-the-ad-creator-ai-agent/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r37-logorobo-logo-animator-ai-agent/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r38-infinite-ugc-adverts-ai-system/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r39-100-ads-in-1-minute-split-ai-system/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r40-the-hyperconsistent-ai-storymaker/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r41-ai-motion-graphics-with-seedream-4-0/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r42-the-sleep-story-ai-generator/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r43-sora2-on-autopilot/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r44-the-ai-influencer-toolkit/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r45-auto-music-creator/FIDELITY.md",
+      "chunks": 12
+    },
+    {
+      "file": "lessons/r45-auto-music-creator/README.md",
+      "chunks": 16
+    },
+    {
+      "file": "lessons/r45-auto-music-creator/assets/skool/setup-notes.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r45-auto-music-creator/ideas.example.txt",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/FIDELITY.md",
+      "chunks": 7
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/README.md",
+      "chunks": 8
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/assets/original/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/assets/skool/setup-notes.md",
+      "chunks": 4
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/assets/skool/troubleshooting.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/inputs/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/output/ai-automation_2026-03-26T15-35-37/report.md",
+      "chunks": 9
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/output/ai-automation_2026-03-26T15-35-52/report.md",
+      "chunks": 10
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/output/ai-automation_2026-03-26T15-36-20/report.md",
+      "chunks": 9
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/output/ai-workflow-hooks_2026-03-26T15-36-29/report.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r46-ultimate-extract-system/output/ai-workflow-hooks_2026-03-26T15-37-45/report.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r47-the-ai-motion-capture-system/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r48-vibecoding-masterclass/README.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r48-vibecoding-masterclass/assets/skool/prismalabs-prompt.md",
+      "chunks": 4
+    },
+    {
+      "file": "lessons/r48-vibecoding-masterclass/assets/skool/setup-notes.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r48-vibecoding-masterclass/output/r48-prismalabs_2026-03-26T16-11-30/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r48-vibecoding-masterclass/output/r48-prismalabs_2026-03-26T16-11-39/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r49-agentic-creative-systems/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r50-the-cinematic-adverts-agent-system/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r51-the-creative-cloner-ai-agent-system/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r52-longform-ai-explainers-system/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r53-vibecreate-videos/README.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r53-vibecreate-videos/assets/skool/sample-prompt.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r53-vibecreate-videos/assets/skool/setup-notes.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r53-vibecreate-videos/output/r53-vibecreate-videos_2026-03-26T16-11-30/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r53-vibecreate-videos/output/r53-vibecreate-videos_2026-03-26T16-11-39/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r53-vibecreate-videos/output/r53-vibecreate-videos_2026-03-26T16-11-39/workspace/reference/sample-prompt.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r53-vibecreate-videos/output/r53-vibecreate-videos_2026-03-26T16-11-39/workspace/reference/setup-notes.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r54-antigravity-creative-cloner-ai-agent/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r55-the-antigravity-clip-factory/README.md",
+      "chunks": 2
+    },
+    {
+      "file": "lessons/r56-creative-engine/README.md",
+      "chunks": 9
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/skool/setup-notes.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/unpacked/creative-engine-template/CLAUDE.md",
+      "chunks": 20
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/unpacked/creative-engine-template/README.md",
+      "chunks": 11
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/unpacked/creative-engine-template/references/docs/kie-ai-api.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/unpacked/creative-engine-template/references/docs/prompt-best-practices.md",
+      "chunks": 34
+    },
+    {
+      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-30/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/creative-engine-template/CLAUDE.md",
+      "chunks": 20
+    },
+    {
+      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/creative-engine-template/README.md",
+      "chunks": 11
+    },
+    {
+      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/creative-engine-template/references/docs/kie-ai-api.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/creative-engine-template/references/docs/prompt-best-practices.md",
+      "chunks": 34
+    },
+    {
+      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/reference/setup-notes.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r57-the-antigravity-x-blotato-marketing-agent/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/assets/original/figma-setup.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/assets/skool/setup-notes.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/assets/unpacked/CLAUDE.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/assets/unpacked/README.md",
+      "chunks": 10
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/assets/unpacked/references/figma-mcp-guide.md",
+      "chunks": 24
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/assets/unpacked/tools/figma-setup.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/output/r58-figma-mobile-app-builder_2026-03-26T16-11-30/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/output/r58-figma-mobile-app-builder_2026-03-26T16-11-39/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/output/r58-figma-mobile-app-builder_2026-03-26T16-11-39/workspace/figma-workspace/CLAUDE.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/output/r58-figma-mobile-app-builder_2026-03-26T16-11-39/workspace/figma-workspace/README.md",
+      "chunks": 10
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/output/r58-figma-mobile-app-builder_2026-03-26T16-11-39/workspace/figma-workspace/references/figma-mcp-guide.md",
+      "chunks": 24
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/output/r58-figma-mobile-app-builder_2026-03-26T16-11-39/workspace/figma-workspace/tools/figma-setup.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r58-figma-mobile-app-builder/output/r58-figma-mobile-app-builder_2026-03-26T16-11-39/workspace/reference/figma-setup.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/README.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/skool/setup-notes.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/.agent/skills/apify-scrape/SKILL.md",
+      "chunks": 14
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/.agent/skills/beautiful-websites/SKILL.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/.agent/skills/site-qualify/SKILL.md",
+      "chunks": 13
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/.agent/skills/site-redesign/SKILL.md",
+      "chunks": 16
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/.agent/skills/vercel-deploy/SKILL.md",
+      "chunks": 14
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/.agent/workflows/beautiful-websites.md",
+      "chunks": 11
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/CLAUDE.md",
+      "chunks": 9
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/README.md",
+      "chunks": 17
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/prompts/website_prompt_v1.md",
+      "chunks": 13
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/assets/unpacked/sites/build-log.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-30/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/report.md",
+      "chunks": 6
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/.agent/skills/apify-scrape/SKILL.md",
+      "chunks": 14
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/.agent/skills/beautiful-websites/SKILL.md",
+      "chunks": 3
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/.agent/skills/site-qualify/SKILL.md",
+      "chunks": 13
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/.agent/skills/site-redesign/SKILL.md",
+      "chunks": 16
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/.agent/skills/vercel-deploy/SKILL.md",
+      "chunks": 14
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/.agent/workflows/beautiful-websites.md",
+      "chunks": 11
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/CLAUDE.md",
+      "chunks": 9
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/README.md",
+      "chunks": 17
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/prompts/website_prompt_v1.md",
+      "chunks": 13
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/beautiful-websites-kit/sites/build-log.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r59-beautiful-websites-agent-kit/output/r59-beautiful-websites_2026-03-26T16-11-39/workspace/reference/setup-notes.md",
+      "chunks": 1
+    },
+    {
+      "file": "shared/skills/agent-chatrooms/SKILL.md",
+      "chunks": 22
+    },
+    {
+      "file": "shared/skills/prompt-contracts/SKILL.md",
+      "chunks": 16
+    },
+    {
+      "file": "shared/skills/reverse-prompting/SKILL.md",
+      "chunks": 14
+    },
+    {
+      "file": "shared/skills/self-modifying-rules/SKILL.md",
+      "chunks": 6
+    },
+    {
+      "file": "shared/skills/stochastic-consensus/SKILL.md",
+      "chunks": 19
+    },
+    {
+      "file": "shared/skills/subagent-verification-loops/SKILL.md",
+      "chunks": 21
+    },
+    {
+      "file": "shared/skills/video-to-action/SKILL.md",
+      "chunks": 20
+    },
+    {
+      "file": "knowledge/architecture-and-conventions.md",
+      "chunks": 15
+    },
+    {
+      "file": "knowledge/autonomous-browser-extraction-patterns.md",
+      "chunks": 4
+    },
+    {
+      "file": "knowledge/core-agent-philosophies.md",
+      "chunks": 2
+    },
+    {
+      "file": "knowledge/lesson-rebuild-playbook.md",
+      "chunks": 13
+    },
+    {
+      "file": "knowledge/session-handoff-mar26-2026.md",
+      "chunks": 11
+    },
+    {
+      "file": ".agent/skills/VectorMemory/SKILL.md",
+      "chunks": 16
+    },
+    {
+      "file": ".agent/workflows/start-session.md",
+      "chunks": 6
+    },
+    {
+      "file": "README.md",
+      "chunks": 9
+    }
+  ]
+}

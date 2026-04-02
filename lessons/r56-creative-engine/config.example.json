@@ -1,0 +1,24 @@
+{
+  "projectName": "r56-creative-engine",
+  "imageConfig": {
+    "enabled": true,
+    "provider": "gemini-cdp",
+    "prompt": "A highly cinematic, photorealistic 9:16 vertical shot of a futuristic cyberpunk cafe at night, neon lights reflecting on wet pavement, moody atmosphere"
+  },
+  "videoConfig": {
+    "enabled": true,
+    "provider": "flow-veo-cdp",
+    "model": "Veo 3.1 Fast",
+    "aspectRatio": "9:16",
+    "mediaType": "video",
+    "prompt": "Cinematic slow dolly push through the cyberpunk cafe scene, neon reflections shimmer on wet surfaces, ambient rain, hyper-realistic"
+  },
+  "audioConfig": {
+    "enabled": true,
+    "provider": "lyria-3-pro-cdp",
+    "prompt": "Cinematic synthwave ambient driver, 48kHz, heavy bass, building tension into an epic orchestral drop"
+  },
+  "airtableConfig": {
+    "enabled": false
+  }
+}

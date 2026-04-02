@@ -1,0 +1,23 @@
+{
+  "projectName": "r27-r27-make-money-with-mcp-ai-s-next-frontier",
+  "aiAgentRoutingConfig": {
+    "enabled": true,
+    "provider": "openRouter",
+    "apiKey": null
+  },
+  "leadScrapingConfig": {
+    "enabled": true,
+    "provider": "apifyMcp",
+    "apiKey": null
+  },
+  "dataFormattingConfig": {
+    "enabled": true,
+    "provider": "n8nNode",
+    "apiKey": null
+  },
+  "cloudStorageConfig": {
+    "enabled": true,
+    "provider": "googleDrive",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "projectName": "r29-r29-the-monetizable-tiktoks-ai-machine",
+  "promptGenConfig": {
+    "enabled": true,
+    "provider": "openAi",
+    "apiKey": null
+  },
+  "imageGenConfig": {
+    "enabled": true,
+    "provider": "falAi",
+    "apiKey": null
+  },
+  "videoGenConfig": {
+    "enabled": true,
+    "provider": "falAi",
+    "apiKey": null
+  },
+  "soundGenConfig": {
+    "enabled": true,
+    "provider": "falAi",
+    "apiKey": null
+  },
+  "videoComposeConfig": {
+    "enabled": true,
+    "provider": "ffmpegApi",
+    "apiKey": null
+  }
+}

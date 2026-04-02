@@ -1,0 +1,23 @@
+{
+  "projectName": "r32-r32-the-infinite-clips-ai-machine",
+  "getLongformConfig": {
+    "enabled": true,
+    "provider": "googleSheets",
+    "apiKey": null
+  },
+  "analyzeLongformConfig": {
+    "enabled": true,
+    "provider": "klapApi",
+    "apiKey": null
+  },
+  "produceShortsConfig": {
+    "enabled": true,
+    "provider": "klapApi",
+    "apiKey": null
+  },
+  "publishShortsConfig": {
+    "enabled": true,
+    "provider": "blotato",
+    "apiKey": null
+  }
+}

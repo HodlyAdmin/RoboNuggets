@@ -1,0 +1,23 @@
+{
+  "projectName": "r49-r49-agentic-creative-systems",
+  "brandAgnosticIngestionConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "systemGuidelineApplicationConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "storyboardSystemizationConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "videoGenerationConfig": {
+    "enabled": true,
+    "provider": "veoApi",
+    "apiKey": null
+  }
+}

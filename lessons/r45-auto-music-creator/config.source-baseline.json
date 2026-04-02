@@ -1,0 +1,26 @@
+{
+  "theme": "Lofi Chill Beats for Studying",
+  "musicStyle": "lofi hip hop, chill, ambient, jazz piano, soft drums",
+  "numSongs": 1,
+  "instrumental": true,
+  "songLengthHint": "around 2 minutes",
+  "conceptProvider": "local-intake",
+  "engine": "suno-api",
+  "sunoApiBaseUrl": "http://127.0.0.1:3000",
+  "sunoModel": "chirp-v3-5",
+  "songConceptsPath": "",
+  "ideaIntakePath": "./lessons/r45-auto-music-creator/ideas.source-baseline.json",
+  "ideaSeeds": [],
+  "skipTimestamps": true,
+  "cleanupOutput": true,
+  "outputRetention": {
+    "keepSuccessfulRuns": 2,
+    "keepConceptRuns": 2,
+    "keepFailedRuns": 1,
+    "keepIncompleteRuns": 1,
+    "pruneArchiveDays": 30
+  },
+  "sunoSongIds": [],
+  "coverImagePath": "./lessons/r45-auto-music-creator/assets/original/1761859830280q6p3oj3t.png",
+  "videoResolution": "1280:720"
+}

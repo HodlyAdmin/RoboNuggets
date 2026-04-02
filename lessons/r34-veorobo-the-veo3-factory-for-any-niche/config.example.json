@@ -1,0 +1,23 @@
+{
+  "projectName": "r34-r34-veorobo-the-veo3-factory-for-any-niche",
+  "promptGenConfig": {
+    "enabled": true,
+    "provider": "openRouter",
+    "apiKey": null
+  },
+  "clipGenConfig": {
+    "enabled": true,
+    "provider": "veo3Fast",
+    "apiKey": null
+  },
+  "combineVideoConfig": {
+    "enabled": true,
+    "provider": "ffmpeg",
+    "apiKey": null
+  },
+  "autoPublishConfig": {
+    "enabled": true,
+    "provider": "socialMediaApi",
+    "apiKey": null
+  }
+}

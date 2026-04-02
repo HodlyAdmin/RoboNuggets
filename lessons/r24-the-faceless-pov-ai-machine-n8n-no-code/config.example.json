@@ -1,0 +1,28 @@
+{
+  "projectName": "r24-r24-the-faceless-pov-ai-machine-n8n-no-code",
+  "contentGenerationConfig": {
+    "enabled": true,
+    "provider": "openAi",
+    "apiKey": null
+  },
+  "audioGenerationConfig": {
+    "enabled": true,
+    "provider": "elevenLabs",
+    "apiKey": null
+  },
+  "imageGenerationConfig": {
+    "enabled": true,
+    "provider": "piapi",
+    "apiKey": null
+  },
+  "videoAssemblyConfig": {
+    "enabled": true,
+    "provider": "creatomate",
+    "apiKey": null
+  },
+  "publishingConfig": {
+    "enabled": true,
+    "provider": "youtube",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "projectName": "r48-prismalabs",
+  "geminiConfig": {
+    "enabled": true,
+    "prompt": "You are assisting in generating website edits for Prismalabs."
+  },
+  "nanoBananaConfig": {
+    "enabled": true,
+    "apiKey": null,
+    "model": "nano-banana-v1"
+  },
+  "veoConfig": {
+    "enabled": true,
+    "apiKey": null,
+    "resolution": "1080p"
+  }
+}

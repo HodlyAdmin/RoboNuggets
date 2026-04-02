@@ -1,0 +1,23 @@
+{
+  "projectName": "r52-r52-longform-ai-explainers-system",
+  "dataIngestionConfig": {
+    "enabled": true,
+    "provider": "apifyScraper",
+    "apiKey": null
+  },
+  "frameworkStructuringConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "longformDraftingConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "voiceoverGenerationConfig": {
+    "enabled": true,
+    "provider": "elevenLabsTts",
+    "apiKey": null
+  }
+}

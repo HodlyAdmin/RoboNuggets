@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brew — Caramel Latte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@600&family=Raleway:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #1a0f0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Raleway', sans-serif;
+    }
+
+    .phone {
+      width: 375px;
+      height: 812px;
+      background: #fff;
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    }
+
+    /* ── HERO PHOTO ── */
+    .hero {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 320px;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.38) 0%, transparent 48%, rgba(10,4,2,0.15) 100%);
+    }
+
+    /* ── PHOTO NAV ── */
+    .photo-nav {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: 40px 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .icon-btn svg {
+      width: 17px;
+      height: 17px;
+      color: #fff;
+      stroke-width: 2;
+    }
+
+    /* ── RECIPE CARD ── */
+    .recipe-card {
+      position: absolute;
+      top: 286px;
+      left: 0; right: 0; bottom: 0;
+      background: #fff;
+      border-radius: 28px 28px 0 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .card-handle {
+      width: 40px;
+      height: 4px;
+      background: #e8e3de;
+      border-radius: 2px;
+      margin: 14px auto 0;
+      flex-shrink: 0;
+    }
+
+    /* ── RECIPE HEADER ── */
+    .recipe-header {
+      padding: 12px 24px 0;
+      flex-shrink: 0;
+    }
+
+    .recipe-category {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      color: #C07A45;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .recipe-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 46px;
+      color: #1e2742;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .stars svg {
+      width: 13px;
+      height: 13px;
+      fill: #C07A45;
+      color: #C07A45;
+      stroke-width: 0;
+    }
+
+    .rating-score {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #1e2742;
+    }
+
+    .rating-count {
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px;
+      color: #9a9898;
+    }
+
+    /* ── STATS ── */
+    .stats-row {
+      display: flex;
+      gap: 8px;
+      padding: 14px 24px 0;
+      flex-shrink: 0;
+    }
+
+    .stat-pill {
+      flex: 1;
+      background: #FEF3E2;
+      border-radius: 14px;
+      padding: 10px 4px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .stat-pill svg {
+      width: 17px;
+      height: 17px;
+      color: #C07A45;
+      stroke-width: 1.5;
+    }
+
+    .stat-value {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      color: #1e2742;
+    }
+
+    .stat-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      color: #9a9898;
+    }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #f0ece8;
+      margin: 14px 24px 0;
+      flex-shrink: 0;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 9px 0;
+      text-align: center;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #b0aba6;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      color: #C07A45;
+      border-bottom: 2px solid #C07A45;
+      margin-bottom: -1px;
+    }
+
+    /* ── INGREDIENTS ── */
+    .ingredients {
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: none;
+      padding: 6px 24px 90px;
+    }
+
+    .ingredients::-webkit-scrollbar { display: none; }
+
+    .ingredient-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f7f3f0;
+    }
+
+    .ingredient-row:last-child { border-bottom: none; }
+
+    .ingredient-icon-wrap {
+      width: 38px;
+      height: 38px;
+      background: #FEF3E2;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ingredient-icon-wrap svg {
+      width: 17px;
+      height: 17px;
+      color: #C07A45;
+      stroke-width: 1.5;
+    }
+
+    .ingredient-info { flex: 1; }
+
+    .ingredient-name {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #1e2742;
+    }
+
+    .ingredient-detail {
+      font-family: 'Raleway', sans-serif;
+      font-size: 12px;
+      color: #9a9898;
+      margin-top: 1px;
+    }
+
+    .ingredient-amount {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: #C07A45;
+      flex-shrink: 0;
+    }
+
+    /* ── CTA BUTTON ── */
+    .start-btn {
+      position: absolute;
+      bottom: 22px;
+      left: 24px;
+      right: 24px;
+      height: 54px;
+      background: linear-gradient(90deg, #7B3F1E 0%, #C07A45 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(192,122,69,0.38);
+    }
+
+    .start-btn span {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+
+    .start-btn svg {
+      width: 18px;
+      height: 18px;
+      color: #fff;
+      stroke-width: 2;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+
+    <!-- HERO PHOTO -->
+    <div class="hero">
+      <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=750&q=90" alt="Caramel Latte" />
+      <div class="hero-overlay"></div>
+    </div>
+
+    <!-- PHOTO NAV -->
+    <div class="photo-nav">
+      <a class="icon-btn" href="index.html">
+        <i data-lucide="arrow-left"></i>
+      </a>
+      <a class="icon-btn" href="#">
+        <i data-lucide="bookmark"></i>
+      </a>
+    </div>
+
+    <!-- RECIPE CARD -->
+    <div class="recipe-card">
+      <div class="card-handle"></div>
+
+      <div class="recipe-header">
+        <div class="recipe-category">Espresso · Milk Based</div>
+        <div class="recipe-title">Caramel Latte</div>
+        <div class="rating-row">
+          <div class="stars">
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+            <i data-lucide="star"></i>
+          </div>
+          <span class="rating-score">4.8</span>
+          <span class="rating-count">(412 reviews)</span>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-pill">
+          <i data-lucide="clock"></i>
+          <span class="stat-value">12 min</span>
+          <span class="stat-label">Time</span>
+        </div>
+        <div class="stat-pill">
+          <i data-lucide="flame"></i>
+          <span class="stat-value">Medium</span>
+          <span class="stat-label">Difficulty</span>
+        </div>
+        <div class="stat-pill">
+          <i data-lucide="coffee"></i>
+          <span class="stat-value">1 cup</span>
+          <span class="stat-label">Yield</span>
+        </div>
+        <div class="stat-pill">
+          <i data-lucide="thermometer"></i>
+          <span class="stat-value">93°C</span>
+          <span class="stat-label">Temp</span>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <div class="tab active">Ingredients</div>
+        <div class="tab">Steps</div>
+        <div class="tab">Notes</div>
+      </div>
+
+      <!-- INGREDIENTS -->
+      <div class="ingredients">
+
+        <div class="ingredient-row">
+          <div class="ingredient-icon-wrap"><i data-lucide="coffee"></i></div>
+          <div class="ingredient-info">
+            <div class="ingredient-name">Espresso</div>
+            <div class="ingredient-detail">Finely ground, dark roast</div>
+          </div>
+          <div class="ingredient-amount">2 shots</div>
+        </div>
+
+        <div class="ingredient-row">
+          <div class="ingredient-icon-wrap"><i data-lucide="droplets"></i></div>
+          <div class="ingredient-info">
+            <div class="ingredient-name">Whole Milk</div>
+            <div class="ingredient-detail">Steamed to 65°C</div>
+          </div>
+          <div class="ingredient-amount">150 ml</div>
+        </div>
+
+        <div class="ingredient-row">
+          <div class="ingredient-icon-wrap"><i data-lucide="droplet"></i></div>
+          <div class="ingredient-info">
+            <div class="ingredient-name">Caramel Sauce</div>
+            <div class="ingredient-detail">Salted preferred</div>
+          </div>
+          <div class="ingredient-amount">2 tbsp</div>
+        </div>
+
+        <div class="ingredient-row">
+          <div class="ingredient-icon-wrap"><i data-lucide="flask-conical"></i></div>
+          <div class="ingredient-info">
+            <div class="ingredient-name">Vanilla Syrup</div>
+            <div class="ingredient-detail">Or ½ tsp vanilla extract</div>
+          </div>
+          <div class="ingredient-amount">1 tsp</div>
+        </div>
+
+        <div class="ingredient-row">
+          <div class="ingredient-icon-wrap"><i data-lucide="snowflake"></i></div>
+          <div class="ingredient-info">
+            <div class="ingredient-name">Ice Cubes</div>
+            <div class="ingredient-detail">Optional — for iced version</div>
+          </div>
+          <div class="ingredient-amount">handful</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA BUTTON -->
+    <div class="start-btn">
+      <i data-lucide="play-circle"></i>
+      <span>Start Brewing</span>
+    </div>
+
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

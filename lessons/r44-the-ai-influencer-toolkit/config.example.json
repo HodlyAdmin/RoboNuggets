@@ -1,0 +1,28 @@
+{
+  "projectName": "r44-r44-the-ai-influencer-toolkit",
+  "scriptGenConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "imageGenConfig": {
+    "enabled": true,
+    "provider": "midjourneyApi",
+    "apiKey": null
+  },
+  "voiceGenConfig": {
+    "enabled": true,
+    "provider": "elevenLabsApi",
+    "apiKey": null
+  },
+  "videoGenConfig": {
+    "enabled": true,
+    "provider": "heyGenApi",
+    "apiKey": null
+  },
+  "publishSocialConfig": {
+    "enabled": true,
+    "provider": "n8nWebhook",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "projectName": "r19-r19-voice-ai-agents-the-ai-gold-rush-guide",
+  "businessDataIngestionConfig": {
+    "enabled": true,
+    "provider": "apifyScraper",
+    "apiKey": null
+  },
+  "agentPromptGenerationConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "voiceDeploymentConfig": {
+    "enabled": true,
+    "provider": "blandAi",
+    "apiKey": null
+  },
+  "crmSyncConfig": {
+    "enabled": true,
+    "provider": "goHighLevel",
+    "apiKey": null
+  }
+}

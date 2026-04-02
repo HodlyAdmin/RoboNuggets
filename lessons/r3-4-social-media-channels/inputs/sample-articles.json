@@ -1,0 +1,18 @@
+[
+  {
+    "index": 1,
+    "news link": "https://example.com/ai-operators-are-changing-how-small-teams-work",
+    "my notes": "Keep the tone practical, founder-friendly, and lightly optimistic. Emphasize leverage without sounding hypey.",
+    "article title": "AI Operators Are Changing How Small Teams Work",
+    "article text": "Small teams are beginning to use AI operators to handle repetitive coordination work that used to slow everything down. Instead of replacing strategy, these systems are taking on task routing, first-draft generation, status tracking, and cross-tool handoffs. Leaders interviewed in the article said the biggest gain was not speed alone, but consistency. Work stopped getting dropped between tools. Teams also found that documentation improved because the agent needed cleaner instructions and better source material. The article argues that the real edge is not having the fanciest model, but building repeatable systems around a clear operating process.",
+    "status": "Not Posted"
+  },
+  {
+    "index": 2,
+    "news link": "https://example.com/ai-content-systems-need-better-editorial-ops",
+    "my notes": "Lean a little more editorial and cautionary. Make it useful for people building content systems.",
+    "article title": "AI Content Systems Still Need Editorial Operations",
+    "article text": "A growing number of companies can generate more content than ever, but many still struggle to maintain clarity and quality. The article explains that the bottleneck has moved from production to editorial judgment. Teams need stronger review loops, clearer voice rules, and better asset libraries. Without that infrastructure, output increases while trust declines. The piece concludes that AI makes publishing easier, but it also raises the bar for consistency and editorial discipline.",
+    "status": "Posted"
+  }
+]

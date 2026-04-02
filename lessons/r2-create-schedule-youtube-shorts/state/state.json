@@ -1,0 +1,32 @@
+{
+  "nextIndex": 3,
+  "history": [
+    {
+      "at": "2026-03-26T18:05:36.954Z",
+      "outputDir": "/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r2-create-schedule-youtube-shorts/output/quotes-yt-shorts-v1-0-local_2026-03-26T18-05-32",
+      "publisher": "local-queue",
+      "status": "queued",
+      "selectedIndices": [
+        1
+      ]
+    },
+    {
+      "at": "2026-04-01T14:41:56.238Z",
+      "outputDir": "/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r2-create-schedule-youtube-shorts/output/quotes-yt-shorts-v1-0-local_2026-04-01T14-41-51",
+      "publisher": "local-queue",
+      "status": "queued",
+      "selectedIndices": [
+        2
+      ]
+    }
+  ],
+  "lastRun": {
+    "at": "2026-04-01T14:41:56.238Z",
+    "outputDir": "/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r2-create-schedule-youtube-shorts/output/quotes-yt-shorts-v1-0-local_2026-04-01T14-41-51",
+    "publisher": "local-queue",
+    "status": "queued",
+    "selectedIndices": [
+      2
+    ]
+  }
+}

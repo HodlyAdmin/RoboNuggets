@@ -1,0 +1,23 @@
+{
+  "projectName": "r38-r38-infinite-ugc-adverts-ai-system",
+  "inputSectionConfig": {
+    "enabled": true,
+    "provider": "n8n",
+    "apiKey": null
+  },
+  "ugcRoboAgentConfig": {
+    "enabled": true,
+    "provider": "gptImage1",
+    "apiKey": null
+  },
+  "videoGenerationConfig": {
+    "enabled": true,
+    "provider": "veo3",
+    "apiKey": null
+  },
+  "outputSectionConfig": {
+    "enabled": true,
+    "provider": "n8n",
+    "apiKey": null
+  }
+}

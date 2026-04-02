@@ -1,0 +1,23 @@
+{
+  "projectName": "r51-r51-the-creative-cloner-ai-agent-system",
+  "sourceScraperConfig": {
+    "enabled": true,
+    "provider": "apifyScraper",
+    "apiKey": null
+  },
+  "conceptAnalyzerConfig": {
+    "enabled": true,
+    "provider": "geminiVisionApi",
+    "apiKey": null
+  },
+  "scriptAdapterConfig": {
+    "enabled": true,
+    "provider": "geminiTextApi",
+    "apiKey": null
+  },
+  "videoRendererConfig": {
+    "enabled": true,
+    "provider": "veoApi",
+    "apiKey": null
+  }
+}

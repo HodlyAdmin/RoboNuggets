@@ -1,0 +1,18 @@
+{
+  "projectName": "r41-r41-ai-motion-graphics-with-seedream-4-0",
+  "storyboardCreationConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "motionGraphicsGenConfig": {
+    "enabled": true,
+    "provider": "seedreamApi",
+    "apiKey": null
+  },
+  "workflowOrchestrationConfig": {
+    "enabled": true,
+    "provider": "n8n",
+    "apiKey": null
+  }
+}

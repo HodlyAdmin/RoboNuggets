@@ -1,0 +1,23 @@
+{
+  "projectName": "r40-r40-the-hyperconsistent-ai-storymaker",
+  "audioGenConfig": {
+    "enabled": true,
+    "provider": "elevenlabs",
+    "apiKey": null
+  },
+  "imageGenConfig": {
+    "enabled": true,
+    "provider": "nanobanana",
+    "apiKey": null
+  },
+  "videoGenConfig": {
+    "enabled": true,
+    "provider": "seedance",
+    "apiKey": null
+  },
+  "combineMediaConfig": {
+    "enabled": true,
+    "provider": "ffmpeg",
+    "apiKey": null
+  }
+}

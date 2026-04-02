@@ -1,0 +1,23 @@
+{
+  "projectName": "r16-r16-the-zero-human-faceless-ai-toolkit",
+  "ideaGenerationConfig": {
+    "enabled": true,
+    "provider": "chatgpt",
+    "apiKey": null
+  },
+  "videoGenerationConfig": {
+    "enabled": true,
+    "provider": "klingAi",
+    "apiKey": null
+  },
+  "videoRenderingConfig": {
+    "enabled": true,
+    "provider": "json2video",
+    "apiKey": null
+  },
+  "socialPublishingConfig": {
+    "enabled": true,
+    "provider": "ayrshare",
+    "apiKey": null
+  }
+}

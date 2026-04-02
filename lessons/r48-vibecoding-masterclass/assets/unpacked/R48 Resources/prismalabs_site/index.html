@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prisma Labs</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #050505;
+            
+            /* Metallic / Silver Theme */
+            --silver-accent: #e0e0e0;
+            --silver-dim: #888888;
+            --silver-glass: rgba(230, 230, 240, 0.1);
+            
+            /* Industrial Orange Accent */
+            --accent-orange: #ff5500; 
+            --accent-orange-glow: rgba(255, 85, 0, 0.4);
+
+            --text-color: #ffffff;
+            
+            /* Premium Glass Vars */
+            --glass-bg: rgba(20, 20, 25, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --scan-color: rgba(255, 255, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Hide default cursor */
+        }
+
+        body {
+            background-color: var(--primary-dark);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        /* --- CUSTOM CURSOR STYLES --- */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s;
+        }
+
+        /* Hover state for the cursor (triggered by JS) */
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            border-color: var(--accent-orange);
+            background-color: rgba(255, 85, 0, 0.05);
+        }
+        
+        body.hovering .cursor-dot {
+            background-color: var(--accent-orange);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .background-text-layer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            z-index: 1;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            line-height: 0.85;
+        }
+
+        .giant-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: clamp(5rem, 18vw, 22rem);
+            text-transform: uppercase;
+            color: #fff;
+            white-space: nowrap;
+            position: relative;
+            letter-spacing: -0.04em;
+        }
+
+        .glass-text {
+            color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .sub-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+            letter-spacing: 0.8rem;
+            color: var(--silver-dim);
+            margin: 2rem 0;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+        
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, var(--primary-dark) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* --- CONTENT SECTION --- */
+        .content-section {
+            position: relative;
+            z-index: 10;
+            background: rgba(5, 5, 5, 0.7); 
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 -50px 100px var(--primary-dark);
+            backdrop-filter: blur(5px);
+        }
+
+        .content-container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 4rem;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+
+        /* --- METALLIC SILVER CARDS --- */
+        .upload-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .upload-card {
+            position: relative;
+            width: 320px;
+            height: 440px;
+            /* Metallic Gradient Background */
+            background: linear-gradient(145deg, rgba(40, 40, 45, 0.6), rgba(10, 10, 12, 0.8));
+            border-radius: 24px; /* Increased roundness */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* Remove cursor pointer here, handled by body style but good to keep logic in mind */
+            /* cursor: pointer; */
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 20px 50px rgba(0,0,0,0.8),
+                inset 0 0 0 1px rgba(255,255,255,0.05); /* Inner rim */
+        }
+
+        /* The "Preview" Image Layer */
+        .card-preview-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: none; /* Hidden by default */
+        }
+
+        .card-preview-layer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            /* Blend mode for that "inside the glass" look */
+            mix-blend-mode: overlay; 
+            filter: grayscale(20%) contrast(120%);
+        }
+        
+        /* Gradient overlay on top of image to keep text readable if we wanted text, 
+           but here we just want the cool metallic sheen over the image */
+        .card-preview-layer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+        }
+
+        /* Silver Scanner Light */
+        .upload-card::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg at 50% 50%, 
+                transparent 0deg, 
+                transparent 280deg, 
+                var(--scan-color) 360deg
+            );
+            animation: rotate 4s linear infinite;
+            top: -50%;
+            left: -50%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .upload-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Content Layer (Icon + Text) */
+        .card-content-layer {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            padding: 2rem;
+            transition: opacity 0.3s;
+        }
+        
+        /* When filled, hide the default icon/text so image shows clearly */
+        .upload-card.filled .card-content-layer .default-content {
+            display: none;
+        }
+        
+        .upload-card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: 23px; /* slightly less than parent */
+            background: linear-gradient(to bottom right, rgba(255,255,255,0.05), transparent);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .upload-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 20px rgba(255,255,255,0.1);
+        }
+        
+        /* Filled State - Orange Accent */
+        .upload-card.filled {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 30px var(--accent-orange-glow);
+        }
+        
+        .upload-card.filled::before {
+            /* Scanner turns orange when filled */
+            background: conic-gradient(
+                from 0deg at 50% 50%, 
+                transparent 0deg, 
+                transparent 280deg, 
+                var(--accent-orange) 360deg
+            );
+            opacity: 1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .upload-card input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            /* cursor: pointer; - Handled by custom cursor logic */
+            z-index: 10;
+        }
+
+        /* --- SILVER SVG ICONS --- */
+        .card-icon-svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1.5rem;
+            fill: none;
+            stroke: var(--silver-dim);
+            stroke-width: 1.2;
+            stroke-linecap: square;
+            stroke-linejoin: round;
+            transition: all 0.4s ease;
+        }
+        
+        .upload-card:hover .card-icon-svg {
+            stroke: #fff;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+            transform: scale(1.1);
+        }
+
+        .card-text {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--silver-dim);
+            pointer-events: none;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .upload-card:hover .card-text {
+            color: #fff;
+        }
+
+        .card-subtext {
+            font-size: 0.7rem;
+            color: var(--silver-dim);
+            opacity: 0.7;
+            letter-spacing: 1px;
+        }
+
+        .plus-sign {
+            font-size: 3rem;
+            color: #444;
+            font-weight: 300;
+            margin: 0 1rem;
+        }
+
+        /* Form Inputs */
+        .form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 1.5rem;
+            background: rgba(30, 30, 35, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 20px var(--accent-orange-glow);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Submit Button with Orange Highlight */
+        .submit-btn {
+            background: linear-gradient(135deg, #e0e0e0 0%, #999999 100%);
+            border: none;
+            padding: 1.2rem;
+            border-radius: 8px;
+            color: #000;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            /* Subtle bottom orange border for style */
+            border-bottom: 4px solid var(--accent-orange); 
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px var(--accent-orange-glow);
+            /* Add orange tint on hover */
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(1px);
+            border-bottom-width: 2px;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle silver border */
+            color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            animation: fadeIn 0.5s ease-out;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            /* Removed orange box-shadow for minimalist look */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            animation: bounce 2s infinite;
+            z-index: 6;
+            color: white;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
+        }
+
+        @media (max-width: 768px) {
+            .upload-wrapper { flex-direction: column; }
+            .plus-sign { transform: rotate(90deg); margin: 1rem 0; }
+            .upload-card { width: 100%; max-width: 300px; height: 280px; }
+            .giant-text { font-size: 15vw; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="vignette"></div>
+    <div id="canvas-container"></div>
+
+    <section class="hero-section">
+        <div class="background-text-layer">
+            <div class="giant-text">PRISMA</div>
+            <div class="giant-text glass-text" style="margin-top: -2vw;">LABS</div>
+            <div class="sub-text">Digital Alchemy for Brands</div>
+        </div>
+        <div class="scroll-indicator">Explore the Void</div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-container">
+            <h2>See what we can do...</h2>
+            
+            <div id="main-form">
+                <form id="demo-form" onsubmit="handleSubmit(event)">
+                    <div class="upload-wrapper">
+                        
+                        <!-- Card 1: Character -->
+                        <div class="upload-card" id="card-char">
+                            <input type="file" id="file-char" name="character_image" accept="image/*" required onchange="handleFileSelect(this, 'card-char', 'preview-char', 'img-preview-char')">
+                            
+                            <!-- Preview Layer -->
+                            <div class="card-preview-layer" id="layer-char">
+                                <img id="img-preview-char" src="" alt="">
+                            </div>
+
+                            <!-- Content Layer -->
+                            <div class="card-content-layer">
+                                <div class="default-content" style="display: flex; flex-direction: column; align-items: center;">
+                                    <svg class="card-icon-svg" viewBox="0 0 24 24">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        <line x1="5" y1="3" x2="19" y2="3" stroke-opacity="0.5"></line>
+                                    </svg>
+                                    <div class="card-text">Source Identity</div>
+                                    <div class="card-subtext">Click to Upload</div>
+                                </div>
+                                <!-- Filename placeholder if we want to show it over image -->
+                                <div class="card-preview-text" id="preview-char" style="display:none"></div>
+                            </div>
+                        </div>
+
+                        <div class="plus-sign">+</div>
+
+                        <!-- Card 2: Product -->
+                        <div class="upload-card" id="card-prod">
+                            <input type="file" id="file-prod" name="product_image" accept="image/*" required onchange="handleFileSelect(this, 'card-prod', 'preview-prod', 'img-preview-prod')">
+                            
+                            <!-- Preview Layer -->
+                            <div class="card-preview-layer" id="layer-prod">
+                                <img id="img-preview-prod" src="" alt="">
+                            </div>
+
+                            <div class="card-content-layer">
+                                <div class="default-content" style="display: flex; flex-direction: column; align-items: center;">
+                                    <svg class="card-icon-svg" viewBox="0 0 24 24">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                    </svg>
+                                    <div class="card-text">Target Product</div>
+                                    <div class="card-subtext">Click to Upload</div>
+                                </div>
+                                <div class="card-preview-text" id="preview-prod" style="display:none"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <textarea name="details" placeholder="Give us a request" required></textarea>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" name="email" placeholder="Your email here" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Execute</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="success-msg" class="success-message">
+                <h3 style="margin-bottom: 1rem; font-weight: 400;">Request Received</h3>
+                <p style="color: #ccc; font-size: 1rem;">Your AI ad preview is on its way...</p>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with lag
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Handle hover states for interactive elements
+        const interactables = document.querySelectorAll('a, button, input, textarea, .upload-card');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+
+        // --- Three.js Setup ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, 0.003);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 6;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // --- Lighting ---
+        const ambientLight = new THREE.AmbientLight(0x333333, 3); 
+        scene.add(ambientLight);
+        const spotLight = new THREE.SpotLight(0xffffff, 10);
+        spotLight.position.set(10, 10, 10);
+        spotLight.angle = Math.PI / 6;
+        spotLight.penumbra = 1;
+        scene.add(spotLight);
+        const blueLight = new THREE.PointLight(0xaaccff, 5, 50);
+        blueLight.position.set(-5, -2, 5);
+        scene.add(blueLight);
+
+        // --- The "Penrose" Triangle Construct ---
+        const triangleGroup = new THREE.Group();
+        const barMat = new THREE.MeshPhysicalMaterial({
+            color: 0x111111,
+            metalness: 0.9,
+            roughness: 0.2,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.1,
+            emissive: 0x111111,
+            emissiveIntensity: 0.1
+        });
+        const trueTriangleGeo = new THREE.TorusGeometry(1.8, 0.3, 16, 3); 
+        const trueTriangle = new THREE.Mesh(trueTriangleGeo, barMat);
+        trueTriangle.rotation.z = Math.PI;
+        scene.add(trueTriangle);
+        const wireGeo = new THREE.WireframeGeometry(trueTriangleGeo);
+        const wireMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 });
+        const wireframe = new THREE.LineSegments(wireGeo, wireMat);
+        trueTriangle.add(wireframe);
+
+        // --- Particles (White/Silver Swarm) ---
+        const particlesCount = 5000; // Increased density for "pooling" effect
+        const posArray = new Float32Array(particlesCount * 3);
+        const velArray = new Float32Array(particlesCount * 3);
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 30; // Wider spread
+            velArray[i] = 0;
+        }
+        const particlesGeometry = new THREE.BufferGeometry();
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        particlesGeometry.setAttribute('velocity', new THREE.BufferAttribute(velArray, 3));
+        
+        // Particles are now white/grey
+        const pMaterial = new THREE.PointsMaterial({
+            size: 0.06, // Bigger particles (was 0.03)
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.7, // More opaque for visibility
+            blending: THREE.AdditiveBlending
+        });
+        const particleSystem = new THREE.Points(particlesGeometry, pMaterial);
+        scene.add(particleSystem);
+
+        // --- Interaction ---
+        let mouse = new THREE.Vector2(); 
+        const raycaster = new THREE.Raycaster();
+        const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+        let mouseWorldPos = new THREE.Vector3();
+
+        document.addEventListener('mousemove', (event) => {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            raycaster.ray.intersectPlane(plane, mouseWorldPos);
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const dt = clock.getDelta();
+            const time = clock.getElapsedTime();
+
+            trueTriangle.rotation.x += 0.005 + mouse.y * 0.05;
+            trueTriangle.rotation.y += 0.01 + mouse.x * 0.05;
+
+            const positions = particleSystem.geometry.attributes.position.array;
+            const velocities = particleSystem.geometry.attributes.velocity.array;
+
+            for(let i = 0; i < particlesCount; i++) {
+                const i3 = i * 3;
+                let px = positions[i3], py = positions[i3+1], pz = positions[i3+2];
+                let dx = mouseWorldPos.x - px, dy = mouseWorldPos.y - py, dz = mouseWorldPos.z - pz;
+                let dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                
+                // "Awesome" Vortex Physics
+                if (dist < 10.0) { // Increased radius (was 8.0)
+                    const force = (10.0 - dist) * 15.0; // Much stronger pull (was 5.0) - FASTER
+                    
+                    // 1. Attraction (Pull to center)
+                    velocities[i3] += (dx / dist) * force * dt;
+                    velocities[i3+1] += (dy / dist) * force * dt;
+                    velocities[i3+2] += (dz / dist) * force * dt;
+
+                    // 2. Swirl/Vortex (Spin around center)
+                    // Add tangential velocity to create a spiral
+                    velocities[i3] += -dy * 5.0 * dt; // Faster spin (was 3.0)
+                    velocities[i3+1] += dx * 5.0 * dt; 
+                }
+                
+                // Friction/Damping (Keep them controllable)
+                velocities[i3] *= 0.92; 
+                velocities[i3+1] *= 0.92; 
+                velocities[i3+2] *= 0.92;
+
+                // Ambient drift (The "breathing" effect)
+                velocities[i3] += (Math.sin(py*2 + time)*0.2)*dt;
+                velocities[i3+1] += (Math.cos(px*2 + time)*0.2)*dt;
+                
+                // Apply velocity
+                positions[i3] += velocities[i3]*dt; 
+                positions[i3+1] += velocities[i3+1]*dt; 
+                positions[i3+2] += velocities[i3+2]*dt;
+                
+                // Boundary wrap (Teleport from one side to other)
+                if (positions[i3]>20) positions[i3]=-20; if (positions[i3]<-20) positions[i3]=20;
+                if (positions[i3+1]>15) positions[i3+1]=-15; if (positions[i3+1]<-15) positions[i3+1]=15;
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+
+            camera.position.y = -window.scrollY * 0.005;
+            renderer.render(scene, camera);
+        }
+        animate();
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function handleFileSelect(input, cardId, previewTextId, previewImgId) {
+            const card = document.getElementById(cardId);
+            const imgElement = document.getElementById(previewImgId);
+            const layer = card.querySelector('.card-preview-layer');
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imgElement.src = e.target.result;
+                    layer.style.display = 'block';
+                    card.classList.add('filled');
+                }
+                reader.readAsDataURL(file);
+                
+            } else {
+                layer.style.display = 'none';
+                card.classList.remove('filled');
+            }
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const form = document.getElementById('demo-form');
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = "Sending...";
+            submitBtn.style.opacity = "0.7";
+
+            const formData = new FormData(form);
+            const WEBHOOK_URL = "https://insert.your.webhook.here/webhook-test/gemini";
+
+            fetch(WEBHOOK_URL, { method: 'POST', body: formData })
+            .then(response => triggerSuccess())
+            .catch(error => {
+                console.log("Webhook error (likely CORS/test mode), triggering success UI anyway.");
+                triggerSuccess();
+            })
+            .finally(() => {
+                submitBtn.innerText = originalBtnText;
+                submitBtn.style.opacity = "1";
+            });
+        }
+
+        function triggerSuccess() {
+            const formDiv = document.getElementById('main-form');
+            const successDiv = document.getElementById('success-msg');
+            formDiv.style.transition = "opacity 0.5s";
+            formDiv.style.opacity = '0';
+            setTimeout(() => {
+                formDiv.style.display = 'none';
+                successDiv.style.display = 'block';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "projectName": "r58-figma-mobile-app-builder",
+  "figmaConfig": {
+    "enabled": true,
+    "mcpProvider": "remote",
+    "apiKey": null,
+    "fileId": null
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "projectName": "r53-vibecreate",
+  "briefConfig": {
+    "enabled": true,
+    "topic": "Promo video for Skool community"
+  },
+  "assetConfig": {
+    "enabled": true,
+    "sourceUrls": []
+  },
+  "remotionConfig": {
+    "enabled": true,
+    "template": "promo-template"
+  }
+}

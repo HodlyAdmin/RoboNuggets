@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+.DS_Store
+*.png
+!lessons/*/assets/**/*.png
+output/
+.agent/memory/data/
+.agent/memory/models/
+scripts/*.png

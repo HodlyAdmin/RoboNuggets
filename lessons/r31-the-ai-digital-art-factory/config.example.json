@@ -1,0 +1,18 @@
+{
+  "projectName": "r31-r31-the-ai-digital-art-factory",
+  "promptGenConfig": {
+    "enabled": true,
+    "provider": "geminiApi",
+    "apiKey": null
+  },
+  "imageGenConfig": {
+    "enabled": true,
+    "provider": "stabilityAi",
+    "apiKey": null
+  },
+  "imagePublishConfig": {
+    "enabled": true,
+    "provider": "imgurApi",
+    "apiKey": null
+  }
+}

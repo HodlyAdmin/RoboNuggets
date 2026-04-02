@@ -1,0 +1,18 @@
+{
+  "projectName": "r42-r42-the-sleep-story-ai-generator",
+  "processInputConfig": {
+    "enabled": true,
+    "provider": "chatterbox",
+    "apiKey": null
+  },
+  "generateImagesConfig": {
+    "enabled": true,
+    "provider": "seedream",
+    "apiKey": null
+  },
+  "assembleVideoConfig": {
+    "enabled": true,
+    "provider": "ffmpeg",
+    "apiKey": null
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "projectName": "r18-r18-music-creator-ai-agent-toolkit-v2-0",
+  "promptGenerationConfig": {
+    "enabled": true,
+    "provider": "chatGptApi",
+    "apiKey": null
+  },
+  "musicGenerationConfig": {
+    "enabled": true,
+    "provider": "sunoPiApi",
+    "apiKey": null
+  },
+  "audioRetrievalConfig": {
+    "enabled": true,
+    "provider": "n8nWebhook",
+    "apiKey": null
+  },
+  "youtubeUploadConfig": {
+    "enabled": true,
+    "provider": "youtubeApi",
+    "apiKey": null
+  }
+}
