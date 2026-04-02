@@ -1,0 +1,40 @@
+{
+  "projectName": "r56-creative-engine-hero-selection",
+  "imageConfig": {
+    "enabled": true,
+    "provider": "flow-image-cdp",
+    "model": "Nano Banana 2",
+    "aspectRatio": "9:16",
+    "referenceImages": [
+      "lessons/r56-creative-engine/assets/original/creative-engine-template/references/inputs/character.jpg",
+      "lessons/r56-creative-engine/assets/original/creative-engine-template/references/inputs/serum-reference.jpg"
+    ],
+    "prompt": "9:16. Front angle. A young woman in her mid-20s with light freckles and a messy bun, wearing casual loungewear, naturally holding the esmi skin treat serum at chest height in a cozy lived-in apartment with soft morning window light. Amateur iPhone selfie, slightly uneven framing, warm golden tones, natural skin texture, candid UGC realism. Preserve all visible product text exactly as in reference. Using input image 1 for character identity and input image 2 for product identity.",
+    "timeout": 180000,
+    "selectionPolicy": "judge",
+    "confidenceThreshold": 0.6
+  },
+  "videoConfig": {
+    "enabled": true,
+    "provider": "flow-veo-cdp",
+    "model": "Veo 3.1 - Fast [Lower Priority]",
+    "aspectRatio": "9:16",
+    "mediaType": "video",
+    "subMode": "Frames",
+    "variantCount": "x2",
+    "requireZeroCredits": true,
+    "useGeneratedImageAsReference": true,
+    "prompt": "The woman holds the serum bottle toward camera and says \"so I just tried this serum and honestly my skin has never felt this good,\" then gently turns it to show the label while maintaining eye contact. Fixed camera, amateur iPhone selfie video, warm natural daylight, candid UGC tone.",
+    "timeout": 600000,
+    "selectionPolicy": "judge",
+    "confidenceThreshold": 0.6
+  },
+  "audioConfig": {
+    "enabled": false,
+    "provider": "lyria-3-pro-cdp",
+    "prompt": "Cinematic synthwave ambient driver, 48kHz, heavy bass, building tension into an epic orchestral drop"
+  },
+  "airtableConfig": {
+    "enabled": false
+  }
+}

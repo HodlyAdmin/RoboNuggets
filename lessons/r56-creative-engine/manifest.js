@@ -11,13 +11,19 @@ export async function saveManifest(data) {
   const manifest = {
     version: '1.0',
     lesson: 'R56 | Creative Engine',
-    createdAt: new Date().toISOString(),
+    createdAt: data.startedAt || new Date().toISOString(),
+    completedAt: data.completedAt || null,
+    command: data.command || null,
+    outputDir: data.outputDir || null,
     config: {
       projectName: data.projectName,
+      configPath: data.configPath || null,
+      dryRun: Boolean(data.dryRun),
     },
     stages: {
       imageGeneration: data.imageGeneration || null,
       videoGeneration: data.videoGeneration || null,
+      audioGeneration: data.audioGeneration || null,
       airtableReview: data.airtableReview || null,
     }
   };

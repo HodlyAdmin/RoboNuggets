@@ -16,10 +16,12 @@ import { createCursor } from 'ghost-cursor';
  * @param {string} structuredPrompt - Music prompt (style, mood, etc.)
  * @param {object} options
  * @param {number} options.timeout - Max wait for generation (default: 300000 / 5 mins)
+ * @param {string} [options.outputDir] - Directory to save media (default: process.cwd())
  * @returns {Promise<string>} Absolute path to the locally saved .mp4 audio file
  */
 export async function generateLyriaTrack(structuredPrompt, options = {}) {
-  const { timeout = 300000 } = options;
+  const { timeout = 300000, outputDir = process.cwd() } = options;
+  fs.mkdirSync(outputDir, { recursive: true });
   const browser = await connectToChrome();
 
   log.info('🎵 [Lyria 3 Pro] Starting autonomous music generation...');
@@ -205,7 +207,7 @@ export async function generateLyriaTrack(structuredPrompt, options = {}) {
     }
 
     // ── 9. Save the captured buffer ──
-    const downloadPath = path.resolve(process.cwd(), `lyria_${Date.now()}.mp4`);
+    const downloadPath = path.resolve(outputDir, `lyria_${Date.now()}.mp4`);
     fs.writeFileSync(downloadPath, capturedBuffer);
     log.success(`   Track saved: ${downloadPath}`);
 

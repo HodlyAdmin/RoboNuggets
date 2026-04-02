@@ -28,6 +28,15 @@ import { createCursor } from 'ghost-cursor';
 
 const FLOW_URL = 'https://labs.google/fx/tools/flow';
 
+function normalizeUiLabel(value = '') {
+  return value
+    .toLowerCase()
+    .replace(/[_[\]()-]+/g, ' ')
+    .replace(/[^\w\s:./]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 /**
  * Main Generation Engine — Video & Image via Google Flow
  *
@@ -38,18 +47,34 @@ const FLOW_URL = 'https://labs.google/fx/tools/flow';
  * @param {string} config.aspectRatio - '16:9' | '9:16' | '1:1' (default: '9:16')
  * @param {string} config.projectName - Name for Digital Citizenship labeling
  * @param {number} config.timeout - Max wait in ms (default: 300000 / 5 min)
+ * @param {string} [config.outputDir] - Directory to save media (default: process.cwd())
+ * @param {string[]} [config.referenceImages] - Local image paths to upload into Flow before generation
  * @returns {Promise<string>} Path to locally saved media file
  */
 export async function generateFlowMedia(prompt, config = {}) {
   const {
     mediaType = 'video',
-    model = 'Veo 3.1 - Fast',
-    aspectRatio = '9:16',
+    model = mediaType === 'video' ? 'Veo 3.1 - Fast' : 'Nano Banana 2',
+    aspectRatio = null,
     projectName = `Flow_${Date.now()}`,
     timeout = 300000,
+    outputDir = process.cwd(),
+    referenceImages = [],
+    subMode = null,
+    variantCount = null,
+    requireZeroCredits = false,
   } = config;
 
+  const resolvedReferenceImages = referenceImages.map(ref => path.resolve(ref));
+  const missingReferenceImages = resolvedReferenceImages.filter(ref => !fs.existsSync(ref));
+  if (missingReferenceImages.length > 0) {
+    throw new Error(`Flow reference image(s) not found: ${missingReferenceImages.join(', ')}`);
+  }
+
+  fs.mkdirSync(outputDir, { recursive: true });
+
   const browser = await connectToChrome();
+  let workPage = null;
 
   log.info(`🎬 [Flow Driver] Generating ${mediaType} for '${projectName}'`);
   log.info(`   Model: ${model} | Aspect: ${aspectRatio} | Timeout: ${timeout / 1000}s`);
@@ -107,97 +132,321 @@ export async function generateFlowMedia(prompt, config = {}) {
 
     await new Promise(r => setTimeout(r, 5000));
 
-    // Check if a new tab opened for the editor
+    // ──── STEP 5: Identify the Editor Tab ────
+    // Usually Flow opens a specific editor tab after "New project"
     const allPages = await browser.pages();
-    let workPage = allPages[allPages.length - 1];
+    workPage = allPages[allPages.length - 1] || page;
     await workPage.bringToFront();
     const workCursor = createCursor(workPage);
 
-    // ──── STEP 5: Set aspect ratio ────
-    log.info(`   Setting aspect ratio to ${aspectRatio}...`);
-    // Flow uses material icon button labels for aspect ratios
-    const aspectHandle = await workPage.evaluateHandle((ratio) => {
-      // Look for aspect ratio toggle buttons by their text or aria labels
-      const allEls = Array.from(document.querySelectorAll('button, div[role="button"]'));
-      for (const el of allEls) {
-        const label = (el.getAttribute('aria-label') || el.textContent || '').toLowerCase();
-        if (ratio === '9:16' && (label.includes('9:16') || label.includes('portrait'))) return el;
-        if (ratio === '16:9' && (label.includes('16:9') || label.includes('landscape'))) return el;
-        if (ratio === '1:1' && (label.includes('1:1') || label.includes('square'))) return el;
+    const clickMatchingControl = async (labels, {
+      exact = false,
+      selectors = 'button, div[role="button"], [role="option"], [role="menuitem"], a',
+      waitMs = 1200,
+    } = {}) => {
+      const candidates = Array.isArray(labels) ? labels : [labels];
+      const handle = await workPage.evaluateHandle(({ wantedLabels, exactMatch, cssSelector, unselectedOnly }) => {
+        const normalize = (value = '') => value
+          .toLowerCase()
+          .replace(/[_[\]()-]+/g, ' ')
+          .replace(/[^\w\s:./]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        const wanted = wantedLabels.map(normalize).filter(Boolean);
+        const nodes = Array.from(document.querySelectorAll(cssSelector));
+        const ranked = nodes
+          .map((node) => {
+            const label = normalize(`${node.getAttribute('aria-label') || ''} ${node.innerText || node.textContent || ''}`);
+            const selected = node.getAttribute('aria-selected') === 'true' || node.getAttribute('aria-pressed') === 'true';
+            if (!label) return null;
+
+            let score = 0;
+            for (const target of wanted) {
+              if (!target) continue;
+              if (exactMatch && label === target) score = Math.max(score, 100 + target.length);
+              else if (!exactMatch && label.includes(target)) {
+                const closeness = Math.max(1, 50 - Math.abs(label.length - target.length));
+                score = Math.max(score, target.length * 10 + closeness);
+              }
+              else if (!exactMatch && target.includes(label)) score = Math.max(score, Math.max(1, label.length - 2));
+            }
+
+            if (score === 0) return null;
+            return { node, score, label, selected };
+          })
+          .filter(Boolean)
+          .sort((a, b) => b.score - a.score);
+
+        return ranked[0]?.node || null;
+      }, {
+        wantedLabels: candidates,
+        exactMatch: exact,
+        cssSelector: selectors,
+        unselectedOnly: false,
+      });
+
+      const exists = await handle.evaluate((el) => el instanceof Element).catch(() => false);
+      if (!exists) return false;
+
+      await workCursor.click(handle);
+      await new Promise((resolve) => setTimeout(resolve, waitMs));
+      return true;
+    };
+
+    const hasSelectedControl = async (label) => workPage.evaluate((target) => {
+      const normalize = (value = '') => value
+        .toLowerCase()
+        .replace(/[_[\]()-]+/g, ' ')
+        .replace(/[^\w\s:./]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      const wanted = normalize(target);
+      return Array.from(document.querySelectorAll('[aria-selected="true"], [aria-pressed="true"]'))
+        .some((node) => normalize(`${node.getAttribute('aria-label') || ''} ${node.innerText || node.textContent || ''}`).includes(wanted));
+    }, label);
+
+    const ensureControlSelected = async (label, waitMs = 1200) => {
+      if (await hasSelectedControl(label)) return true;
+      return clickMatchingControl(label, {
+        selectors: 'button, div[role="button"], [role="option"], [role="menuitem"]',
+        waitMs,
+      });
+    };
+
+    const openSettingsTray = async () => {
+      if (mediaType === 'video') {
+        return clickMatchingControl(['Video crop_16_9 x2', 'Video crop_9_16 x2', 'Video'], {
+          selectors: 'button, div[role="button"]',
+          waitMs: 1500,
+        });
       }
-    }, aspectRatio);
 
-    const isAspect = await aspectHandle.evaluate(el => el instanceof Element);
-    if (isAspect) {
-      await new Promise(r => setTimeout(r, Math.random() * 300 + 200));
-      await workCursor.click(aspectHandle);
+      return clickMatchingControl(['Image', 'Nano Banana', 'Imagen'], {
+        selectors: 'button, div[role="button"]',
+        waitMs: 1200,
+      });
+    };
+
+    // ──── STEP 5: Initial aspect ratio pass ────
+    if (mediaType === 'video') {
+      log.info(`   Configuring Flow video controls for ${model}...`);
+      const opened = await openSettingsTray();
+      if (!opened) {
+        throw new Error('Could not open the Flow video settings tray.');
+      }
+
+      await ensureControlSelected('Video');
+      if (subMode) await ensureControlSelected(subMode);
+      if (aspectRatio) await ensureControlSelected(aspectRatio);
+      if (variantCount) await ensureControlSelected(variantCount);
+
+      const modelLabel = await workPage.evaluate(() => {
+        const normalize = (value = '') => value
+          .toLowerCase()
+          .replace(/[_[\]()-]+/g, ' ')
+          .replace(/[^\w\s:./]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        const controls = Array.from(document.querySelectorAll('button, div[role="button"]'));
+        const match = controls.find((node) => normalize(node.innerText || node.textContent || '').includes('veo 3.1'));
+        return match ? `${match.getAttribute('aria-label') || ''} ${match.innerText || match.textContent || ''}` : '';
+      });
+
+      if (!normalizeUiLabel(modelLabel).includes(normalizeUiLabel(model))) {
+        const openedModelMenu = await clickMatchingControl(['Veo 3.1', model], {
+          selectors: 'button, div[role="button"]',
+          waitMs: 1000,
+        });
+        if (!openedModelMenu) {
+          throw new Error(`Could not open the Flow model chooser for '${model}'.`);
+        }
+
+        const modelSelected = await clickMatchingControl(model, {
+          selectors: 'button, div[role="button"], [role="option"], [role="menuitem"]',
+          waitMs: 1500,
+        });
+        if (!modelSelected) {
+          throw new Error(`Could not select Flow model '${model}'.`);
+        }
+      }
+
+      const freeState = await workPage.evaluate(({ expectedRatio, expectedMode, expectedCount }) => {
+        const body = document.body.innerText || '';
+        const selected = Array.from(document.querySelectorAll('[aria-selected="true"], [aria-pressed="true"]'))
+          .map((node) => (node.innerText || node.textContent || '').replace(/\s+/g, ' ').trim());
+        return {
+          body,
+          selected,
+          hasZeroCredits: body.includes('0 credits'),
+          hasExpectedRatio: selected.some((label) => label.includes(expectedRatio)),
+          hasExpectedMode: selected.some((label) => label.includes(expectedMode)),
+          hasExpectedCount: selected.some((label) => label.includes(expectedCount)),
+        };
+      }, {
+        expectedRatio: aspectRatio,
+        expectedMode: subMode || '',
+        expectedCount: variantCount || '',
+      });
+
+      if (requireZeroCredits && !freeState.hasZeroCredits) {
+        throw new Error(`Flow video settings are not on the free path yet. Visible state did not show '0 credits'.`);
+      }
+      if (subMode && !freeState.hasExpectedMode) {
+        throw new Error(`Flow video settings did not keep '${subMode}' selected.`);
+      }
+      if (aspectRatio && !freeState.hasExpectedRatio) {
+        throw new Error(`Flow video settings did not keep '${aspectRatio}' selected.`);
+      }
+      if (variantCount && !freeState.hasExpectedCount) {
+        throw new Error(`Flow video settings did not keep '${variantCount}' selected.`);
+      }
+      log.success(`   Flow free video path locked: ${subMode || 'default'} | ${aspectRatio} | ${variantCount || 'default'} | ${model}`);
+    } else {
+      log.info(`   Setting Flow image controls for ${model} at ${aspectRatio}...`);
+      const opened = await openSettingsTray();
+      if (!opened) {
+        log.warn('   Could not open the Flow image settings tray — UI may already be in the correct state.');
+      }
+
+      await ensureControlSelected('Image');
+      if (aspectRatio) await ensureControlSelected(aspectRatio);
+      if (variantCount) await ensureControlSelected(variantCount);
+
+      // Model selection — check if the current model label matches, otherwise click to change
+      const currentModelLabel = await workPage.evaluate(() => {
+        const normalize = (value = '') => value
+          .toLowerCase()
+          .replace(/[_[\]()-]+/g, ' ')
+          .replace(/[^\w\s:./]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        const controls = Array.from(document.querySelectorAll('button, div[role="button"]'));
+        const match = controls.find((node) => {
+          const label = normalize(node.innerText || node.textContent || '');
+          return label.includes('nano banana') || label.includes('imagen');
+        });
+        return match ? `${match.getAttribute('aria-label') || ''} ${match.innerText || match.textContent || ''}` : '';
+      });
+
+      if (!normalizeUiLabel(currentModelLabel).includes(normalizeUiLabel(model))) {
+        const modelClicked = await clickMatchingControl([model, 'Nano Banana', 'Imagen'], {
+          selectors: 'button, div[role="button"], [role="option"], [role="menuitem"]',
+          waitMs: 1500,
+        });
+        if (!modelClicked) {
+          log.warn(`   Could not explicitly select image model '${model}' — may already be the default.`);
+        }
+      }
+
+      log.success(`   Flow image controls set: ${aspectRatio || 'default'} | ${variantCount || 'default'} | ${model}`);
     }
-    await new Promise(r => setTimeout(r, 1000));
 
-    // ──── STEP 6: Select model ────
-    log.info(`   Selecting model: ${model}...`);
-    const ddHandle = await workPage.evaluateHandle(() => {
-      const dropdowns = Array.from(document.querySelectorAll('button, div[role="button"], [class*="dropdown"], select'));
-      return dropdowns.find(dd => (dd.textContent?.trim() || '').includes('Veo 3.1'));
-    });
+    // ──── STEP 8: Upload reference images before arming the network interceptor ────
+    if (resolvedReferenceImages.length > 0) {
+      log.info(`   Uploading ${resolvedReferenceImages.length} reference image(s) into Flow...`);
 
-    const isDd = await ddHandle.evaluate(el => el instanceof Element);
-    if (isDd) {
-      await workCursor.click(ddHandle);
+      let fileInputHandle = await workPage.evaluateHandle(() =>
+        document.querySelector('input[type="file"][accept*="image"]')
+      );
+      let hasFileInput = await fileInputHandle.evaluate(el => el instanceof HTMLInputElement);
+
+      if (!hasFileInput) {
+        const addMediaHandle = await workPage.evaluateHandle(() => {
+          const btns = Array.from(document.querySelectorAll('button'));
+          return btns.find(btn => (btn.textContent || '').includes('Add Media'));
+        });
+        const isAddMedia = await addMediaHandle.evaluate(el => el instanceof Element);
+        if (isAddMedia) {
+          await workCursor.click(addMediaHandle);
+          await new Promise(r => setTimeout(r, 1500));
+          fileInputHandle = await workPage.evaluateHandle(() =>
+            document.querySelector('input[type="file"][accept*="image"]')
+          );
+          hasFileInput = await fileInputHandle.evaluate(el => el instanceof HTMLInputElement);
+        }
+      }
+
+      if (!hasFileInput) {
+        throw new Error('Flow reference upload was requested, but no image file input was available in the editor.');
+      }
+
+      await fileInputHandle.uploadFile(...resolvedReferenceImages);
+      await workPage.waitForFunction(
+        () => {
+          const bodyText = document.body.innerText || '';
+          return bodyText.includes('View uploaded media') ||
+            Array.from(document.querySelectorAll('img')).some(img => /generated image/i.test(img.alt || ''));
+        },
+        { timeout: 30000 }
+      );
+      await new Promise(r => setTimeout(r, 1500));
+      log.success(`   Flow uploaded reference media: ${resolvedReferenceImages.map(ref => path.basename(ref)).join(', ')}`);
     }
-    await new Promise(r => setTimeout(r, 1500));
 
-    const modelItemHandle = await workPage.evaluateHandle((targetModel) => {
-      const items = Array.from(document.querySelectorAll('li, div[role="option"], div[role="menuitem"], span'));
-      return items.find(i => i.textContent?.trim() === targetModel);
-    }, model);
-
-    const isModelItem = await modelItemHandle.evaluate(el => el instanceof Element);
-    if (isModelItem) {
-      await new Promise(r => setTimeout(r, Math.random() * 300 + 100));
-      await workCursor.click(modelItemHandle);
-    }
-    await new Promise(r => setTimeout(r, 1000));
-
-    // ──── STEP 7: ARM CDP NETWORK INTERCEPTOR (before prompt submission) ────
+    // ──── STEP 9: ARM CDP NETWORK INTERCEPTOR (before prompt submission) ────
     log.info('   Arming CDP Network Interceptor...');
-    let capturedBuffer = null;
-    let capturedContentType = '';
+    const capturedMedia = new Map(); // url -> { buffer, contentType, url, timestamp, size }
+    let totalMediaHitsSeen = 0;
+    let captureEnabledAt = Date.now(); // Start capturing immediately to miss nothing
 
     const responseHandler = async (response) => {
       const url = response.url();
       const status = response.status();
-      const ct = response.headers()['content-type'] || '';
+      const headers = response.headers();
+      const ct = headers['content-type'] || '';
 
-      // Catch video payloads (Veo) or image payloads (Imagen)
+      if (Date.now() < captureEnabledAt) return;
+
+      // Catch video payloads (Veo) or image payloads (Imagen) strictly by mediaType
       const isMedia = (
-        ct.includes('video/mp4') ||
-        ct.includes('video/webm') ||
-        ct.includes('image/png') ||
-        ct.includes('image/jpeg') ||
-        ct.includes('image/webp') ||
-        url.includes('videoplayback') ||
-        url.includes('generatedmedia')
+        (mediaType === 'video' && (
+          ct.includes('video/') ||
+          url.includes('videoplayback') ||
+          url.includes('getMediaUrl') ||
+          url.includes('.mp4') ||
+          url.includes('.webm') ||
+          url.includes('google-video')
+        )) ||
+        (mediaType === 'image' && (
+          ct.includes('image/') ||
+          url.includes('generatedmedia') ||
+          url.includes('output_file')
+        ))
       );
 
-      if (status === 200 && isMedia) {
-        try {
-          const buffer = await response.buffer();
-          // Only capture substantial payloads (> 50KB = real media, not thumbnails)
-          if (buffer.length > 50000 && (!capturedBuffer || buffer.length > capturedBuffer.length)) {
-            capturedBuffer = buffer;
-            capturedContentType = ct;
-            log.success(`   CDP intercepted ${mediaType} payload: ${(buffer.length / 1024 / 1024).toFixed(2)} MB`);
+      if (isMedia) {
+        totalMediaHitsSeen++;
+        if ((status === 200 || status === 206)) {
+          try {
+            const buffer = await response.buffer();
+            // Only capture substantial payloads (> 50KB = real media, not thumbnails)
+            if (buffer.length > 50000) {
+              const existing = capturedMedia.get(url);
+              if (!existing || buffer.length > existing.buffer.length) {
+                capturedMedia.set(url, { 
+                  buffer, 
+                  contentType: ct, 
+                  url, 
+                  size: buffer.length,
+                  timestamp: new Date().toISOString()
+                });
+                log.success(`   CDP intercepted ${mediaType} candidate: ${(buffer.length / 1024 / 1024).toFixed(2)} MB [Status: ${status}] [URL: ...${url.slice(-30)}]`);
+              }
+            } else {
+              log.info(`   CDP skipped small ${mediaType} payload: ${(buffer.length / 1024).toFixed(1)} KB [URL: ...${url.slice(-30)}]`);
+            }
+          } catch (e) {
+            // Ignore partial buffer errors — streaming responses may not buffer cleanly
           }
-        } catch (e) {
-          // Ignore partial buffer errors — streaming responses may not buffer cleanly
+        } else {
+            log.info(`   CDP ignored ${mediaType} response with low/wrong status: ${status} [URL: ...${url.slice(-30)}]`);
         }
       }
     };
-
     workPage.on('response', responseHandler);
 
-    // ──── STEP 8: Inject prompt ────
+    // ──── STEP 10: Inject prompt ────
     log.info('   Injecting prompt...');
     const inputHandle = await workPage.evaluateHandle(() => {
       const textareas = Array.from(document.querySelectorAll('textarea'));
@@ -228,7 +477,7 @@ export async function generateFlowMedia(prompt, config = {}) {
 
     await new Promise(r => setTimeout(r, 500));
 
-    // ──── STEP 9: Submit ────
+    // ──── STEP 11: Submit ────
     log.info('   Submitting generation request...');
     const submitHandle = await workPage.evaluateHandle(() => {
       const btns = Array.from(document.querySelectorAll('button'));
@@ -247,34 +496,150 @@ export async function generateFlowMedia(prompt, config = {}) {
     if (isSubmit) {
       await new Promise(r => setTimeout(r, Math.random() * 800 + 400));
       await workCursor.click(submitHandle);
+    } else {
+      await workPage.keyboard.press('Enter');
     }
 
-    // ──── STEP 10: Wait for generation ────
+    // ──── STEP 12: Wait for generation ────
     log.info(`   ⏳ Waiting up to ${timeout / 1000}s for ${mediaType} generation...`);
     const start = Date.now();
+    let fallbackMedias = [];
+    const expectedCount = Math.max(1, parseInt(String(variantCount || '1').replace(/[^0-9]/g, '')) || 1);
 
-    while (!capturedBuffer && (Date.now() - start) < timeout) {
+    // STEP 11.5: Verify Submission (Improves observability)
+    log.info('   Verifying submission state...');
+    const submitSuccess = await workPage.evaluate(async () => {
+      for (let i = 0; i < 8; i++) {
+        const bodyText = document.body.innerText || '';
+        if (bodyText.includes('Cancel') || bodyText.includes('Stop') || bodyText.includes('Generating') || bodyText.includes('%') || document.querySelector('mat-progress-bar, mat-spinner, [role="progressbar"]')) {
+           return true;
+        }
+        await new Promise(r => setTimeout(r, 500));
+      }
+      return false;
+    });
+    if (!submitSuccess) {
+       log.warn('   ⚠️ Could not visually confirm generation started. Submission may have failed or was instantaneous.');
+    } else {
+       log.success('   Generation visually confirmed started.');
+    }
+
+    while (capturedMedia.size < expectedCount && (Date.now() - start) < timeout) {
+      if (mediaType === 'video') {
+        const rawFallback = await workPage.evaluate(() => {
+          const videos = Array.from(document.querySelectorAll('video'));
+          return videos.map(video => {
+            const source = video.querySelector('source');
+            const src = source?.src || video?.currentSrc || video?.src || null;
+            if (!src || src.startsWith('blob:')) return null;
+            return {
+              src,
+              mime: source?.type || video?.getAttribute('type') || '',
+            };
+          }).filter(Boolean);
+        }).catch(() => []);
+        
+        if (rawFallback.length > 0) {
+          fallbackMedias = rawFallback;
+        }
+
+        if (fallbackMedias.length >= expectedCount) {
+          log.info(`   Found ${fallbackMedias.length} DOM video(s), assuming generation is complete.`);
+          break;
+        }
+      }
+
       await new Promise(r => setTimeout(r, 5000));
 
       // Log progress every 30s
       const elapsed = Math.round((Date.now() - start) / 1000);
       if (elapsed % 30 === 0 && elapsed > 0) {
-        log.info(`   Still waiting... ${elapsed}s elapsed`);
+        log.info(`   Still waiting... ${elapsed}s elapsed (CDP: ${capturedMedia.size}/${expectedCount}, DOM: ${fallbackMedias.length}/${expectedCount})`);
       }
     }
 
-    // ──── STEP 11: Save captured media ────
-    if (capturedBuffer) {
-      const ext = capturedContentType.includes('video/mp4') ? 'mp4'
-        : capturedContentType.includes('video/webm') ? 'webm'
-          : capturedContentType.includes('image/png') ? 'png'
-            : capturedContentType.includes('image/webp') ? 'webp'
-              : capturedContentType.includes('image/jpeg') ? 'jpg'
-                : 'mp4';
-      const filename = `flow_${projectName}_${Date.now()}.${ext}`;
-      const savePath = path.resolve(process.cwd(), filename);
-      fs.writeFileSync(savePath, capturedBuffer);
-      log.success(`   Media saved: ${savePath} (${(capturedBuffer.length / 1024 / 1024).toFixed(2)} MB)`);
+    if (capturedMedia.size < expectedCount && mediaType === 'video' && fallbackMedias.length > 0) {
+      log.warn(`   Missing CDP payload(s); attempting DOM media extraction for ${fallbackMedias.length} video(s)...`);
+      for (const fallback of fallbackMedias) {
+        if (capturedMedia.has(fallback.src) || Object.values(capturedMedia).some(c => c.url === fallback.src)) continue;
+        
+        try {
+          const extracted = await workPage.evaluate(async ({ src, mime }) => {
+            const res = await fetch(src);
+            const blob = await res.blob();
+            const bytes = new Uint8Array(await blob.arrayBuffer());
+            let binary = '';
+            const chunkSize = 0x8000;
+            for (let i = 0; i < bytes.length; i += chunkSize) {
+              binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+            }
+            return {
+              base64: btoa(binary),
+              mime: blob.type || mime || '',
+            };
+          }, fallback);
+
+          if (extracted?.base64) {
+            const buffer = Buffer.from(extracted.base64, 'base64');
+            capturedMedia.set(fallback.src, { 
+              buffer, 
+              contentType: extracted.mime || 'video/mp4',
+              url: fallback.src,
+              size: buffer.length,
+              timestamp: new Date().toISOString()
+            });
+            log.success(`   DOM media extraction recovered payload: ${(buffer.length / 1024 / 1024).toFixed(2)} MB`);
+          }
+        } catch (err) {
+          log.warn(`   DOM media extraction failed for ${fallback.src}: ${err.message}`);
+        }
+      }
+    }
+
+    // ──── STEP 13: Save captured media ────
+    const artifacts = [];
+    if (capturedMedia.size > 0) {
+      const sortedCandidates = Array.from(capturedMedia.values())
+        .sort((a, b) => b.buffer.length - a.buffer.length);
+
+      // Heuristic: variantCount (e.g. x2, x4) tells us how many distinct outputs to expect.
+      // If we see more payloads (e.g. previews or multiple attempts), we take the top N largest.
+      // This is a heuristic capture — we cannot guarantee these are distinct variants without further metadata.
+      const candidatesToSave = sortedCandidates.slice(0, expectedCount);
+      const domVideoCount = await workPage.evaluate(() => document.querySelectorAll('video').length).catch(() => 0);
+      const domImageCount = await workPage.evaluate(() => document.querySelectorAll('img[alt*="generated"], img[alt*="flow"]').length).catch(() => 0);
+
+      for (let i = 0; i < candidatesToSave.length; i++) {
+        const { buffer, contentType, url, size, timestamp } = candidatesToSave[i];
+        const ext = contentType.includes('video/mp4') ? 'mp4'
+          : contentType.includes('video/webm') ? 'webm'
+            : contentType.includes('image/png') ? 'png'
+              : contentType.includes('image/webp') ? 'webp'
+                : contentType.includes('image/jpeg') ? 'jpg'
+                  : mediaType === 'video' ? 'mp4' : 'png';
+
+        const suffix = candidatesToSave.length > 1 ? `_v${i}` : '';
+        const filename = `flow_${projectName}_${Date.now()}${suffix}.${ext}`;
+        const savePath = path.resolve(outputDir, filename);
+        fs.writeFileSync(savePath, buffer);
+        
+        artifacts.push({
+          path: savePath,
+          url,
+          size,
+          contentType,
+          timestamp,
+          captureIndex: i,
+          isHeuristic: true,
+          meta: {
+            totalMediaHitsSeen,
+            domVideoCount,
+            domImageCount,
+          }
+        });
+        
+        log.success(`   Media saved (${i + 1}/${candidatesToSave.length}): ${savePath} (${(buffer.length / 1024 / 1024).toFixed(2)} MB)`);
+      }
 
       // ──── DIGITAL CITIZENSHIP: Name the project ────
       log.info(`   🛡️ Digital Citizenship: Naming project "${projectName}"...`);
@@ -300,16 +665,34 @@ export async function generateFlowMedia(prompt, config = {}) {
       }
 
       workPage.off('response', responseHandler);
-      return savePath;
+      return artifacts;
     }
 
     workPage.off('response', responseHandler);
     throw new Error(`Flow ${mediaType} generation timed out after ${timeout / 1000}s. CDP interceptor captured no substantial media payload.`);
-
   } finally {
-    await page.close().catch(() => { });
-    browser.disconnect();
+    if (workPage && !workPage.isClosed() && workPage !== page) await workPage.close();
+    if (page && !page.isClosed()) await page.close();
   }
 }
 
-export default { generateFlowMedia };
+/**
+ * Digital Citizenship: Delete a project from the Flow dashboard by name.
+ * Prevents account clutter in shared workspaces.
+ *
+ * @param {string} projectName - Exact name of the project to delete
+ * @returns {Promise<boolean>} Success status
+ */
+export async function deleteFlowProject(projectName) {
+  if (!projectName) return false;
+  
+  // DOWNGRADE: Provider-side cleanup is currently too fragile/risky to enable.
+  // The Google Flow dashboard at labs.google/fx/tools/flow no longer predictably
+  // displays user-assigned project names, and video.google.com redirects elsewhere.
+  // Deleting by name risks deleting other team members' projects in a shared account.
+  // Until we capture the Flow session's internal Project UUID, this is unsafe.
+  log.warn(`   Provider-side cleanup disabled: Cannot safely target project "${projectName}" on Flow dashboard.`);
+  return false;
+}
+
+export default { generateFlowMedia, deleteFlowProject };

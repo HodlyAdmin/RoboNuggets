@@ -54,6 +54,16 @@ Collect as much of the real lesson source as you can before making architecture 
 
 If a custom GPT or Gem is present, treat it as a **resource to inspect**, not automatically as a runtime dependency.
 
+When you finish the pass, explicitly record which source levels were actually used:
+
+- lesson notes only
+- template/workflow export
+- sample inputs/outputs
+- video reviewed
+- transcript reviewed
+
+Do not imply transcript-level fidelity if no transcript was used.
+
 ### 2. Write the Source Notes
 
 Fill in `assets/skool/setup-notes.md` with:
@@ -111,6 +121,81 @@ What counts:
 
 If a provider blocks the run, record the concrete reason. Do not collapse different failures into a generic "automation flaky" label.
 
+## Multi-LLM Handoff Pattern
+
+When a lesson spans multiple sessions or multiple models, do not hand it off as a vague "continue from here."
+
+Use a three-role pattern instead:
+
+### 1. Planner
+
+Responsible for:
+
+- understanding lesson intent and source fidelity level
+- defining the bounded task
+- specifying the acceptance gates
+- naming what must be directly proven
+
+Good planner outputs:
+
+- exact files to read first
+- exact commands to run
+- exact evidence needed before success can be claimed
+
+### 2. Executor
+
+Responsible for:
+
+- implementing the bounded changes
+- updating repo files
+- reporting exact commands run and files changed
+- avoiding broad "done" claims beyond the evidence
+
+Fast or lower-cost models often fit this role well when the contract is clear.
+
+### 3. Verifier
+
+Responsible for:
+
+- checking runtime claims against saved artifacts
+- checking docs against runtime defaults
+- checking manifests against enabled stages
+- downgrading over-claims
+
+Do not let the executor's own summary serve as the only verification layer.
+
+This pattern is useful across:
+
+- Codex account switches
+- Gemini / Flash executor passes
+- Claude Sonnet implementation passes
+- Claude Opus intent-recovery passes
+
+## Verification Evidence Rules
+
+The lesson is only as verified as the evidence saved in the repo.
+
+Use these rules when writing `FIDELITY.md`, `README.md`, or a handoff summary:
+
+- Do not call a media stage successful unless the saved artifact matches the claimed type.
+- Do not call reference-driven behavior implemented unless the code really passes or uploads the reference asset.
+- Do not call a run fully verified if an enabled stage is missing from the manifest, report, or saved artifacts.
+- Do not let docs drift from runtime defaults. If the code prefers `config.source-baseline.json`, the lesson docs should say that.
+- Prefer `partially verified` over `verified` when the run proved only some stages.
+
+For live proof passes, capture all of the following when possible:
+
+- exact command run
+- config file used
+- output directory
+- manifest/report path
+- artifact paths
+- provider-specific failure reason, if any
+
+If a lesson only proves image generation and not video or audio, say exactly that. Precision is more valuable than optimism.
+
+If another model ran the implementation pass, the verifier should independently confirm these facts from the repo before upgrading the lesson's status.
+
 ## Economic Substitution Rules
 
 Substitutions are encouraged when they preserve the lesson outcome and improve economics.
@@ -128,8 +213,30 @@ Be careful when substituting:
 - provider-specific request fields
 - model selection defaults
 - artifact dimensions or packaging format
+- candidate count / selection policy
+- free-tier vs paid-tier provider settings
 
 Those can materially change the lesson output even when the high-level task looks the same.
+
+## Creative Media Validation
+
+For image, video, and audio lessons, generation success is only part of the story.
+
+You should try to preserve or document:
+
+- what the lesson asked the provider to make
+- how many candidates were produced
+- whether one hero asset was selected
+- how that selection was made
+
+If a lesson produces multiple creative candidates (`x2`, `x4`, multiple Suno clips, etc.) but the rebuild just grabs the first available result, that is a **quality/selection gap**, not a fully solved pipeline.
+
+When possible, future creative-media lessons should add:
+
+- explicit candidate-count settings in config/intake
+- a multimodal quality gate
+- a recorded reason for why the chosen output won
+- fallback to human review when confidence is low
 
 ## Custom GPT / Gem Guidance
 
@@ -194,5 +301,7 @@ When those are missing, call it what it is:
 - scaffolded
 - working reconstruction
 - source pass pending
+- partial live verification
+- source-faithful gap remains
 
 That honesty is part of the standard.

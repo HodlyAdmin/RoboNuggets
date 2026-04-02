@@ -1,0 +1,38 @@
+{
+  "projectName": "r56-verify-pass",
+  "imageConfig": {
+    "enabled": true,
+    "provider": "flow-image-cdp",
+    "model": "Nano Banana 2",
+    "aspectRatio": "9:16",
+    "referenceImages": [
+      "lessons/r56-creative-engine/assets/original/creative-engine-template/references/inputs/character.jpg"
+    ],
+    "prompt": "9:16 vertical shot of a futuristic cyberpunk cafe at night, neon lights reflecting on wet pavement, cinematic lighting, photorealistic. Using reference for character consistency.",
+    "timeout": 180000,
+    "selectionPolicy": "judge",
+    "confidenceThreshold": 0.6
+  },
+  "videoConfig": {
+    "enabled": true,
+    "provider": "flow-veo-cdp",
+    "model": "Veo 3.1 - Fast [Lower Priority]",
+    "aspectRatio": "9:16",
+    "mediaType": "video",
+    "subMode": "Frames",
+    "variantCount": "x2",
+    "requireZeroCredits": true,
+    "useGeneratedImageAsReference": true,
+    "prompt": "The camera pushes slowly into the cafe, smoke rising from a synthetic coffee cup. Cinematic atmosphere.",
+    "timeout": 900000,
+    "selectionPolicy": "judge",
+    "confidenceThreshold": 0.6
+  },
+  "audioConfig": {
+    "enabled": false
+  },
+  "airtableConfig": {
+    "enabled": false
+  },
+  "cleanupOutput": false
+}

@@ -1,6 +1,6 @@
 # R45 Fidelity Audit
 
-Updated: April 1, 2026
+Updated: April 2, 2026
 
 ## Current Verdict
 
@@ -18,14 +18,20 @@ This baseline matters because it gives the repo a stable way to retest R45 again
 ## Source Coverage Used So Far
 
 - The logged-in Skool lesson page: `Set up instructions & n8n template packs (R45)`
+- The original n8n template JSON unpacked locally at `assets/original/R45 _ Auto Music Creator (by RoboNuggets).json`
 - The in-repo rebuild: [README.md](/Users/ryanpotteiger/Documents/AntiGravity/RoboNuggets/lessons/r45-auto-music-creator/README.md)
 - Live and dry-run manifests in `lessons/r45-auto-music-creator/output/`
 
 Not yet fully inspected:
 
-- The attached `R45 | Auto Music Creator template` file contents
-- The attached `Sample Image you can use` file contents beyond its asset type
 - The full lesson tutorial transcript/video walkthrough
+
+Directly inspected from the template JSON:
+
+- the `songRobo AI Agent` system prompt and structured output contract
+- the exact Kie Suno request payload, including `model: "V5"` and the `styleWeight`, `weirdnessConstraint`, and `audioWeight` values
+- the exact Google Sheets logging destinations and fields
+- the exact ffmpeg-api combine logic (`1280:720`, looped still image, concatenated audio tracks)
 
 ## What The Original Lesson Explicitly Used
 
@@ -86,6 +92,62 @@ The attached n8n template shows this sequence:
    Append final video URL to Google Sheets
 13. Optional `YouTube` upload existed but was disabled
 
+## Prompt Contract Comparison
+
+The original template contract is now directly inspected, not inferred.
+
+What the original `songRobo AI Agent` explicitly required:
+
+- output JSON with `songs[]`
+- each song includes `prompt`, `style`, `title`
+- title should be short and creative
+- style should enrich the user's description, not just repeat it
+- if `instrumental = false`, `prompt` must be lyrics only
+- no lyric section labels like `Verse`, `Intro`, `Chorus`, `Bridge`
+- if the user requests a song length, lyrics should roughly match that duration
+- if the song is instrumental, the prompt should mention the requested duration instead
+
+Current rebuild status:
+
+- **Aligned**: `prompt-generator.js` now mirrors the same vocal/instrumental split, the no-section-label rule, and the duration-hint behavior.
+- **Aligned**: the rebuild still returns song concepts centered on `title`, `prompt`, and `style`.
+- **Economically adapted**: concept generation is now provider-swappable (`gemini`, `saved-concepts`, `local-intake`) instead of hard-wired to OpenAI `gpt-4.1`.
+- **Difference to remember**: the original template allowed much larger `prompt` payloads via Kie/OpenAI than direct Suno UI reliably tolerates, so the rebuild intentionally compacts instrumental Suno descriptions before submission.
+
+## Kie Suno Request Comparison
+
+The original `Create Songs` node sent:
+
+- `prompt`
+- `style`
+- `title`
+- `customMode: true`
+- `instrumental`
+- `model: "V5"`
+- `styleWeight: 0.65`
+- `weirdnessConstraint: 0.65`
+- `audioWeight: 0.65`
+
+Current rebuild status:
+
+- **Aligned in spirit**: the rebuild still submits `prompt`, `style/tags`, `title`, and instrumental mode to Suno.
+- **Adapted**: the rebuild now uses the local wrapper model override (`sunoModel`) instead of the original Kie-only `V5` parameter.
+- **Not one-to-one**: the Kie-specific knobs `styleWeight`, `weirdnessConstraint`, and `audioWeight` are not part of the current local wrapper contract.
+- **Current judgment**: this is an acceptable economic adaptation, but it remains one of the clearest ways the rebuild is not an exact source-faithful recreation yet.
+
+## Logging / Output Comparison
+
+The original lesson logged:
+
+- per-song rows into a `Songs` Google Sheet with `theme`, `title`, `duration`, `song_url`
+- a final row into a `Videos` Google Sheet with `timestamp`, `theme`, `final_video`
+
+Current rebuild status:
+
+- **Outcome preserved**: the rebuild records the equivalent run information in `manifest.json`
+- **Adapted**: logging is local JSON instead of shared Google Sheets
+- **Better for this repo's goals**: local manifests are cheaper and easier to version/audit, but they are still a source-stack deviation
+
 ## High-Confidence Alignment
 
 - The lesson outcome is preserved: create themed music tracks, package them, and keep run records.
@@ -135,21 +197,17 @@ Remaining differences that are still acceptable but should be remembered:
 
 ## Fidelity Risks Still Open
 
-- The original n8n template likely contains prompt text, node sequencing, wait/retry logic, and field mappings that the rebuild may not match exactly.
-- The attached Google Sheet and Ideator GPT may define specific inputs/outputs that are not yet mirrored one-to-one.
-- The attached template resource has now been unpacked, but its exact prompt outputs and field semantics still need a deeper one-to-one comparison against current runtime behavior.
+- The full lesson video may reveal operator guidance, quality heuristics, or timing assumptions that the template JSON alone does not capture.
+- The attached Google Sheet and Ideator GPT may define review habits or formatting expectations that are not fully mirrored one-to-one.
 - The lesson may rely on Kie-specific Suno behavior that differs from direct Suno generation.
 
 ## Next Source-Faithful Step
 
-Inspect and extract the attached `R45 | Auto Music Creator template` file from Skool, then compare:
+Use the YouTube tutorial / lesson video to compare:
 
-1. original prompt contract
-2. original input schema
-3. original step ordering and retries
-4. original outputs and logging destinations
-
-After that, update this audit from "economically faithful reconstruction" to either:
-
-- `source-faithful recreation`, or
-- `economically optimized alternative implementation`
+1. spoken workflow intent
+2. operator expectations and quality gates
+3. how much the lesson relied on Kie-specific Suno behavior in practice
+4. whether the rebuild should be labeled:
+   - `source-faithful recreation`, or
+   - `economically optimized alternative implementation`

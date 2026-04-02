@@ -6,16 +6,13 @@ export async function executeAirtableSink(config, generationOutputs) {
     return { status: 'skipped' };
   }
 
-  log.info(`📊 [Airtable Sink] Pushing assets to Airtable base...`);
-  
-  // TODO: Post data to Airtable for human review
-  
-  const output = {
-    status: 'completed',
-    recordId: 'recXYZ123Placeholder',
-    timestamp: new Date().toISOString()
+  // Airtable integration is an accepted economic adaptation — the original lesson
+  // uses Airtable as a central review hub, but this rebuild doesn't implement the
+  // 14-field Content table POST. Enable this only after wiring real Airtable REST calls.
+  log.warn('⚠️  [Airtable Sink] Enabled in config but not yet implemented. Skipping.');
+  return {
+    status: 'skipped',
+    reason: 'Airtable sink is not yet implemented. See FIDELITY.md for context.',
+    timestamp: new Date().toISOString(),
   };
-
-  log.success('✅ [Airtable Sink] complete');
-  return output;
 }

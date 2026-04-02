@@ -12,12 +12,15 @@ export async function executeAudioGeneration(config, runData) {
   const audioPrompt = config.prompt || `Cinematic Hans Zimmer style orchestral building tension into an epic drop`;
     
   try {
-    // CDP Network Intercept captures the raw 48kHz payload from the browser
-    const downloadedAssetPath = await generateLyriaTrack(audioPrompt);
+    const downloadedAssetPath = await generateLyriaTrack(audioPrompt, {
+      outputDir: runData.outputDir,
+      timeout: config.timeout || 300000,
+    });
     
     const output = {
       status: 'completed',
       audioPath: downloadedAssetPath,
+      timeoutMs: config.timeout || 300000,
       prompt: audioPrompt,
       timestamp: new Date().toISOString()
     };

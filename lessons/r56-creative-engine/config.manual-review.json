@@ -1,0 +1,23 @@
+{
+  "projectName": "r56-manual-review",
+  "imageConfig": {
+    "enabled": true,
+    "provider": "flow-image-cdp",
+    "model": "Nano Banana 2",
+    "aspectRatio": "9:16",
+    "referenceImages": [],
+    "prompt": "A simple red apple on a white table. (Manual Review Proof Test)",
+    "timeout": 180000,
+    "selectionPolicy": "manual"
+  },
+  "videoConfig": {
+    "enabled": false
+  },
+  "audioConfig": {
+    "enabled": false
+  },
+  "airtableConfig": {
+    "enabled": false
+  },
+  "cleanupOutput": false
+}

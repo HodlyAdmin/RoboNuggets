@@ -3,7 +3,7 @@
  * R56 | The Antigravity Creative Engine
  * 
  * A complete CDP-first creative media pipeline:
- *   Stage 1: Image Generation (Gemini via Chrome CDP)
+ *   Stage 1: Image Generation (Google Flow / Nano Banana 2 via CDP)
  *   Stage 2: Video Generation (Google Flow / Veo 3.1 via Chrome CDP)
  *   Stage 3: Audio Generation (Lyria 3 Pro via Chrome CDP)
  *   Stage 4: Optional Airtable Review Sink
@@ -15,15 +15,25 @@
  *   npm run r56          # Full pipeline
  *   npm run r56:dry      # Dry run — logs plan without executing
  */
-import { join, dirname } from 'path';
+import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync, readFileSync, mkdirSync } from 'fs';
 import { log } from '../../shared/logger.js';
 import { saveManifest } from './manifest.js';
+import { housekeepOutputDirectory } from './output-housekeeping.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUTPUT_DIR = join(__dirname, 'output');
-const CONFIG_PATH = join(__dirname, 'config.example.json');
+const BASELINE_PATH = join(__dirname, 'config.source-baseline.json');
+const EXAMPLE_PATH = join(__dirname, 'config.example.json');
+const getArgValue = (flag) => {
+  const idx = process.argv.indexOf(flag);
+  return idx !== -1 && idx + 1 < process.argv.length ? process.argv[idx + 1] : null;
+};
+const CONFIG_OVERRIDE = getArgValue('--config');
+const CONFIG_PATH = CONFIG_OVERRIDE
+  ? resolve(CONFIG_OVERRIDE)
+  : existsSync(BASELINE_PATH) ? BASELINE_PATH : EXAMPLE_PATH;
 const DRY_RUN = process.argv.includes('--dry-run');
 
 async function main() {
@@ -33,17 +43,44 @@ async function main() {
   log.step('═══════════════════════════════════════════');
 
   if (!existsSync(CONFIG_PATH)) {
-    log.error('Missing config.example.json — create one from the example.');
+    log.error(`Missing config file: ${CONFIG_PATH}`);
     process.exit(1);
   }
 
   const config = JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'));
   const runDir = join(OUTPUT_DIR, `${config.projectName}_${Date.now()}`);
-  mkdirSync(runDir, { recursive: true });
+
+  if (config.cleanupOutput !== false) {
+    try {
+      const housekeeping = await housekeepOutputDirectory({
+        outputRoot: OUTPUT_DIR,
+        retention: config.outputRetention || {},
+      });
+      const cleanedItems = housekeeping.archivedRuns.length
+        + housekeeping.removedEmptyDirs.length
+        + housekeeping.removedNoiseFiles.length
+        + housekeeping.prunedArchiveEntries.length;
+
+      if (cleanedItems > 0) {
+        log.info(
+          `Output housekeeping archived ${housekeeping.archivedRuns.length} stale run(s), removed ${housekeeping.removedEmptyDirs.length} empty folder(s), and scrubbed ${housekeeping.removedNoiseFiles.length} noise file(s).`
+        );
+        log.info(`Hidden archive: ${housekeeping.archiveRoot}`);
+      } else {
+        log.info(`Output housekeeping checked ${housekeeping.keptRuns.length} visible run(s); no cleanup needed.`);
+      }
+    } catch (error) {
+      log.warn(`Output housekeeping skipped: ${error.message}`);
+    }
+  } else {
+    log.info('Output housekeeping disabled by config.cleanupOutput=false');
+  }
 
   const runData = { 
     outputDir: runDir, 
     projectName: config.projectName,
+    configPath: CONFIG_PATH,
+    command: [process.execPath, ...process.argv.slice(1)].join(' '),
     dryRun: DRY_RUN,
     startedAt: new Date().toISOString()
   };
@@ -51,6 +88,7 @@ async function main() {
   if (DRY_RUN) {
     log.info('');
     log.info('📋 DRY RUN PLAN:');
+    log.info(`   Config:  ${CONFIG_PATH}`);
     log.info(`   Project: ${config.projectName}`);
     log.info(`   Output:  ${runDir}`);
     log.info('');
@@ -62,6 +100,8 @@ async function main() {
     log.success('📋 Dry run complete. No resources consumed.');
     process.exit(0);
   }
+
+  mkdirSync(runDir, { recursive: true });
 
   // ──── Stage 1: Image Generation ────
   try {

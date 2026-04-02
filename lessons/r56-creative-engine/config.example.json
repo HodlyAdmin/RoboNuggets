@@ -2,19 +2,27 @@
   "projectName": "r56-creative-engine",
   "imageConfig": {
     "enabled": true,
-    "provider": "gemini-cdp",
+    "provider": "flow-image-cdp",
+    "model": "Nano Banana 2",
+    "aspectRatio": "9:16",
     "prompt": "A highly cinematic, photorealistic 9:16 vertical shot of a futuristic cyberpunk cafe at night, neon lights reflecting on wet pavement, moody atmosphere"
   },
   "videoConfig": {
     "enabled": true,
     "provider": "flow-veo-cdp",
-    "model": "Veo 3.1 Fast",
+    "model": "Veo 3.1 - Fast [Lower Priority]",
     "aspectRatio": "9:16",
     "mediaType": "video",
-    "prompt": "Cinematic slow dolly push through the cyberpunk cafe scene, neon reflections shimmer on wet surfaces, ambient rain, hyper-realistic"
+    "subMode": "Frames",
+    "variantCount": "x2",
+    "requireZeroCredits": true,
+    "useGeneratedImageAsReference": true,
+    "preferredImage": 1,
+    "prompt": "Cinematic slow dolly push through the cyberpunk cafe scene, neon reflections shimmer on wet surfaces, ambient rain, hyper-realistic",
+    "timeout": 600000
   },
   "audioConfig": {
-    "enabled": true,
+    "enabled": false,
     "provider": "lyria-3-pro-cdp",
     "prompt": "Cinematic synthwave ambient driver, 48kHz, heavy bass, building tension into an epic orchestral drop"
   },

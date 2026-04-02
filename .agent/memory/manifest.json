@@ -1,7 +1,7 @@
 {
-  "lastIngested": "2026-04-02T02:03:28.912Z",
-  "totalFiles": 157,
-  "totalChunks": 1033,
+  "lastIngested": "2026-04-02T23:19:23.136Z",
+  "totalFiles": 162,
+  "totalChunks": 1182,
   "model": "Xenova/bge-small-en-v1.5",
   "files": [
     {
@@ -226,7 +226,7 @@
     },
     {
       "file": "lessons/r45-auto-music-creator/FIDELITY.md",
-      "chunks": 12
+      "chunks": 15
     },
     {
       "file": "lessons/r45-auto-music-creator/README.md",
@@ -361,12 +361,44 @@
       "chunks": 2
     },
     {
+      "file": "lessons/r56-creative-engine/FIDELITY.md",
+      "chunks": 28
+    },
+    {
       "file": "lessons/r56-creative-engine/README.md",
-      "chunks": 9
+      "chunks": 10
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/original/README.md",
+      "chunks": 1
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/original/creative-engine-template/CLAUDE.md",
+      "chunks": 20
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/original/creative-engine-template/README.md",
+      "chunks": 11
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/original/creative-engine-template/references/docs/kie-ai-api.md",
+      "chunks": 5
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/original/creative-engine-template/references/docs/prompt-best-practices.md",
+      "chunks": 34
     },
     {
       "file": "lessons/r56-creative-engine/assets/skool/setup-notes.md",
-      "chunks": 1
+      "chunks": 9
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/skool/transcript-notes.md",
+      "chunks": 25
+    },
+    {
+      "file": "lessons/r56-creative-engine/assets/skool/troubleshooting.md",
+      "chunks": 19
     },
     {
       "file": "lessons/r56-creative-engine/assets/unpacked/creative-engine-template/CLAUDE.md",
@@ -383,34 +415,6 @@
     {
       "file": "lessons/r56-creative-engine/assets/unpacked/creative-engine-template/references/docs/prompt-best-practices.md",
       "chunks": 34
-    },
-    {
-      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-30/report.md",
-      "chunks": 6
-    },
-    {
-      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/report.md",
-      "chunks": 6
-    },
-    {
-      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/creative-engine-template/CLAUDE.md",
-      "chunks": 20
-    },
-    {
-      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/creative-engine-template/README.md",
-      "chunks": 11
-    },
-    {
-      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/creative-engine-template/references/docs/kie-ai-api.md",
-      "chunks": 5
-    },
-    {
-      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/creative-engine-template/references/docs/prompt-best-practices.md",
-      "chunks": 34
-    },
-    {
-      "file": "lessons/r56-creative-engine/output/r56-creative-engine_2026-03-26T16-11-39/workspace/reference/setup-notes.md",
-      "chunks": 1
     },
     {
       "file": "lessons/r57-the-antigravity-x-blotato-marketing-agent/README.md",
@@ -573,6 +577,14 @@
       "chunks": 1
     },
     {
+      "file": "shared/creative-engine/README.md",
+      "chunks": 16
+    },
+    {
+      "file": "shared/creative-engine/USER-GUIDE.md",
+      "chunks": 19
+    },
+    {
       "file": "shared/skills/agent-chatrooms/SKILL.md",
       "chunks": 22
     },
@@ -602,7 +614,7 @@
     },
     {
       "file": "knowledge/architecture-and-conventions.md",
-      "chunks": 15
+      "chunks": 19
     },
     {
       "file": "knowledge/autonomous-browser-extraction-patterns.md",
@@ -614,7 +626,15 @@
     },
     {
       "file": "knowledge/lesson-rebuild-playbook.md",
-      "chunks": 13
+      "chunks": 19
+    },
+    {
+      "file": "knowledge/model-fit-and-handoff-guidance.md",
+      "chunks": 10
+    },
+    {
+      "file": "knowledge/r56-intent-recovery-and-studio-architecture.md",
+      "chunks": 22
     },
     {
       "file": "knowledge/session-handoff-mar26-2026.md",
