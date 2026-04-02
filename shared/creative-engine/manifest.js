@@ -24,6 +24,7 @@ export async function saveManifest(data) {
       videoGeneration: data.videoGeneration || null,
       audioGeneration: data.audioGeneration || null,
     },
+    cost: data.cost || null,
     apiUsage: data.apiUsage || null,
   };
 

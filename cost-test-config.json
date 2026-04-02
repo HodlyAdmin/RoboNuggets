@@ -1,0 +1,12 @@
+{
+  "projectName": "cost-tracker-live-verify",
+  "imageConfig": {
+    "enabled": true,
+    "variantCount": "x2",
+    "selectionPolicy": "judge",
+    "prompt": "A simple geometric shape, high contrast, red and blue minimalist design, 9:16 vertical."
+  },
+  "videoConfig": {
+    "enabled": false
+  }
+}

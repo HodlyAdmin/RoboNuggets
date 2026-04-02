@@ -3,6 +3,8 @@ import { fileURLToPath } from 'url';
 import { mkdirSync } from 'fs';
 import { log } from '../logger.js';
 import { loadConfig } from './config.js';
+import { createCostTracker } from './cost-tracker.js';
+import { setGlobalCostTracker } from '../api-gemini.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_OUTPUT_DIR = resolve(__dirname, '../../lessons/r56-creative-engine/output');
@@ -51,6 +53,9 @@ export function createEngine(options = {}) {
       log.step(`  Creative Engine | ${config.projectName}${resumeDir ? ' (RESUME)' : ''}`);
       log.step('═══════════════════════════════════════════');
       log.info(`Output directory: ${runDir}`);
+
+      const costTracker = createCostTracker();
+      setGlobalCostTracker(costTracker);
 
       if (!resumeDir) {
         mkdirSync(runDir, { recursive: true });
@@ -112,6 +117,8 @@ export function createEngine(options = {}) {
         || runData.audioGeneration?.status === 'failed')
         ? 'partial'
         : 'completed';
+      
+      runData.cost = costTracker.summary();
 
       // Save manifest (in-place for resume)
       const { saveManifest } = await import('./manifest.js');

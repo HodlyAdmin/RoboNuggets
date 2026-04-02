@@ -4,6 +4,16 @@ import { extname } from 'path';
 import dotenv from 'dotenv';
 dotenv.config();
 
+let activeTracker = null;
+
+/**
+ * Register a cost tracker to receive token usage metrics from subsequent API calls.
+ * @param {Object} tracker - Instance of createCostTracker() payload
+ */
+export function setGlobalCostTracker(tracker) {
+  activeTracker = tracker;
+}
+
 const MIME_MAP = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
@@ -95,6 +105,15 @@ export async function generateJSON(prompt) {
 
     const data = await res.json();
     const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    // Record usage if tracker is active
+    if (activeTracker && data.usageMetadata) {
+      activeTracker.record({
+        model: model || 'gemini-2.5-flash',
+        inputTokens: data.usageMetadata.promptTokenCount,
+        outputTokens: data.usageMetadata.candidatesTokenCount
+      });
+    }
 
     if (!textResponse) {
       throw new Error('No text returned from Gemini API candidates');
@@ -198,6 +217,15 @@ export async function generateMultimodalJSON(prompt, mediaPaths = [], options = 
 
     const data = await res.json();
     const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    // Record usage if tracker is active
+    if (activeTracker && data.usageMetadata) {
+      activeTracker.record({
+        model: model || 'gemini-2.5-flash',
+        inputTokens: data.usageMetadata.promptTokenCount,
+        outputTokens: data.usageMetadata.candidatesTokenCount
+      });
+    }
 
     if (!textResponse) {
       throw new Error('No text returned from Gemini multimodal API.');
